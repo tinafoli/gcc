@@ -17,13 +17,52 @@ const delius = Delius({
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.5 }
+  exit: { opacity: 0, y: -20 }
 };
 
 const fadeInLeft = {
   initial: { opacity: 0, x: -20 },
   animate: { opacity: 1, x: 0 },
-  transition: { duration: 0.5 }
+  exit: { opacity: 0, x: 20 }
+};
+
+const floatingAnimation = {
+  initial: { scale: 1, rotate: 0 },
+  animate: {
+    scale: [1, 1.2, 1],
+    rotate: [0, 5, -5, 0],
+    transition: {
+      duration: 8,
+      repeat: Infinity,
+      ease: "linear"
+    }
+  }
+};
+
+const floatingAnimation2 = {
+  initial: { scale: 1, rotate: 0 },
+  animate: {
+    scale: [1, 1.3, 1],
+    rotate: [0, -5, 5, 0],
+    transition: {
+      duration: 10,
+      repeat: Infinity,
+      ease: "linear"
+    }
+  }
+};
+
+const floatingAnimation3 = {
+  initial: { scale: 1, rotate: 0 },
+  animate: {
+    scale: [1, 1.1, 1],
+    rotate: [0, 3, -3, 0],
+    transition: {
+      duration: 7,
+      repeat: Infinity,
+      ease: "linear"
+    }
+  }
 };
 
 export default function ClientContactPage() {
@@ -157,39 +196,21 @@ export default function ClientContactPage() {
         {/* Floating Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.div 
-            animate={{ 
-              scale: [1, 1.2, 1],
-              rotate: [0, 5, -5, 0],
-            }}
-            transition={{ 
-              duration: 8,
-              repeat: Infinity,
-              ease: "linear"
-            }}
+            variants={floatingAnimation}
+            initial="initial"
+            animate="animate"
             className="absolute -top-4 -left-4 w-24 h-24 bg-red-500/10 rounded-full blur-2xl"
           ></motion.div>
           <motion.div
-            animate={{ 
-              scale: [1, 1.3, 1],
-              rotate: [0, -5, 5, 0],
-            }}
-            transition={{ 
-              duration: 10,
-              repeat: Infinity,
-              ease: "linear"
-            }}
+            variants={floatingAnimation2}
+            initial="initial"
+            animate="animate"
             className="absolute top-1/2 -right-12 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl"
           ></motion.div>
           <motion.div
-            animate={{ 
-              scale: [1, 1.1, 1],
-              rotate: [0, 3, -3, 0],
-            }}
-            transition={{ 
-              duration: 7,
-              repeat: Infinity,
-              ease: "linear"
-            }}
+            variants={floatingAnimation3}
+            initial="initial"
+            animate="animate"
             className="absolute bottom-0 left-1/3 w-28 h-28 bg-purple-500/10 rounded-full blur-2xl"
           ></motion.div>
         </div>

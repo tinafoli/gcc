@@ -32,10 +32,19 @@ const nextConfig = {
   httpAgentOptions: {
     keepAlive: true,
   },
-  
   staticPageGenerationTimeout: 120,
   compress: true,
   poweredByHeader: false,
+  reactStrictMode: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  webpack: (config) => {
+    config.resolve.fallback = { fs: false, path: false };
+    return config;
+  },
+  // Server components configuration
+  serverExternalPackages: [],
 };
 
 export default nextConfig; 

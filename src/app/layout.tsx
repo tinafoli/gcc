@@ -4,6 +4,7 @@ import "./globals.css";
 import dynamic from 'next/dynamic';
 import { CartProvider } from '@/context/CartContext';
 import ScrollRestoration from '@/components/ScrollRestoration';
+import Script from 'next/script';
 
 // Optimize font loading
 const inter = Inter({
@@ -127,7 +128,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -141,7 +142,37 @@ export default function RootLayout({
         <meta name="msapplication-TileImage" content="/images/gcc-logo.png" />
         <meta name="msapplication-TileColor" content="#ff0000" />
       </head>
-      <body className="min-h-screen flex flex-col">
+      <body className="min-h-screen flex flex-col" suppressHydrationWarning>
+        {/* Facebook SDK */}
+        <div id="fb-root"></div>
+        <Script
+          id="facebook-sdk"
+          strategy="lazyOnload"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.fbAsyncInit = function() {
+                FB.init({
+                  appId: '${process.env.NEXT_PUBLIC_FACEBOOK_APP_ID}',
+                  xfbml: true,
+                  version: 'v17.0'
+                });
+              };
+              (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "https://connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+              }(document, 'script', 'facebook-jssdk'));
+            `
+          }}
+        />
+        {/* Facebook Customer Chat */}
+        <div
+          className="fb-customerchat"
+          attribution="setup_tool"
+          page_id={process.env.NEXT_PUBLIC_FACEBOOK_PAGE_ID}
+        ></div>
         <CartProvider>
           <ScrollRestoration />
           <Navigation />

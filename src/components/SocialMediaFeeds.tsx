@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface SocialMediaFeed {
   platform: string;
@@ -29,22 +29,9 @@ const socialMediaFeeds: SocialMediaFeed[] = [
     brandColor: "bg-black hover:bg-gray-800"
   },
   {
-    platform: "Facebook",
-    username: "Ghana Code Club",
-    followers: "Follow us on Facebook",
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
-      </svg>
-    ),
-    embedUrl: "https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fghanacodeclub&tabs=timeline&width=500&height=300&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId",
-    profileUrl: "https://www.facebook.com/ghanacodeclub",
-    brandColor: "bg-[#1877f2] hover:bg-blue-600"
-  },
-  {
     platform: "LinkedIn",
     username: "Ghana Code Club",
-    followers: "Connect with us on LinkedIn",
+    followers: "1,022 followers",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
@@ -52,15 +39,19 @@ const socialMediaFeeds: SocialMediaFeed[] = [
         <circle cx="4" cy="4" r="2" />
       </svg>
     ),
-    embedUrl: "https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7312767862622838785?collapsed=1",
+    embedUrl: "https://www.linkedin.com/embed/feed/update/urn:li:activity:7320822067124142080",
     profileUrl: "https://www.linkedin.com/company/ghana-code-club/posts/?feedView=all",
     brandColor: "bg-[#0077b5] hover:bg-[#005e8c]"
   }
 ];
 
 export default function SocialMediaFeeds() {
-  // No need to load Twitter widget script anymore
-  
+  const [iframeErrors, setIframeErrors] = useState<Record<string, boolean>>({});
+
+  const handleIframeError = (platform: string) => {
+    setIframeErrors(prev => ({ ...prev, [platform]: true }));
+  };
+
   return (
     <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
       <div className="container mx-auto px-4">
@@ -77,7 +68,7 @@ export default function SocialMediaFeeds() {
           </p>
         </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {socialMediaFeeds.map((feed, index) => (
             <motion.div
               key={index}
@@ -87,9 +78,9 @@ export default function SocialMediaFeeds() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:shadow-md transition-all duration-300"
             >
-              <div className="p-4 border-b">
-                <div className="flex items-center space-x-3">
-                  <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-gray-100">
+              <div className="p-6 border-b">
+                <div className="flex items-center space-x-4">
+                  <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-gray-100">
                     <Image
                       src="/images/gcc-logo.png"
                       alt="Ghana Code Club"
@@ -98,28 +89,46 @@ export default function SocialMediaFeeds() {
                     />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900">{feed.username}</h3>
-                    <p className="text-sm text-gray-500">{feed.followers}</p>
+                    <h3 className="text-xl font-semibold text-gray-900">{feed.username}</h3>
+                    <p className="text-base text-gray-500">{feed.followers}</p>
                   </div>
                 </div>
               </div>
               
-              <div className="h-[300px] bg-gray-50 relative overflow-hidden">
-                <iframe
-                  src={feed.embedUrl}
-                  allowFullScreen
-                  className="absolute inset-0 w-full h-full"
-                ></iframe>
+              <div className="h-[400px] bg-gray-50 relative overflow-hidden">
+                {iframeErrors[feed.platform] ? (
+                  <div className="absolute inset-0 flex items-center justify-center p-6 text-center">
+                    <div>
+                      <p className="text-gray-600 mb-4">Unable to load the feed directly.</p>
+                      <a 
+                        href={feed.profileUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors"
+                      >
+                        View on {feed.platform}
+                      </a>
+                    </div>
+                  </div>
+                ) : (
+                  <iframe
+                    src={feed.embedUrl}
+                    allowFullScreen
+                    className="absolute inset-0 w-full h-full"
+                    onError={() => handleIframeError(feed.platform)}
+                    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                  />
+                )}
               </div>
               
-              <div className="p-4">
+              <div className="p-6">
                 <a 
                   href={feed.profileUrl} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className={`inline-flex items-center justify-center w-full ${feed.brandColor} text-white px-4 py-3 rounded-lg font-medium transition-all duration-300 hover:scale-102 active:scale-98`}
+                  className={`inline-flex items-center justify-center w-full ${feed.brandColor} text-white px-6 py-4 rounded-lg font-medium text-lg transition-all duration-300 hover:scale-102 active:scale-98`}
                 >
-                  <span className="mr-2">{feed.icon}</span>
+                  <span className="mr-3">{feed.icon}</span>
                   Follow on {feed.platform}
                 </a>
               </div>

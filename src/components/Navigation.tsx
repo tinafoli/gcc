@@ -13,6 +13,38 @@ const delius = Delius({
   display: 'swap',
 });
 
+// Animation variants
+const menuVariants = {
+  closed: {
+    opacity: 0,
+    height: 0,
+    transition: {
+      duration: 0.2,
+      ease: "easeInOut",
+      height: {
+        duration: 0.2
+      },
+      opacity: {
+        duration: 0.2
+      }
+    }
+  },
+  open: {
+    opacity: 1,
+    height: "auto",
+    transition: {
+      duration: 0.2,
+      ease: "easeInOut",
+      height: {
+        duration: 0.2
+      },
+      opacity: {
+        duration: 0.2
+      }
+    }
+  }
+};
+
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -27,23 +59,18 @@ export default function Navigation() {
 
   useEffect(() => {
     setMounted(true);
-    let ticking = false;
-    
     const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          if (window.scrollY > 10) {
-            setScrolled(true);
-          } else {
-            setScrolled(false);
-          }
-          ticking = false;
-        });
-        ticking = true;
+      if (window.scrollY > 10) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
       }
     };
 
     window.addEventListener('scroll', handleScroll);
+    // Initial check
+    handleScroll();
+    
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -52,8 +79,9 @@ export default function Navigation() {
     router.push(path);
   };
 
+  // Return a placeholder during SSR to prevent hydration mismatch
   if (!mounted) {
-    return null;
+    return <div className="h-16" />;
   }
 
   return (
@@ -161,13 +189,13 @@ export default function Navigation() {
         </div>
 
         {/* Mobile menu */}
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {isMenuOpen && (
             <motion.div 
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2 }}
+              variants={menuVariants}
+              initial="closed"
+              animate="open"
+              exit="closed"
               className="md:hidden absolute top-full left-0 right-0 w-full z-40 overflow-hidden"
             >
               <div className="mx-4 bg-white rounded-b-lg shadow-lg">

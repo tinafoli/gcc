@@ -18,16 +18,6 @@ const upcomingEvents = [
     image: "/images/events/coolest-project-2025.jpg",
     description: "Join us for the 2025 Coolest Project event, showcasing innovative tech projects from young creators across Ghana.",
     spots: "Registration now open"
-  },
-  {
-    id: 2,
-    title: "Adults in Tech Program",
-    date: "March - August 2025",
-    time: "Various times",
-    location: "Multiple locations across Ghana",
-    image: "/images/events/adults-in-tech.jpg",
-    description: "Comprehensive tech training program for adults looking to transition into the tech industry. Free for the first 30 ladies.",
-    spots: "Applications open"
   }
 ];
 
@@ -58,11 +48,11 @@ export default function PromoModal({ onClose }: PromoModalProps) {
             }
           `}</style>
           <div className="bg-gradient-to-r from-red-500 via-red-600 to-red-500 text-white text-center py-2 px-4 rounded-full text-sm font-semibold mb-3 transform hover:scale-105 transition-transform duration-300 shadow-lg animate-temporary">
-            <span className="inline-block">🔔</span> Upcoming Events
+            <span className="inline-block">🔔</span> Upcoming Event
           </div>
           
           <h2 className="text-xl sm:text-2xl text-gray-900 mb-6 text-center font-['Delius']">
-            Join Our Exciting Tech Events
+            Join Our Exciting Tech Event
           </h2>
 
           <div className="space-y-6">
@@ -104,24 +94,17 @@ export default function PromoModal({ onClose }: PromoModalProps) {
                       </div>
                     </div>
                     <p className="mt-3 text-gray-600">
-                      {event.id === 2 ? (
-                        <>
-                          Comprehensive tech training program for adults looking to transition into the tech industry.{' '}
-                          <span className="font-bold text-red-500">Free for the first 30 ladies.</span>
-                        </>
-                      ) : (
-                        event.description
-                      )}
+                      {event.description}
                     </p>
                     <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                       <span className="text-sm font-medium text-red-500">{event.spots}</span>
                       <a 
-                        href={event.id === 1 ? "https://www.coolestprojectsghana.org/enter" : "https://docs.google.com/forms/d/e/1FAIpQLSfMzT8Mxu9iX0oFyMweLIZqPcY3EJ-1yaG6YoZvzGz9UYdt_g/viewform"}
+                        href="https://www.coolestprojectsghana.org/enter"
                         className="bg-red-500 text-white px-4 py-2.5 rounded-full text-sm font-semibold hover:bg-red-600 transition-colors text-center w-full sm:w-auto shadow-sm hover:shadow-md"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        {event.id === 1 ? "Register Now" : "Enroll Now"}
+                        Register Now
                       </a>
                     </div>
                   </div>

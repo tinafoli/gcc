@@ -16,72 +16,63 @@ const programs = [
     description: "Showcasing innovative tech projects from Ghana's young creators",
     image: "/images/coolest-projects.jpg",
     tag: "Innovation",
-    tagColor: "purple",
-    link: "/programs/coolest-projects"
+    tagColor: "purple"
   },
   {
     title: "Digital Village Program",
     description: "Bringing technology education to rural communities",
     image: "/images/digital-village.jpg",
     tag: "Community",
-    tagColor: "green",
-    link: "/programs/digital-village"
+    tagColor: "green"
   },
   {
     title: "Summer Code Camp",
     description: "Intensive summer program for kids to learn coding and robotics",
     image: "/images/summer-camp.jpg",
     tag: "Summer Camp",
-    tagColor: "orange",
-    link: "/programs/summer-camp"
+    tagColor: "orange"
   },
   {
     title: "Alumni Mentorship Program",
     description: "Connecting students with industry professionals for guidance",
     image: "/images/mentorship.jpg",
     tag: "Mentorship",
-    tagColor: "blue",
-    link: "/programs/mentorship"
+    tagColor: "blue"
   },
   {
     title: "100 Girls in STEM",
     description: "Empowering girls through technology and coding education",
     image: "/images/girls-in-tech.jpg",
     tag: "Girls in Tech",
-    tagColor: "pink",
-    link: "/programs/100-girls-in-stem"
+    tagColor: "pink"
   },
   {
     title: "Adults in Tech",
     description: "Digital skills training for adult learners",
     image: "/images/adults-tech.jpg",
     tag: "Adult Learning",
-    tagColor: "indigo",
-    link: "/programs/adults-tech"
+    tagColor: "indigo"
   },
   {
     title: "After School Code Clubs",
     description: "Teacher training and student coding clubs for sustainable learning",
     image: "/images/code-club.jpg",
     tag: "Code Clubs",
-    tagColor: "blue",
-    link: "/programs/code-clubs"
+    tagColor: "blue"
   },
   {
     title: "Teacher Training",
     description: "Professional development for educators in computer science",
     image: "/images/teacher-training.jpg",
     tag: "Training",
-    tagColor: "purple",
-    link: "/programs/teacher-training"
+    tagColor: "purple"
   },
   {
     title: "Saturday Coding School",
     description: "Weekend coding education for all ages",
     image: "/images/saturday-school.jpg",
     tag: "Weekend Learning",
-    tagColor: "cyan",
-    link: "/programs/saturday-coding-school"
+    tagColor: "cyan"
   }
 ];
 
@@ -244,8 +235,7 @@ export default function ProgramCards() {
         {programs.map((program, index) => {
           const tagColors = getTagColors(program.tagColor);
           return (
-            <a
-              href={program.link}
+            <div
               key={index}
               className="flex-none w-[85vw] sm:w-[300px] bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 snap-center"
             >
@@ -266,7 +256,7 @@ export default function ProgramCards() {
                 <h3 className={`text-xl sm:text-lg md:text-xl mb-3 font-['Delius'] text-gray-900`}>{program.title}</h3>
                 <p className="text-base sm:text-sm md:text-base text-gray-600 line-clamp-3">{program.description}</p>
               </div>
-            </a>
+            </div>
           );
         })}
       </div>

@@ -13,6 +13,7 @@ import Script from 'next/script';
 import ClientHomePage from './client-home-page';
 import { blogPosts } from './blog/data';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://ghanacode.club'),
@@ -61,5 +62,9 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return <ClientHomePage blogPosts={blogPosts} />;
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gray-50" />}>
+      <ClientHomePage blogPosts={blogPosts} />
+    </Suspense>
+  );
 }

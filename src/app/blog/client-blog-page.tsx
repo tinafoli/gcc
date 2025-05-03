@@ -24,34 +24,33 @@ export default function ClientBlogPage() {
   const [showNewsletterModal, setShowNewsletterModal] = useState(false);
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [subscriptionStatus, setSubscriptionStatus] = useState<{
     type: 'success' | 'error' | null;
     message: string;
   }>({ type: null, message: '' });
 
-  const categories = [
-    { id: 'all', name: 'All Posts' },
-    { id: 'tutorials', name: 'Coding Tutorials' },
-    { id: 'success-stories', name: 'Success Stories' },
-    { id: 'resources', name: 'Learning Resources' },
-    { id: 'news', name: 'Tech News' },
-    { id: 'behind-scenes', name: 'Behind the Scenes' },
-    { id: 'ai-robotics', name: 'AI & Robotics' },
-    { id: 'expert-insights', name: 'Expert Insights' }
-  ];
-
+  // Initialize mounted state
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Initialize image indices only after mounting
+  useEffect(() => {
+    if (!mounted) return;
+    
     const initialIndices: Record<string, number> = {};
     blogPosts.forEach(post => {
       initialIndices[post.id] = 0;
     });
     setActiveImageIndices(initialIndices);
-  }, []);
+  }, [mounted]);
 
+  // Set up image rotation intervals only after mounting
   useEffect(() => {
-    const intervals: NodeJS.Timeout[] = [];
+    if (!mounted) return;
 
-    // Set up intervals for all visible posts
+    const intervals: NodeJS.Timeout[] = [];
     const visiblePosts = blogPosts.filter(post => {
       const categoryMatch = activeCategory === 'all' || post.category === activeCategory;
       const searchMatch = searchQuery === '' || 
@@ -67,7 +66,7 @@ export default function ClientBlogPage() {
           ...prev,
           [post.id]: (prev[post.id] + 1) % 3
         }));
-      }, 5000); // Reduce interval to 5 seconds for more frequent transitions
+      }, 5000);
 
       intervals.push(interval);
     });
@@ -75,7 +74,23 @@ export default function ClientBlogPage() {
     return () => {
       intervals.forEach(interval => clearInterval(interval));
     };
-  }, [activeCategory, searchQuery]);
+  }, [mounted, activeCategory, searchQuery]);
+
+  // Return a placeholder during SSR
+  if (!mounted) {
+    return <div className="min-h-screen" />;
+  }
+
+  const categories = [
+    { id: 'all', name: 'All Posts' },
+    { id: 'tutorials', name: 'Coding Tutorials' },
+    { id: 'success-stories', name: 'Success Stories' },
+    { id: 'resources', name: 'Learning Resources' },
+    { id: 'news', name: 'Tech News' },
+    { id: 'behind-scenes', name: 'Behind the Scenes' },
+    { id: 'ai-robotics', name: 'AI & Robotics' },
+    { id: 'expert-insights', name: 'Expert Insights' }
+  ];
 
   // Filter blog posts based on active category and search query
   const filteredPosts = blogPosts.filter(post => {
@@ -364,20 +379,22 @@ export default function ClientBlogPage() {
           <h2 className={`text-2xl font-bold mb-4 text-black ${delius.className}`} style={{ fontFamily: 'Delius, cursive' }}>
             Categories
           </h2>
-          <div className="flex flex-wrap gap-3 pb-2">
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setActiveCategory(category.id)}
-                className={`px-4 py-2 rounded-full whitespace-nowrap transition-colors text-sm ${
-                  activeCategory === category.id
-                    ? 'bg-red-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                {category.name}
-              </button>
-            ))}
+          <div className="my-4 w-full overflow-x-auto pb-2">
+            <div className="flex flex-nowrap space-x-3 px-2">
+              {categories.map((category) => (
+                <button
+                  key={category.id}
+                  onClick={() => setActiveCategory(category.id)}
+                  className={`px-5 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-colors
+                    ${activeCategory === category.id
+                      ? 'bg-red-600 text-white shadow'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}
+                  `}
+                >
+                  {category.name}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </section>
