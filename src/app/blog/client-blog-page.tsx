@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { FiSearch, FiArrowRight } from 'react-icons/fi';
 import { Delius } from 'next/font/google';
 import Script from 'next/script';
@@ -16,10 +17,10 @@ const delius = Delius({
 });
 
 export default function ClientBlogPage() {
+  const router = useRouter();
   const [activeCategory, setActiveCategory] = useState('all');
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [expandedPost, setExpandedPost] = useState<string | null>(null);
   const [activeImageIndices, setActiveImageIndices] = useState<Record<string, number>>({});
   const [showNewsletterModal, setShowNewsletterModal] = useState(false);
   const [email, setEmail] = useState('');
@@ -93,21 +94,30 @@ export default function ClientBlogPage() {
   ];
 
   // Filter blog posts based on active category and search query
-  const filteredPosts = blogPosts.filter(post => {
-    // First check category filter
-    const categoryMatch = activeCategory === 'all' || post.category === activeCategory;
-    
-    // Then check search query
-    const searchMatch = searchQuery === '' || 
-      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.author.name.toLowerCase().includes(searchQuery.toLowerCase());
+  const filteredPosts = blogPosts
+    .filter(post => {
+      // First check category filter
+      const categoryMatch = activeCategory === 'all' || post.category === activeCategory;
+      
+      // Then check search query
+      const searchMatch = searchQuery === '' || 
+        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.author.name.toLowerCase().includes(searchQuery.toLowerCase());
 
-    return categoryMatch && searchMatch;
-  });
+      return categoryMatch && searchMatch;
+    })
+    .sort((a, b) => {
+      // Sort by date descending (most recent first)
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateB.getTime() - dateA.getTime();
+    });
 
-  const handleCardClick = (postId: string) => {
-    setExpandedPost(expandedPost === postId ? null : postId);
+  const handleCardClick = (post: typeof blogPosts[0]) => {
+    if (post.slug) {
+      router.push(`/blog/${post.slug}`);
+    }
   };
 
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
@@ -185,18 +195,9 @@ export default function ClientBlogPage() {
         {JSON.stringify(jsonLd)}
       </Script>
       {/* Hero Section */}
-      <section className="relative py-20 overflow-hidden">
+      <section className="relative py-20 overflow-hidden bg-gradient-to-r from-red-600 to-red-700">
         {/* Background Image and Overlay */}
         <div className="absolute inset-0">
-          <Image
-            src="/images/blog-hero.jpg"
-            alt="Blog Hero Background"
-            fill
-            className="object-cover scale-105 motion-safe:animate-subtle-zoom"
-            priority
-            sizes="100vw"
-            quality={90}
-          />
           <div className="absolute inset-0 bg-gradient-to-br from-red-600/90 via-red-600/75 to-red-700/85"></div>
           
           {/* Animated Pattern Overlay */}
@@ -374,7 +375,7 @@ export default function ClientBlogPage() {
       </section>
 
       {/* Categories */}
-      <section className="py-6 sticky top-0 z-20 bg-white/80 backdrop-blur-md shadow-sm">
+      <section id="categories" className="py-6 sticky top-0 z-20 bg-white/80 backdrop-blur-md shadow-sm">
         <div className="container mx-auto px-4">
           <h2 className={`text-2xl font-bold mb-4 text-black ${delius.className}`} style={{ fontFamily: 'Delius, cursive' }}>
             Categories
@@ -428,10 +429,8 @@ export default function ClientBlogPage() {
             {filteredPosts.map((post, index) => (
               <div 
                 key={post.id}
-                className={`cursor-pointer ${
-                  expandedPost === post.id ? 'md:col-span-2 lg:col-span-2' : ''
-                }`}
-                onClick={() => handleCardClick(post.id)}
+                className="cursor-pointer"
+                onClick={() => handleCardClick(post)}
               >
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -448,9 +447,7 @@ export default function ClientBlogPage() {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <article className={`bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 ${
-                      expandedPost === post.id ? 'shadow-2xl scale-105' : ''
-                    }`}>
+                    <article className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                       <div className="relative h-40">
                         <motion.div
                           key={activeImageIndices[post.id]}
@@ -486,9 +483,7 @@ export default function ClientBlogPage() {
                       </div>
                       <div className="p-4">
                         <div className="flex items-center gap-3 mb-3">
-                          <div className={`w-8 h-8 rounded-full overflow-hidden transition-transform duration-300 ${
-                            expandedPost === post.id ? 'scale-120' : ''
-                          }`}>
+                          <div className="w-8 h-8 rounded-full overflow-hidden">
                             <Image
                               src={post.author.avatar}
                               alt={post.author.name}
@@ -503,39 +498,21 @@ export default function ClientBlogPage() {
                           </div>
                         </div>
                         <h2 className={`text-sm md:text-base lg:text-lg font-bold mb-2 leading-tight ${delius.className}`} style={{ fontFamily: 'Delius, cursive' }}>{post.title}</h2>
-                        <p className={`text-sm text-gray-600 mb-3 transition-all duration-300 ${
-                          expandedPost === post.id ? '' : 'line-clamp-2'
-                        }`}>
+                        <p className="text-sm text-gray-600 mb-3 line-clamp-2">
                           {post.excerpt}
                         </p>
                         <div className="flex justify-between items-center text-xs text-gray-500">
                           <span>{post.date}</span>
                           <span>{post.readTime}</span>
                         </div>
-                        {expandedPost !== post.id && (
-                          <div className="mt-3 flex items-center justify-center">
-                            <button className="text-red-600 text-sm font-medium flex items-center gap-1 hover:text-red-700 transition-colors">
-                              Read More
-                              <span className="animate-bounce">
-                                <FiArrowRight className="w-4 h-4" />
-                              </span>
-                            </button>
-                          </div>
-                        )}
-                        {expandedPost === post.id && (
-                          <div className="mt-4 pt-4 border-t border-gray-200">
-                            <div className="flex items-center gap-2 text-sm text-gray-600 mb-3">
-                              <span className="font-medium">Category:</span>
-                              <span className="bg-gray-100 px-2 py-1 rounded">{post.category}</span>
-                            </div>
-                            <div className="flex items-center gap-2 text-sm text-gray-600">
-                              <span className="font-medium">Author:</span>
-                              <span>{post.author.name}</span>
-                              <span className="text-gray-400">•</span>
-                              <span>{post.author.role}</span>
-                            </div>
-                          </div>
-                        )}
+                        <div className="mt-3 flex items-center justify-center">
+                          <button className="text-red-600 text-sm font-medium flex items-center gap-1 hover:text-red-700 transition-colors">
+                            Read More
+                            <span className="animate-bounce">
+                              <FiArrowRight className="w-4 h-4" />
+                            </span>
+                          </button>
+                        </div>
                       </div>
                     </article>
                   </motion.div>

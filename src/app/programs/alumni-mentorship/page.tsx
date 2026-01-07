@@ -16,8 +16,9 @@ const programDetails = {
   description: "Connecting students with industry professionals for guidance",
   longDescription: `The Alumni Mentorship Program is a unique initiative that pairs current students with successful graduates who are now working in the technology industry. This program provides invaluable guidance, career advice, and technical support to help students navigate their journey in technology.
 
-Through one-on-one mentoring sessions, students receive personalized guidance tailored to their specific goals and challenges. Mentors share their real-world experiences, industry insights, and professional networks, helping students make informed decisions about their education and career paths.`,
+Through one-on-one mentoring sessions, students receive personalized guidance tailored to their specific goals and challenges. Mentors share their real-world experiences, industry insights, and professional networks, helping students make informed decisions about their education and career paths. Artificial intelligence (AI) is a key focus area, with mentors providing guidance on AI careers, skills, and opportunities in the tech industry.`,
   features: [
+    'Artificial Intelligence (AI) career guidance',
     'One-on-one mentoring sessions',
     'Career guidance and advice',
     'Industry insights and trends',

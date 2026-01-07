@@ -16,8 +16,9 @@ const programDetails = {
   description: "Teacher training and student coding clubs for sustainable learning",
   longDescription: `Our After School Code Clubs program is designed to create sustainable coding education within schools. We work closely with teachers to establish and maintain coding clubs that run after regular school hours, providing students with additional opportunities to learn and practice programming skills.
 
-The program combines teacher training with student-focused coding sessions, ensuring that schools can continue to offer quality coding education independently. This approach creates a lasting impact by building local capacity and fostering a culture of technology education within the school community.`,
+The program combines teacher training with student-focused coding sessions, ensuring that schools can continue to offer quality coding education independently. This approach creates a lasting impact by building local capacity and fostering a culture of technology education within the school community. Artificial intelligence (AI) is a core part of our club curriculum, so all club members are introduced to AI concepts and hands-on projects as part of their learning journey.`,
   features: [
+    'Artificial Intelligence (AI) for all club members',
     'Teacher training and professional development',
     'Structured curriculum for different age groups',
     'Regular coding sessions after school hours',

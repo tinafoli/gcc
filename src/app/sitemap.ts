@@ -22,7 +22,37 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${baseUrl}/about/team`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/about/our-team`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/about/board`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/about/our-board`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    },
+    {
       url: `${baseUrl}/programs`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/programs/100-girls-in-stem`,
       lastModified: currentDate,
       changeFrequency: 'monthly' as const,
       priority: 0.8,
@@ -31,6 +61,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/donate`,
       lastModified: currentDate,
       changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/reports`,
+      lastModified: currentDate,
+      changeFrequency: 'yearly' as const,
       priority: 0.7,
     },
     {

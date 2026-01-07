@@ -6,6 +6,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Delius } from 'next/font/google';
 import { BookOpenIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
+import { FaLinkedin, FaGlobe } from 'react-icons/fa';
+import JoinTeamModal from '@/components/JoinTeamModal';
 
 const delius = Delius({
   weight: '400',
@@ -141,68 +143,93 @@ const teamMembers = [
 const boardMembers = [
   { 
     id: 1, 
-    name: 'Katie Donkor', 
-    title: 'PGCE | BA\nEdTech & Digital Learning Specialist',
-    image: '/images/board/katie-donkor.jpg',
+    name: 'Hon. Kojo Yankah', 
+    title: 'Founder, Pan African Heritage Museum',
+    image: '/images/board/Hon-Kojo-Yankah.jpeg',
+    website: 'https://kojoyankah.com',
     social: {
       instagram: '#',
       twitter: '#',
-      facebook: '#'
+      facebook: '#',
+      linkedin: 'https://www.linkedin.com/in/kojo-yankah-04816316/'
     }
   },
   { 
     id: 2, 
-    name: 'LaToya Samuels Wharton, MBA', 
-    title: 'Founder, Siblings Keeper',
-    image: '/images/board/latoya.jpg',
+    name: 'Katie Donkor', 
+    title: 'Founder and Director,\nKYD EdTech Consultancy LTD',
+    image: '/images/board/katie-donkor.jpeg',
+    website: '#',
     social: {
       instagram: '#',
       twitter: '#',
-      facebook: '#'
+      facebook: '#',
+      linkedin: 'https://www.linkedin.com/in/katiedonkor/'
     }
   },
   { 
     id: 3, 
-    name: 'Rachel Man', 
-    title: 'Founder, WemanConnect\nSocial Impact Consulting',
-    image: '/images/board/rachel-man.jpg',
+    name: 'LaToya Samuels Wharton, MBA', 
+    title: 'Founder, Siblings Keeper',
+    image: '/images/board/latoya.jpg',
+    website: '#',
     social: {
       instagram: '#',
       twitter: '#',
-      facebook: '#'
+      facebook: '#',
+      linkedin: 'https://www.linkedin.com/in/latoyasamuelswhartonmba/'
     }
   },
   { 
     id: 4, 
+    name: 'Rachel Man', 
+    title: 'Founder, WemanConnect\nSocial Impact Consulting',
+    image: '/images/board/rachel-man.jpg',
+    website: '#',
+    social: {
+      instagram: '#',
+      twitter: '#',
+      facebook: '#',
+      linkedin: 'https://www.linkedin.com/in/rctman/'
+    }
+  },
+  { 
+    id: 5, 
     name: 'Ethel Cofie', 
     title: 'Founder,\nEdel Technology Consulting',
     image: '/images/board/ethel-cofie.jpg',
+    website: '#',
     social: {
       instagram: '#',
       twitter: '#',
-      facebook: '#'
-    }
-  },
-  {
-    id: 5,
-    name: 'Tawiah Steve Sewu',
-    title: 'Co-Founder and CEO at Leti Arts',
-    image: '/images/board/tawiah-steve-sewu.jpg',
-    social: {
-      instagram: '#',
-      twitter: '#',
-      facebook: '#'
+      facebook: '#',
+      linkedin: 'https://www.linkedin.com/in/etheldcofie/'
     }
   },
   {
     id: 6,
-    name: 'Eyram Tanisha Tawiah',
+    name: 'Tawiah Steve Sewu',
     title: 'Board Member',
-    image: '/images/board/eyram-tanisha-tawiah.jpg',
+    image: '/images/board/tawiah-steve-sewu.jpg',
+    website: '#',
     social: {
       instagram: '#',
       twitter: '#',
-      facebook: '#'
+      facebook: '#',
+      linkedin: 'https://www.linkedin.com/in/stevetawia/'
+    }
+  },
+  {
+    id: 7,
+    name: 'Eyram Tanisha Tawia',
+    title: 'Co-Founder and CEO at Leti Arts',
+    image: '/images/board/eyram-tanisha-tawiah.jpg',
+    website: '#',
+    social: {
+      instagram: '#',
+      twitter: '#',
+      facebook: '#',
+      linkedin: 'https://www.linkedin.com/in/eyram-tawia/'
     }
   }
 ];
@@ -213,6 +240,7 @@ export default function ClientAboutPage() {
   const sliderRef = useRef<HTMLDivElement>(null);
   const boardSliderRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [showJoinTeamModal, setShowJoinTeamModal] = useState(false);
   const autoSlideInterval = useRef<NodeJS.Timeout>();
   const autoBoardSlideInterval = useRef<NodeJS.Timeout>();
 
@@ -237,7 +265,7 @@ export default function ClientAboutPage() {
   }, []);
 
   const totalSlides = isMobile ? teamMembers.length : Math.ceil(teamMembers.length / 4);
-  const totalBoardSlides = isMobile ? boardMembers.length : Math.ceil(boardMembers.length / 3);
+  const totalBoardSlides = isMobile ? boardMembers.length : Math.ceil(boardMembers.length / 4);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % totalSlides);
@@ -418,7 +446,7 @@ export default function ClientAboutPage() {
               transition={{ duration: isMobile ? 0 : 0.5, delay: isMobile ? 0 : 0.2 }}
               className="text-2xl md:text-3xl text-gray-200 mb-8 leading-relaxed max-w-3xl"
             >
-              Empowering the next generation of Ghanaian tech leaders through coding education and digital skills training.
+              Empowering the next generation of Ghanaian tech leaders through coding education, AI innovation, and digital skills training.
             </motion.p>
 
             {/* Call to Action Buttons */}
@@ -448,10 +476,8 @@ export default function ClientAboutPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </motion.svg>
               </motion.button>
-              <motion.a 
-                href="https://forms.gle/i4Sjcm6rmy5aRXox5" 
-                target="_blank"
-                rel="noopener noreferrer"
+              <motion.button
+                onClick={() => setShowJoinTeamModal(true)}
                 className="inline-flex items-center px-8 py-4 bg-white/10 backdrop-blur-sm text-white rounded-lg hover:bg-white/20 transition-all duration-300 text-lg font-semibold border border-white/10 hover:border-white/25 shadow-lg hover:shadow-white/10 hover:-translate-y-0.5 relative overflow-hidden group"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -469,7 +495,7 @@ export default function ClientAboutPage() {
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </motion.svg>
-              </motion.a>
+              </motion.button>
             </motion.div>
           </motion.div>
         </div>
@@ -519,7 +545,7 @@ export default function ClientAboutPage() {
               </div>
               <div className="space-y-6">
                 <p className="text-xl text-gray-700 leading-relaxed">
-                  The Ghana Code Club is an after-school program that teaches children computer programming skills. Children between ages 5-17 can join any of our Computer Science programs from Schools, Community Centers and Libraries to learn to create computer games, animations, interactive arts, websites and mobile apps.
+                  Ghana Code Club is a Ghana-based STEM education organization focused on developing coding, digital literacy, and artificial intelligence competencies among children, young people, and educators. Our programs foster creativity, problem-solving, and innovation through hands-on learning in programming, digital creation, and AI-enabled technologies.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                   <div className="bg-red-50/50 rounded-xl p-6 border border-red-100">
@@ -529,7 +555,7 @@ export default function ClientAboutPage() {
                       </svg>
                     </div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">Education</h3>
-                    <p className="text-sm text-gray-600">Comprehensive programming education for young minds</p>
+                    <p className="text-sm text-gray-600">Coding, digital, and AI skills taught through fun, hands-on learning.</p>
                   </div>
                   <div className="bg-red-50/50 rounded-xl p-6 border border-red-100">
                     <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mb-4">
@@ -538,7 +564,7 @@ export default function ClientAboutPage() {
                       </svg>
                     </div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">Accessibility</h3>
-                    <p className="text-sm text-gray-600">Programs available in schools and community centers</p>
+                    <p className="text-sm text-gray-600">Learning opportunities brought directly to schools and communities.</p>
                   </div>
                   <div className="bg-red-50/50 rounded-xl p-6 border border-red-100">
                     <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mb-4">
@@ -547,7 +573,7 @@ export default function ClientAboutPage() {
                       </svg>
                     </div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">Innovation</h3>
-                    <p className="text-sm text-gray-600">Creating games, animations, and mobile apps</p>
+                    <p className="text-sm text-gray-600">Building games, apps, robots, and AI-powered projects that solve real-world problems.</p>
                   </div>
                 </div>
               </div>
@@ -592,7 +618,7 @@ export default function ClientAboutPage() {
                   <h3 className="text-2xl font-semibold text-gray-900 font-['Delius']">Mission</h3>
                 </div>
                 <p className="text-gray-700 leading-relaxed">
-                  To equip every Ghanaian kid between 5-17 years with Computer Science skills by providing training, mentoring and infrastructure resources for effective, simplified, sustained learning for the development of problem-solving aptitude through creativity and innovation.
+                  To expand equitable access to coding, AI, and digital creativity through inclusive, high-quality tech education that empowers learners to become confident problem-solvers and creators of technology.
                 </p>
               </div>
             </motion.div>
@@ -617,7 +643,7 @@ export default function ClientAboutPage() {
                   <h3 className="text-2xl font-semibold text-gray-900 font-['Delius']">Vision</h3>
                 </div>
                 <p className="text-gray-700 leading-relaxed">
-                  We believe that Computer Science is foundational for all students in the 21st century regardless of their ultimate field of study or occupation. Our vision is to transform every Ghanaian child into a technology leader who is capable of creating their own future.
+                  A future where all children and young people in Ghana, particularly girls and underserved learners, have equitable opportunities to build the skills and confidence needed to succeed in the digital economy.
                 </p>
               </div>
             </motion.div>
@@ -1055,17 +1081,41 @@ export default function ClientAboutPage() {
                             />
                           </div>
                           <h3 className={`text-2xl font-bold text-gray-900 text-center mb-2 ${delius.className}`}>{member.name}</h3>
-                          <p className="text-gray-600 text-center whitespace-pre-line">{member.title}</p>
+                          <p className="text-gray-600 text-center mb-4 whitespace-pre-line">{member.title}</p>
+                          <div className="flex justify-center gap-3">
+                            {member.social.linkedin && member.social.linkedin !== '#' && (
+                              <a
+                                href={member.social.linkedin}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#0077b5] text-white hover:bg-[#005e8c] transition-colors shadow-md hover:shadow-lg"
+                                aria-label={`${member.name} LinkedIn profile`}
+                              >
+                                <FaLinkedin className="w-5 h-5" />
+                              </a>
+                            )}
+                            {member.website && member.website !== '#' && (
+                              <a
+                                href={member.website}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-700 text-white hover:bg-gray-800 transition-colors shadow-md hover:shadow-lg"
+                                aria-label={`${member.name} website`}
+                              >
+                                <FaGlobe className="w-5 h-5" />
+                              </a>
+                            )}
+                          </div>
                         </div>
                       </motion.div>
                     </div>
                   ))
                 ) : (
-                  // Desktop view shows up to 3 at once
-                  Array(Math.ceil(boardMembers.length / 3)).fill(0).map((_, batchIndex) => (
+                  // Desktop view shows up to 4 at once
+                  Array(Math.ceil(boardMembers.length / 4)).fill(0).map((_, batchIndex) => (
                     <div key={batchIndex} className="w-full flex-shrink-0 flex flex-wrap">
-                      {boardMembers.slice(batchIndex * 3, batchIndex * 3 + 3).map((member) => (
-                        <div key={member.id} className="w-1/3 p-2">
+                      {boardMembers.slice(batchIndex * 4, batchIndex * 4 + 4).map((member) => (
+                        <div key={member.id} className="w-1/2 md:w-1/4 p-2">
                           <motion.div 
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -1126,7 +1176,31 @@ export default function ClientAboutPage() {
                                 />
                               </div>
                               <h3 className={`text-xl font-bold text-gray-900 text-center mb-2 ${delius.className}`}>{member.name}</h3>
-                              <p className="text-sm text-gray-600 text-center whitespace-pre-line">{member.title}</p>
+                              <p className="text-sm text-gray-600 text-center whitespace-pre-line mb-4">{member.title}</p>
+                              <div className="flex justify-center gap-2">
+                                {member.social.linkedin && member.social.linkedin !== '#' && (
+                                  <a
+                                    href={member.social.linkedin}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-[#0077b5] text-white hover:bg-[#005e8c] transition-colors shadow-md hover:shadow-lg"
+                                    aria-label={`${member.name} LinkedIn profile`}
+                                  >
+                                    <FaLinkedin className="w-4 h-4" />
+                                  </a>
+                                )}
+                                {member.website && member.website !== '#' && (
+                                  <a
+                                    href={member.website}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-gray-700 text-white hover:bg-gray-800 transition-colors shadow-md hover:shadow-lg"
+                                    aria-label={`${member.name} website`}
+                                  >
+                                    <FaGlobe className="w-4 h-4" />
+                                  </a>
+                                )}
+                              </div>
                             </div>
                           </motion.div>
                         </div>
@@ -1185,6 +1259,12 @@ export default function ClientAboutPage() {
           </motion.div>
         </div>
       </section>
+
+      {/* Join Team Modal */}
+      <JoinTeamModal 
+        isOpen={showJoinTeamModal} 
+        onClose={() => setShowJoinTeamModal(false)} 
+      />
     </div>
   );
 } 

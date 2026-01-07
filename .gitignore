@@ -33,9 +33,19 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# Google Cloud App Engine config (contains API keys)
+app.yaml
+
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# deployment files (too large for GitHub)
+deploy.tar.gz
+deploy.zip
+upload parts/
+*.tar.gz
+*.zip

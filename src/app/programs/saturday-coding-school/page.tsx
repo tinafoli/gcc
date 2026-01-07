@@ -14,10 +14,11 @@ const delius = Delius({
 const programDetails = {
   title: "Saturday Coding School",
   description: "Weekend coding education for all ages",
-  longDescription: `The Saturday Coding School is a weekly program that provides structured coding education for children aged 7-15. Students learn programming fundamentals through interactive activities, games, and hands-on projects in a fun, supportive environment.
+  longDescription: `The Saturday Coding School is a weekly program that provides structured coding education for children aged 5-17. Students learn programming fundamentals, including artificial intelligence (AI), through interactive activities, games, and hands-on projects in a fun, supportive environment.
 
-Our curriculum is designed to be engaging and age-appropriate, with a focus on building problem-solving skills and computational thinking. Each session is led by experienced instructors who provide personalized attention to ensure every student's success.`,
+Our curriculum is designed to be engaging and age-appropriate, with a focus on building problem-solving skills and computational thinking. Each session is led by experienced instructors who provide personalized attention to ensure every student's success. AI is a core part of our curriculum, ensuring all students are introduced to the concepts and applications of artificial intelligence from an early age.`,
   features: [
+    'Artificial Intelligence (AI) for all ages',
     'Age-appropriate curriculum for different skill levels',
     'Small group sessions with personalized attention',
     'Progress tracking and regular feedback',
@@ -27,9 +28,9 @@ Our curriculum is designed to be engaging and age-appropriate, with a focus on b
     'Introduction to multiple programming languages',
     'Focus on creativity and problem-solving'
   ],
-  targetAudience: 'Children aged 7-15',
+  targetAudience: 'Children aged 5-17',
   duration: 'Ongoing program with flexible enrollment',
-  schedule: 'Weekly sessions (Saturdays, 10:00 AM - 2:00 PM)',
+  schedule: 'Weekly sessions (Saturdays, 11:00 AM - 4:00 PM)',
   image: '/images/saturday-school.jpg',
   outcomes: [
     'Basic programming skills',

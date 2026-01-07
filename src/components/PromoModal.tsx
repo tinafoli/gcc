@@ -10,14 +10,14 @@ interface PromoModalProps {
 // Sample upcoming events data
 const upcomingEvents = [
   {
-    id: 1,
-    title: "2025 Coolest Projects Ghana",
-    date: "June 28, 2025",
-    time: "10:00 AM - 5:00 PM",
-    location: "British International School, East Legon Hills, Greater Accra, Ghana",
-    image: "/images/events/coolest-project-2025.jpg",
-    description: "Join us for the 2025 Coolest Project event, showcasing innovative tech projects from young creators across Ghana.",
-    spots: "Registration now open"
+    id: 2,
+    title: "",
+    date: "22 JULY 2025",
+    time: "Tuesdays, Wednesdays & Saturdays",
+    location: "Ashongman Estates, Accra, Ghana",
+    image: "/images/events/summer-camp.jpg",
+    description: `ACTIVITIES:\n• Coding & Game Design\n• Robotics & AI\n• Circuits & Electronics\n• Digital Arts\n• 3D Model/Print\n• Micro:bits`,
+    registrationLink: "https://bit.ly/gccsummerschool"
   }
 ];
 
@@ -52,7 +52,7 @@ export default function PromoModal({ onClose }: PromoModalProps) {
           </div>
           
           <h2 className="text-xl sm:text-2xl text-gray-900 mb-6 text-center font-['Delius']">
-            Join Our Exciting Tech Event
+          Join Our Exciting  Summer Activities           
           </h2>
 
           <div className="space-y-6">
@@ -93,18 +93,21 @@ export default function PromoModal({ onClose }: PromoModalProps) {
                         <span className="flex-1">{event.location}</span>
                       </div>
                     </div>
-                    <p className="mt-3 text-gray-600">
-                      {event.description}
-                    </p>
+                    <div className="mt-3 text-gray-600">
+                      {event.description.split('\n').map((line, idx) => (
+                        <span key={idx} className={idx === 0 ? "font-semibold text-red-500" : undefined}>
+                          {line}<br />
+                        </span>
+                      ))}
+                    </div>
                     <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                      <span className="text-sm font-medium text-red-500">{event.spots}</span>
                       <a 
-                        href="https://www.coolestprojectsghana.org/enter"
+                        href={event.registrationLink}
                         className="bg-red-500 text-white px-4 py-2.5 rounded-full text-sm font-semibold hover:bg-red-600 transition-colors text-center w-full sm:w-auto shadow-sm hover:shadow-md"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        Register Now
+                        Register Your Kids
                       </a>
                     </div>
                   </div>

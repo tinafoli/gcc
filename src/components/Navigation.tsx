@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Delius } from 'next/font/google';
 import { usePathname, useRouter } from 'next/navigation';
+import { usePageLoading } from '@/context/PageLoadingContext';
 
 const delius = Delius({ 
   weight: '400',
@@ -51,6 +52,7 @@ export default function Navigation() {
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
+  const { startLoading } = usePageLoading();
 
   // Close menu when pathname changes
   useEffect(() => {
@@ -76,7 +78,12 @@ export default function Navigation() {
 
   const handleMobileNavigation = (path: string) => {
     setIsMenuOpen(false);
+    startLoading();
     router.push(path);
+  };
+
+  const handleLinkClick = () => {
+    startLoading();
   };
 
   // Return a placeholder during SSR to prevent hydration mismatch
@@ -89,7 +96,7 @@ export default function Navigation() {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <Link href="/" className="flex items-center group">
+          <Link href="/" onClick={handleLinkClick} className="flex items-center group">
             <div className="relative">
               <Image
                 src="/images/gcc-logo.png"
@@ -99,7 +106,6 @@ export default function Navigation() {
                 className="rounded-full border-2 border-red-500 shadow-lg"
                 priority
               />
-              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-red-500 rounded-full"></div>
             </div>
             <span className={`ml-3 text-xl ${scrolled ? 'text-gray-900' : 'text-gray-800'} font-['Delius']`}>
               Ghana Code Club
@@ -122,6 +128,7 @@ export default function Navigation() {
             
             <Link 
               href="/about" 
+              onClick={handleLinkClick}
               className={`${scrolled ? 'text-gray-700 hover:text-gray-900' : 'text-gray-700 hover:text-red-600'} px-4 py-2 rounded-md transition-colors duration-200 relative group ${
                 pathname === '/about' ? 'text-red-600' : ''
               }`}
@@ -134,6 +141,7 @@ export default function Navigation() {
 
             <Link 
               href="/partners" 
+              onClick={handleLinkClick}
               className={`${scrolled ? 'text-gray-700 hover:text-gray-900' : 'text-gray-700 hover:text-red-600'} px-4 py-2 rounded-md transition-colors duration-200 relative group ${
                 pathname === '/partners' ? 'text-red-600' : ''
               }`}
@@ -146,6 +154,7 @@ export default function Navigation() {
             
             <Link 
               href="/blog" 
+              onClick={handleLinkClick}
               className={`${scrolled ? 'text-gray-700 hover:text-gray-900' : 'text-gray-700 hover:text-red-600'} px-4 py-2 rounded-md transition-colors duration-200 relative group ${
                 pathname === '/blog' ? 'text-red-600' : ''
               }`}
@@ -158,6 +167,7 @@ export default function Navigation() {
             
             <Link 
               href="/contact" 
+              onClick={handleLinkClick}
               className={`${scrolled ? 'text-gray-700 hover:text-gray-900' : 'text-gray-700 hover:text-red-600'} px-4 py-2 rounded-md transition-colors duration-200 relative group ${
                 pathname === '/contact' ? 'text-red-600' : ''
               }`}
@@ -170,6 +180,7 @@ export default function Navigation() {
             
             <Link 
               href="/donate" 
+              onClick={handleLinkClick}
               className="bg-gradient-to-r from-red-500 to-red-600 text-white px-5 py-2 rounded-md hover:from-red-600 hover:to-red-700 transition-colors duration-200 shadow-md ml-2"
             >
               Donate

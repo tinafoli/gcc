@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { FiArrowRight } from 'react-icons/fi';
 import { Delius } from 'next/font/google';
+import { useRouter } from 'next/navigation';
 
 const delius = Delius({ 
   weight: '400',
@@ -26,6 +27,8 @@ export interface BlogPost {
   image: string;
   image2: string;
   image3: string;
+  slug?: string;
+  content?: string;
 }
 
 interface BlogPreviewProps {
@@ -33,6 +36,7 @@ interface BlogPreviewProps {
 }
 
 export default function BlogPreview({ posts }: BlogPreviewProps) {
+  const router = useRouter();
   const [activeImageIndices, setActiveImageIndices] = useState<Record<string, number>>({});
 
   // Initialize activeImageIndices for each post
@@ -138,15 +142,6 @@ export default function BlogPreview({ posts }: BlogPreviewProps) {
 
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-gray-500">{post.date}</span>
-                  <a 
-                    href={`/blog#post-${post.id}`}
-                    className="text-red-600 text-sm font-medium flex items-center gap-1 hover:text-red-700 transition-colors group"
-                  >
-                    Read More
-                    <span className="group-hover:translate-x-1 transition-transform">
-                      <FiArrowRight className="w-4 h-4" />
-                    </span>
-                  </a>
                 </div>
               </div>
             </motion.div>
@@ -154,13 +149,24 @@ export default function BlogPreview({ posts }: BlogPreviewProps) {
         </div>
 
         <div className="text-center mt-12">
-          <a 
-            href="/blog"
+          <button 
+            onClick={() => {
+              // Clear any saved scroll position
+              if (typeof window !== 'undefined') {
+                sessionStorage.removeItem('scrollPosition');
+              }
+              // Navigate to blog page and force scroll to top
+              router.push('/blog');
+              // Force scroll to top after navigation
+              setTimeout(() => {
+                window.scrollTo(0, 0);
+              }, 100);
+            }}
             className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-700 transition-colors"
           >
             View All Blog Posts
             <FiArrowRight className="ml-2 w-5 h-5" />
-          </a>
+          </button>
         </div>
       </div>
     </section>

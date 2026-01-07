@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import { Delius } from 'next/font/google';
 
+
 const delius = Delius({
   weight: '400',
   subsets: ['latin'],
@@ -104,7 +105,7 @@ const Footer = () => {
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
                 </svg>
               </a>
-              <a href="https://www.instagram.com/ghanacodeclub" className="p-2 bg-gray-700 rounded-full text-white hover:bg-gray-600 hover:text-white transition-all duration-300">
+              <a href="https://www.instagram.com/officialghanacodeclub" className="p-2 bg-gray-700 rounded-full text-white hover:bg-gray-600 hover:text-white transition-all duration-300">
                 <FaInstagram size={16} />
               </a>
               <a href="https://www.linkedin.com/company/ghana-code-club" className="p-2 bg-gray-700 rounded-full text-white hover:bg-gray-600 hover:text-white transition-all duration-300">
@@ -113,26 +114,7 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Latest Blog */}
-          <div className="space-y-3 md:col-span-1">
-            <h3 className={`text-base font-bold text-white ${delius.className}`}>Latest Blog</h3>
-            <div className="space-y-2">
-              <a href="/blog" className="block p-2 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors">
-                <h4 className="text-white font-medium mb-1 text-sm">Ghana Code Club Partners with The Ursula Foundation</h4>
-                <p className="text-gray-400 text-xs">March 28, 2025</p>
-              </a>
-              <a href="/blog" className="block p-2 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors">
-                <h4 className="text-white font-medium mb-1 text-sm">Ghana Code Club at Accra Parent Expo</h4>
-                <p className="text-gray-400 text-xs">March 25, 2025</p>
-              </a>
-              <a href="/blog" className="text-red-400 hover:text-red-300 text-sm font-medium flex items-center">
-                View All Posts
-                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </a>
-            </div>
-          </div>
+
 
           {/* Policies */}
           <div className="space-y-3 md:col-span-1">

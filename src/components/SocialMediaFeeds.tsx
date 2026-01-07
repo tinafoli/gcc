@@ -39,8 +39,8 @@ const socialMediaFeeds: SocialMediaFeed[] = [
         <circle cx="4" cy="4" r="2" />
       </svg>
     ),
-    embedUrl: "https://www.linkedin.com/embed/feed/update/urn:li:activity:7320822067124142080",
-    profileUrl: "https://www.linkedin.com/company/ghana-code-club/posts/?feedView=all",
+    embedUrl: "https://www.linkedin.com/embed/feed/update/urn:li:activity:7374370754961846273",
+    profileUrl: "https://www.linkedin.com/posts/ghana-code-club_100girlsinstem-girlsinict-stemeducation-activity-7374370754961846273-vV1r?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE71zwwBAQc_iS6a_42u1pQ3CSOAWPIwniU",
     brandColor: "bg-[#0077b5] hover:bg-[#005e8c]"
   }
 ];
@@ -117,6 +117,9 @@ export default function SocialMediaFeeds() {
                     className="absolute inset-0 w-full h-full"
                     onError={() => handleIframeError(feed.platform)}
                     sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title={`${feed.platform} feed for ${feed.username}`}
                   />
                 )}
               </div>
@@ -143,16 +146,7 @@ export default function SocialMediaFeeds() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="text-center mt-12"
         >
-          <p className="text-gray-600 mb-4">Don't miss out on our latest updates!</p>
-          <a 
-            href="/contact#contact-form" 
-            className="inline-flex items-center justify-center bg-red-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-red-600 transition-all duration-300 hover:scale-105 active:scale-95"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-            Contact Us
-          </a>
+          
         </motion.div>
       </div>
     </section>

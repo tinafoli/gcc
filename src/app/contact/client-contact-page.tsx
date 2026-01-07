@@ -152,7 +152,7 @@ export default function ClientContactPage() {
       sameAs: [
         'https://twitter.com/ghanacodeclub',
         'https://facebook.com/ghanacodeclub',
-        'https://instagram.com/ghanacodeclub'
+        'https://www.instagram.com/officialghanacodeclub'
       ]
     }
   };
@@ -722,7 +722,7 @@ export default function ClientContactPage() {
               </motion.a>
 
               <motion.a
-                href="https://www.instagram.com/ghanacodeclub"
+                href="https://www.instagram.com/officialghanacodeclub"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex flex-col items-center p-4 bg-white/95 backdrop-blur-sm rounded-xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group"

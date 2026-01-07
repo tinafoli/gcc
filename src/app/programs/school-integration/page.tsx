@@ -16,8 +16,9 @@ const programDetails = {
   description: "Comprehensive coding education integrated into school curriculum",
   longDescription: `Our School Integration program brings coding education directly into the classroom as part of the regular curriculum. We work with schools to seamlessly integrate technology education into their existing academic programs, ensuring that students receive consistent and high-quality coding instruction throughout their academic journey.
 
-The program is designed to complement traditional subjects while developing essential digital skills. We provide schools with comprehensive support, including curriculum development, teacher training, and ongoing technical assistance to ensure successful implementation.`,
+The program is designed to complement traditional subjects while developing essential digital skills. We provide schools with comprehensive support, including curriculum development, teacher training, and ongoing technical assistance to ensure successful implementation. Artificial intelligence (AI) is integrated throughout the curriculum, so every student is introduced to AI concepts and applications as part of their regular studies.`,
   features: [
+    'Artificial Intelligence (AI) for students',
     'Customized curriculum integration',
     'Teacher training and support',
     'Regular progress assessments',

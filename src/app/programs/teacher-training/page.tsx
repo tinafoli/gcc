@@ -16,8 +16,9 @@ const programDetails = {
   description: "Professional development for educators in computer science",
   longDescription: `Our Teacher Training program equips educators with the knowledge and skills needed to effectively teach coding and technology in their classrooms. We provide comprehensive training that combines theoretical knowledge with practical teaching strategies, ensuring teachers can confidently deliver technology education to their students.
 
-The program is designed to be flexible and adaptable to different teaching environments, with a focus on hands-on learning and real-world applications. We support teachers throughout their journey, from basic digital literacy to advanced programming concepts.`,
+The program is designed to be flexible and adaptable to different teaching environments, with a focus on hands-on learning and real-world applications. We support teachers throughout their journey, from basic digital literacy to advanced programming concepts. Artificial intelligence (AI) is a core part of our training, empowering educators to introduce AI concepts and tools in their classrooms.`,
   features: [
+    'Artificial Intelligence (AI) for educators',
     'Comprehensive training curriculum',
     'Hands-on teaching practice',
     'Teaching resources and materials',

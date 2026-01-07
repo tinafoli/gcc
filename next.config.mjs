@@ -1,10 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256],
+    // Reduced sizes for faster optimization
+    deviceSizes: [640, 750, 828, 1080, 1200],
+    imageSizes: [16, 32, 48, 64, 96, 128],
     formats: ['image/webp'],
     minimumCacheTTL: 60,
+    qualities: [60, 75],
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
@@ -32,7 +34,7 @@ const nextConfig = {
   httpAgentOptions: {
     keepAlive: true,
   },
-  staticPageGenerationTimeout: 120,
+  staticPageGenerationTimeout: 300,
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
@@ -45,6 +47,9 @@ const nextConfig = {
   },
   // Server components configuration
   serverExternalPackages: [],
+  // Explicitly use webpack to avoid Turbopack conflicts
+  // Turbopack is default in Next.js 16, but we have webpack config
+  turbopack: undefined,
 };
 
 export default nextConfig; 

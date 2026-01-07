@@ -16,8 +16,9 @@ const programDetails = {
   description: "Bringing technology education to rural communities",
   longDescription: `The Digital Village Program is a community-based initiative that brings coding education to underserved areas through mobile labs and community centers. This program aims to make technology education accessible to all children, regardless of their location or background.
 
-We partner with local organizations to establish learning centers in rural communities, providing access to computers, internet connectivity, and qualified instructors. The program is designed to be sustainable, with a focus on training local teachers and community members to continue the educational initiatives long-term.`,
+We partner with local organizations to establish learning centers in rural communities, providing access to computers, internet connectivity, and qualified instructors. The program is designed to be sustainable, with a focus on training local teachers and community members to continue the educational initiatives long-term. Artificial intelligence (AI) is a core part of our curriculum, ensuring that even students in rural communities are introduced to the latest advancements in technology.`,
   features: [
+    'Artificial Intelligence (AI) for rural communities',
     'Mobile computer labs that travel to different communities',
     'Community-based learning centers',
     'Partnerships with local organizations',

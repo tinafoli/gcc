@@ -1,0 +1,8 @@
+runtime: nodejs20
+env: standard
+
+env_variables:
+  BREVO_API_KEY: 'your-brevo-api-key-here'
+  RESEND_API_KEY: 'your-resend-api-key-here'
+
+

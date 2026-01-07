@@ -14,10 +14,11 @@ const delius = Delius({
 const programDetails = {
   title: "Adults in Tech",
   description: "Digital skills training for adult learners",
-  longDescription: `The Adults in Tech program is designed to help adults transition into the technology sector or enhance their existing digital skills. This comprehensive program provides practical training in coding, web development, and digital literacy, tailored to the needs of adult learners.
+  longDescription: `The Adults in Tech program is designed to help adults transition into the technology sector or enhance their existing digital skills. This comprehensive program provides practical training in coding, web development, digital literacy, and artificial intelligence (AI), tailored to the needs of adult learners.
 
-We understand the unique challenges adult learners face when returning to education, which is why our program offers flexible scheduling, personalized learning paths, and career support. Whether you're looking to switch careers, advance in your current role, or simply learn new skills, our program provides the tools and guidance you need to succeed.`,
+We understand the unique challenges adult learners face when returning to education, which is why our program offers flexible scheduling, personalized learning paths, and career support. Whether you're looking to switch careers, advance in your current role, or simply learn new skills, our program provides the tools and guidance you need to succeed. AI is a core part of the curriculum, ensuring all adult learners are introduced to the latest advancements in artificial intelligence and its applications.`,
   features: [
+    'Artificial Intelligence (AI) for adult learners',
     'Flexible learning schedules',
     'Personalized learning paths',
     'Industry-relevant curriculum',

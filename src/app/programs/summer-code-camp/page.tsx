@@ -14,49 +14,52 @@ const delius = Delius({
 const programDetails = {
   title: "Summer Code Camp",
   description: "Intensive summer program for kids to learn coding and robotics",
-  longDescription: `Get ready for an incredible 8-week tech adventure! Our Summer Code Camp is where young innovators aged 10-16 embark on an exciting journey from complete beginners to confident tech creators. 
+  longDescription: `Get ready for an incredible 8-week tech adventure! Our Summer Code Camp is where young innovators aged 4-17 embark on an exciting journey from complete beginners to confident tech creators. 
 
-Through hands-on projects, fun challenges, and creative exploration, students will dive into the fascinating world of coding, robotics, game development, and more. Each week brings new discoveries, friendships, and amazing creations that your child will be proud to show off!`,
+Through hands-on projects, fun challenges, and creative exploration, students will dive into the fascinating world of coding, robotics, artificial intelligence (AI), game development, and more. Each week brings new discoveries, friendships, and amazing creations that your child will be proud to show off! AI is a core part of our camp, with dedicated projects and activities to introduce students to the power and possibilities of artificial intelligence.`,
   features: [
-    'Create your own video games and apps! 🎮',
-    'Build and program real robots! 🤖',
-    'Design awesome websites! 🌐',
-    'Make new friends who love tech! 👥',
-    'Learn from industry experts! 👩‍💻',
-    'Visit real tech companies! 🏢',
-    'Show off your creations! 🌟',
-    'Get your tech champion certificate! 🎓'
+    'Artificial Intelligence (AI) projects and learning',
+    'Create your own video games and apps',
+    'Build and program real robots',
+    'Design awesome websites',
+    'Arduino programming and problem-solving',
+    'Build circuits with Makey Makey and create real-world projects',
+    'Make new friends who love tech',
+    'Learn from industry experts',
+    'Visit real tech companies',
+    'Show off your creations',
+    'Get your tech champion certificate'
   ],
-  targetAudience: 'Tech explorers aged 10-16',
-  duration: '8 weeks (Monday to Friday)',
-  schedule: '9:00 AM - 3:00 PM daily',
+  targetAudience: 'Tech explorers aged 4-17',
+  duration: '8 weeks (Tuesday, Wednesday, Saturday)',
+  schedule: '11:00 AM - 3:00 PM (twice a week)',
   image: '/images/summer-camp.jpg',
   curriculum: [
     {
-      title: "Your Tech Journey Begins! 🚀",
+      title: "Your Tech Journey Begins!",
       description: "From day one, you'll dive into hands-on coding adventures! Start with the basics and watch as your skills grow week by week. By the end of our 8-week journey, you'll be amazed at what you can create!"
     },
     {
-      title: "What You'll Learn 🌟",
+      title: "What You'll Learn",
       description: "Master the art of coding through Python programming, create your own websites, design and build robots, develop exciting games, and even make your own mobile apps! Every day brings new challenges and victories."
     },
     {
-      title: "The Grand Finale 🏆",
+      title: "The Grand Finale",
       description: "In the final week, showcase your skills with an amazing project of your choice! Build a game, program a robot, or create an app - the possibilities are endless. Present your creation to family and friends at our spectacular Tech Showcase!"
     },
     {
-      title: "Beyond Coding 🌈",
+      title: "Beyond Coding",
       description: "This isn't just about coding - it's about creativity, problem-solving, teamwork, and building confidence. Make lasting friendships with fellow tech enthusiasts and learn from inspiring mentors who'll guide you every step of the way."
     }
   ],
   outcomes: [
-    '🎯 Create your own games, apps, and websites',
-    '🤖 Build and program real working robots',
-    '💡 Master problem-solving like a pro',
-    '🤝 Develop teamwork and leadership skills',
-    '🎤 Gain confidence in public speaking',
-    '🌟 Join a community of young innovators',
-    '🎓 Graduate as a confident tech creator'
+    'Create your own games, apps, and websites',
+    'Build and program real working robots',
+    'Master problem-solving like a pro',
+    'Develop teamwork and leadership skills',
+    'Gain confidence in public speaking',
+    'Join a community of young innovators',
+    'Graduate as a confident tech creator'
   ],
   testimonials: [
     {

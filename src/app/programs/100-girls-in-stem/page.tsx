@@ -13,18 +13,24 @@ const delius = Delius({
 
 const programDetails = {
   title: "100 Girls in STEM",
-  description: "Empowering young girls with coding skills and technology knowledge",
-  longDescription: `The 100 Girls in STEM program is a transformative initiative designed to bridge the gender gap in technology. Through this program, we aim to inspire and equip young girls with the skills, confidence, and support they need to pursue careers in technology.
+  description: "Empowering girls in STEM and girls in tech with coding skills and technology knowledge. A program dedicated to empowering girls to excel in technology careers.",
+  longDescription: `The 100 Girls in STEM program is a transformative initiative designed to bridge the gender gap in technology. This program is focused on empowering girls in STEM and empowering girls in tech by providing comprehensive technology education and mentorship.
 
-Our comprehensive curriculum covers fundamental programming concepts, web development, and digital literacy skills. Participants also receive mentorship from successful women in tech and opportunities to work on real-world projects.`,
+Through this program, we aim to inspire and equip young girls in tech with the skills, confidence, and support they need to pursue careers in technology. Our mission is empowering girls with the knowledge and tools necessary to succeed in STEM fields. Our program is specifically designed for tech girls who want to excel in technology careers.
+
+Our comprehensive curriculum covers fundamental programming concepts, web development, digital literacy skills, and artificial intelligence (AI). Participants also receive mentorship from successful women in tech and opportunities to work on real-world projects. AI is a core part of the program, ensuring every girl in tech is introduced to the concepts and applications of artificial intelligence for the future of STEM.
+
+Whether you're interested in empowering girls in STEM, empowering girls in tech, girls in STEM, girls in tech, or tech girls programs, this initiative provides the foundation for a successful career in technology. We are committed to empowering girls and creating opportunities for them to thrive in the tech industry.`,
   features: [
+    'Empowering girls with Artificial Intelligence (AI) for girls in STEM',
     'Weekly coding sessions with female mentors',
     'Project-based learning with real-world applications',
     'Tech industry exposure and networking opportunities',
     'Leadership development workshops',
-    'Annual showcase of projects'
+    'Annual showcase of projects',
+    'Dedicated to empowering girls in technology'
   ],
-  targetAudience: 'Girls aged 10-17',
+  targetAudience: 'Girls aged 9-21',
   duration: '6 months',
   schedule: 'Weekly sessions (Saturdays)',
   image: '/images/girls-in-tech.jpg',
@@ -50,8 +56,45 @@ Our comprehensive curriculum covers fundamental programming concepts, web develo
 };
 
 export default function GirlsInSTEMPage() {
+  // Structured data for SEO - Girls in STEM/Tech Program
+  const programStructuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'EducationalProgram',
+    name: '100 Girls in STEM',
+    alternateName: ['Girls in STEM Program', 'Girls in Tech Program', 'Tech Girls Program', 'Empowering Girls in STEM', 'Empowering Girls in Tech'],
+    description: 'Empowering girls in STEM and empowering girls in tech through coding education. A comprehensive program dedicated to empowering girls with technology skills. Tech girls learn coding, AI, and technology skills.',
+    provider: {
+      '@type': 'Organization',
+      name: 'Ghana Code Club',
+      url: 'https://ghanacodeclub.org'
+    },
+    educationalCredentialAwarded: 'Certificate',
+    programType: 'Educational Program',
+    audience: {
+      '@type': 'EducationalAudience',
+      educationalRole: 'student',
+      audienceType: 'Girls in STEM, Girls in Tech, Tech Girls aged 9-21'
+    },
+    timeRequired: 'P6M',
+    coursePrerequisites: 'None',
+    teaches: [
+      'Coding and Programming',
+      'Web Development',
+      'Artificial Intelligence',
+      'Digital Literacy',
+      'STEM Skills for Girls',
+      'Technology for Girls in Tech'
+    ],
+    keywords: 'empowering girls, empowering girls in STEM, empowering girls in tech, girls in stem, girls in tech, tech girls, girls coding, women in tech, STEM for girls, empowering girls with technology',
+    url: 'https://ghanacodeclub.org/programs/100-girls-in-stem'
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(programStructuredData) }}
+      />
       {/* Hero Section */}
       <section className="relative py-20 bg-gray-900 text-white">
         <div className="absolute inset-0 overflow-hidden">
@@ -79,6 +122,13 @@ export default function GirlsInSTEMPage() {
             </Link>
             <h1 className={`text-4xl md:text-5xl font-bold mb-6 ${delius.className}`}>{programDetails.title}</h1>
             <p className="text-xl text-gray-200 mb-8">{programDetails.description}</p>
+            <div className="flex flex-wrap gap-2 mb-6">
+              <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm">Empowering Girls</span>
+              <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm">Girls in STEM</span>
+              <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm">Girls in Tech</span>
+              <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm">Tech Girls</span>
+              <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm">Women in Tech</span>
+            </div>
             <div className="flex flex-wrap gap-4">
               <a href="#program-details" className="bg-red-500 text-white px-6 py-3 rounded-md font-semibold hover:bg-red-600 transition-colors">
                 Learn More
@@ -103,7 +153,7 @@ export default function GirlsInSTEMPage() {
                 transition={{ duration: 0.5 }}
                 className="bg-white rounded-xl shadow-lg p-8 mb-8"
               >
-                <h2 className={`text-3xl font-bold mb-6 ${delius.className}`}>About the Program</h2>
+                <h2 className={`text-3xl font-bold mb-6 ${delius.className}`}>About the Girls in STEM & Girls in Tech Program</h2>
                 <div className="prose prose-lg max-w-none">
                   <p className="text-gray-600 whitespace-pre-line">{programDetails.longDescription}</p>
                 </div>
@@ -247,7 +297,7 @@ export default function GirlsInSTEMPage() {
           >
             <h2 className={`text-3xl md:text-4xl font-bold mb-6 ${delius.className}`}>Start Your Journey Today</h2>
             <p className="text-xl mb-8 max-w-3xl mx-auto">
-              Join the 100 Girls in STEM program and take the first step towards a future in technology. Our team is here to help you succeed.
+              Join the 100 Girls in STEM program and take the first step towards a future in technology. We are committed to empowering girls and helping them succeed in tech careers. Our team is here to support you every step of the way.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link href="/contact" className="bg-white text-red-500 px-8 py-3 rounded-md font-semibold hover:bg-gray-100 transition-colors">

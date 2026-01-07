@@ -72,7 +72,7 @@ export default function TechnologyStack() {
             Our Technology Stack
           </h2>
           <p className="text-gray-600 max-w-3xl mx-auto text-lg leading-relaxed">
-            Dive into the world of Scratch, Python, Blockly, and HTML/CSS with our specially designed curricula that combines critical STEM learning with fun and engaging hands-on projects, using:
+            Dive into the world off Scratch, AI, robotics, 3D modeling,  Python, Blockly, and HTML/CSS with our specially designed curricula that combines critical STEM learning with fun and engaging hands-on projects, using:
           </p>
         </motion.div>
 

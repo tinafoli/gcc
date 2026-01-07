@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import dynamic from 'next/dynamic';
 import { CartProvider } from '@/context/CartContext';
-import ScrollRestoration from '@/components/ScrollRestoration';
+import ClientLayoutWrapper from '@/components/ClientLayoutWrapper';
 import Script from 'next/script';
 
 // Optimize font loading
@@ -13,20 +13,6 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
-// Dynamically import components
-const Navigation = dynamic(() => import('@/components/Navigation'), {
-  ssr: true,
-  loading: () => (
-    <div className="h-16 bg-white animate-pulse" />
-  ),
-});
-
-const Footer = dynamic(() => import('@/components/Footer'), {
-  ssr: true,
-  loading: () => (
-    <div className="h-48 bg-gray-900 animate-pulse" />
-  ),
-});
 
 export const metadata: Metadata = {
   title: {
@@ -170,16 +156,13 @@ export default function RootLayout({
         {/* Facebook Customer Chat */}
         <div
           className="fb-customerchat"
-          attribution="setup_tool"
-          page_id={process.env.NEXT_PUBLIC_FACEBOOK_PAGE_ID}
+          data-attribution="setup_tool"
+          data-page-id={process.env.NEXT_PUBLIC_FACEBOOK_PAGE_ID}
         ></div>
         <CartProvider>
-          <ScrollRestoration />
-          <Navigation />
-          <main className="flex-grow">
+          <ClientLayoutWrapper>
             {children}
-          </main>
-          <Footer />
+          </ClientLayoutWrapper>
         </CartProvider>
       </body>
     </html>

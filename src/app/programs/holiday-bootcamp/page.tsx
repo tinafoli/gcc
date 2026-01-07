@@ -16,8 +16,9 @@ const programDetails = {
   description: "Intensive coding and technology training during school breaks",
   longDescription: `Our Holiday Bootcamp program offers intensive coding and technology training during school breaks. Designed for students who want to make the most of their holidays, this program provides an immersive learning experience in a fun and engaging environment.
 
-Participants will work on real-world projects, learn from industry experts, and develop practical skills that will benefit them in their academic and future careers. The bootcamp is structured to be both challenging and enjoyable, with a perfect balance of learning and recreational activities.`,
+Participants will work on real-world projects, learn from industry experts, and develop practical skills that will benefit them in their academic and future careers. The bootcamp is structured to be both challenging and enjoyable, with a perfect balance of learning and recreational activities. Artificial intelligence (AI) is a key focus, with workshops and hands-on sessions to introduce students to AI concepts and applications.`,
   features: [
+    'Artificial Intelligence (AI) workshops',
     'Intensive learning sessions',
     'Project-based curriculum',
     'Industry expert mentorship',

@@ -56,7 +56,7 @@ const slides: SlideContent[] = [
   {
     image: '/images/hero/welcome.jpg',
     title: 'Welcome to Ghana Code Club',
-    description: 'Empowering the next generation of Ghanaian tech leaders through coding education and digital skills training.',
+    description: ' Empowering the next generation of Ghanaian leaders through coding education, AI and digital skills training.',
   },
   {
     image: '/images/hero/slide1.jpg',
@@ -86,7 +86,7 @@ const slides: SlideContent[] = [
   {
     image: '/images/hero/slide6.jpg',
     title: 'Innovation Through Education',
-    description: 'Our curriculum combines cutting-edge technology with practical skills, preparing students for the digital economy and future opportunities.',
+    description: 'Our curriculum combines cutting-edge technologies with practical skills, preparing students for the digital economy and future opportunities.',
   }
 ];
 
@@ -99,7 +99,7 @@ export default function HeroCarousel() {
         navigation
         pagination={{ clickable: true }}
         autoplay={{
-          delay: 5000,
+          delay: 14000, // 14000 milliseconds = 14 seconds
           disableOnInteraction: false,
         }}
         loop={true}
@@ -178,7 +178,7 @@ export default function HeroCarousel() {
                 quality={90}
                 loading={index === 0 ? "eager" : "lazy"}
                 placeholder="blur"
-                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkLzYvLy0vLi44QjY4OEI4Li8vQUVFRUVFRUVFRUVFRUVFRUVFRUX/2wBDAR0XFyAeIBogHiAeIBogHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkLzYvLy0vLi44QjY4OEI4Li8vQUVFRUVFRUVFRUVFRUVFRUVFRUVUX/2wBDAR0XFyAeIBogHiAeIBogHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxAAPwCdABmX/9k="
               />
             </div>
 
@@ -201,7 +201,7 @@ export default function HeroCarousel() {
                       stiffness: 200,
                       damping: 20
                     }}
-                    className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-red-500 to-red-600 backdrop-blur-sm rounded-2xl mb-4 sm:mb-8 rotate-12 flex items-center justify-center relative group shadow-lg shadow-red-500/20 hidden sm:block"
+                    className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-red-500 to-red-600 backdrop-blur-sm rounded-2xl mb-4 sm:mb-8 rotate-12 items-center justify-center relative group shadow-lg shadow-red-500/20 hidden sm:flex"
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-red-400 to-red-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <motion.div
@@ -246,7 +246,9 @@ export default function HeroCarousel() {
                   {/* Enhanced Button with Modern Effects */}
                   <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <motion.a 
-                      href="/donate" 
+                      href="https://docs.google.com/forms/d/e/1FAIpQLSftXm5Upf3eI2-LLv9n33fJDQLeYhfVlcEZl64UdGMz6XQJ8Q/viewform" 
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="group bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold transition-all duration-300 relative overflow-hidden shadow-lg shadow-red-500/20 hover:shadow-red-500/40"
                       whileHover={{ scale: 1.02, boxShadow: "0 20px 25px -5px rgba(239, 68, 68, 0.4)" }}
                       whileTap={{ scale: 0.98 }}
@@ -254,7 +256,7 @@ export default function HeroCarousel() {
                       <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
                       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-red-600 to-red-700"></div>
                       <span className="relative z-10 flex items-center justify-center">
-                        Donate Now
+                        Book a Spot for Your Child
                         <motion.svg 
                           className="w-5 h-5 ml-2 relative z-10"
                           initial={{ x: 0 }}

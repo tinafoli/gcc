@@ -17,12 +17,12 @@ import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://ghanacode.club'),
-  title: 'Ghana Code Club | Teaching Kids to Code',
-  description: 'Ghana Code Club has trained over 120,000 kids, 3,500 teachers, and 324 mentors across 19 centers and schools. Join our mission to empower children aged 5-17 with coding skills through interactive after-school programs.',
+  title: 'Ghana Code Club | Empowering the next generation of Ghanaian leaders through coding education, AI and digital skills training',
+  description: 'Ghana Code Club has trained over 131,000 kids, 7,000 teachers, and 324 mentors across 22 digital learning centers. Join our mission to empower children aged 5-17 with coding skills through interactive after-school programs.',
   keywords: 'Ghana Code Club, kids coding, learn programming Ghana, STEM education Ghana, coding for children, tech education Africa, programming classes Ghana',
   openGraph: {
     title: 'Ghana Code Club - Empowering Young Minds Through Code',
-    description: 'Join Ghana Code Club\'s mission to teach coding to children aged 5-17. With over 120,000 kids trained, 35,000 teachers equipped, and 19 centers established, we\'re transforming digital literacy across Ghana.',
+    description: 'Join Ghana Code Club\'s mission to teach coding to children aged 5-17. With over 131,000 kids trained, 7,000 teachers equipped, and 22 digital learning centers established, we\'re transforming digital literacy across Ghana.',
     url: 'https://ghanacode.club',
     siteName: 'Ghana Code Club',
     images: [{
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Ghana Code Club - Teaching Kids to Code in Ghana',
-    description: 'Over 120,000 kids trained in coding across 19 centers in Ghana. Join our mission to empower the next generation of tech innovators.',
+    description: 'Over 131,000 kids trained in coding across 22 digital learning centers in Ghana. Join our mission to empower the next generation of tech innovators.',
     images: ['https://ghanacode.club/images/home-hero.jpg'],
     creator: '@GhanaCodeClub',
     site: '@GhanaCodeClub',

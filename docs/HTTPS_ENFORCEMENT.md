@@ -14,14 +14,14 @@ This document explains how HTTPS is enforced in the Ghana Code Club website to e
 
 We've implemented multiple layers of HTTPS enforcement to ensure secure connections:
 
-### 1. Server-side Middleware
+### 1. Server-side Proxy
 
-The application includes a Next.js middleware (`src/middleware.ts`) that automatically redirects any HTTP requests to HTTPS:
+The application includes a Next.js proxy (`src/proxy.ts`) that automatically redirects any HTTP requests to HTTPS:
 
 ```typescript
 import { NextRequest, NextResponse } from 'next/server';
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   // Check if the request is secure (HTTPS) or localhost
   const isSecure = request.headers.get('x-forwarded-proto') === 'https' || 
                    request.nextUrl.protocol === 'https:' ||
@@ -96,7 +96,7 @@ In production, ensure that:
 3. HTTP to HTTPS redirection is enabled at the server level.
 4. HSTS (HTTP Strict Transport Security) headers are set for enhanced security.
 
-The middleware in this application provides an additional layer of security, but implementing HTTPS at the server level should be your primary approach in production.
+The proxy in this application provides an additional layer of security, but implementing HTTPS at the server level should be your primary approach in production.
 
 ## Testing HTTPS Enforcement
 

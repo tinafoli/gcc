@@ -18,7 +18,7 @@ const programCategories = [
   {
     id: 'kids-youth',
     title: 'Kids and Youth Programs',
-    description: 'Our programs designed specifically for children and young people, focusing on building foundational coding skills and fostering a love for technology from an early age.',
+    description: 'Our programs are specially designed for children and young people, focusing on building foundational skills in coding and artificial intelligence (AI) while nurturing a passion for technology from an early age.',
     programs: [
       {
         id: '100-girls-in-stem',
@@ -37,7 +37,7 @@ const programCategories = [
       {
         id: 'saturday-coding-school',
         title: 'Saturday Coding School',
-        description: 'A weekly program that provides structured coding education for children aged 7-15. Students learn programming fundamentals through interactive activities, games, and hands-on projects in a fun, supportive environment.',
+        description: 'A weekly program that provides structured coding education for children aged 5-17. Students learn programming fundamentals through interactive activities, games, and hands-on projects in a fun, supportive environment.',
         features: [
           'Age-appropriate curriculum for different skill levels',
           'Small group sessions with personalized attention',
@@ -51,7 +51,7 @@ const programCategories = [
       {
         id: 'summer-code-camp',
         title: 'Summer Code Camp',
-        description: 'An intensive two-week program during school holidays that immerses students in coding and technology. Participants work on real projects, learn from industry experts, and develop both technical and soft skills.',
+        description: 'An intensive eight-week program during school holidays that immerses students in coding and technology. Participants work on real projects, learn from industry experts, and develop both technical and soft skills.',
         features: [
           'Daily coding sessions and workshops',
           'Guest speakers from tech industry',
