@@ -319,9 +319,9 @@ export default function ClientAboutPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 overflow-x-hidden w-full max-w-[100vw]">
       {/* Hero Section */}
-      <section className="relative py-20 bg-gray-900 text-white overflow-hidden">
+      <section className="relative py-20 bg-gray-900 text-white overflow-hidden w-full max-w-full">
         {/* Background Image and Overlay */}
         <div className="absolute inset-0">
           <Image
@@ -598,7 +598,7 @@ export default function ClientAboutPage() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-[80%] mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-[90%] md:max-w-[80%] mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -803,7 +803,7 @@ export default function ClientAboutPage() {
           </motion.div>
 
           <div 
-            className="max-w-[90%] mx-auto relative" 
+            className="w-full max-w-full mx-auto relative" 
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             ref={sliderRef}
@@ -820,7 +820,7 @@ export default function ClientAboutPage() {
                 {isMobile ? (
                   // Mobile view shows one at a time
                   teamMembers.map((member) => (
-                    <div key={member.id} className="w-full flex-shrink-0 px-2">
+                    <div key={member.id} className="w-full flex-shrink-0" style={{ padding: '0 0.25rem' }}>
                       <motion.div 
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -1003,7 +1003,7 @@ export default function ClientAboutPage() {
           </motion.div>
 
           <div 
-            className="max-w-[90%] mx-auto relative" 
+            className="w-full max-w-full mx-auto relative" 
             onMouseEnter={handleBoardMouseEnter}
             onMouseLeave={handleBoardMouseLeave}
             ref={boardSliderRef}
@@ -1020,7 +1020,7 @@ export default function ClientAboutPage() {
                 {isMobile ? (
                   // Mobile view shows one at a time
                   boardMembers.map((member) => (
-                    <div key={member.id} className="w-full flex-shrink-0 px-2">
+                    <div key={member.id} className="w-full flex-shrink-0" style={{ padding: '0 0.25rem' }}>
                       <motion.div 
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}

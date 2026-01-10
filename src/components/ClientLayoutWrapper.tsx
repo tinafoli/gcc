@@ -19,7 +19,7 @@ export default function ClientLayoutWrapper({ children }: { children: React.Reac
       <PageTransitionHandler />
       <ScrollRestoration />
       <Navigation />
-      <main className="flex-grow">
+      <main className="flex-grow overflow-x-hidden w-full max-w-full">
         {children}
       </main>
       <Footer />
