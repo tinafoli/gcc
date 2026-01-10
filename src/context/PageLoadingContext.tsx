@@ -15,7 +15,7 @@ const PageLoadingContext = createContext<PageLoadingContextType>({
 });
 
 export function PageLoadingProvider({ children }: { children: ReactNode }) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const startLoading = useCallback(() => {
     setIsLoading(true);
