@@ -9,6 +9,11 @@ export default function PageTransitionHandler() {
   const { startLoading, stopLoading } = usePageLoading();
 
   useEffect(() => {
+    // Ensure we're in the browser environment
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      return;
+    }
+
     // Start loading on pathname change (navigation)
     startLoading();
     

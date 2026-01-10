@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, ReactNode, useCallback } from 'react';
+import { createContext, useContext, useState, ReactNode, useCallback, useEffect } from 'react';
 
 interface PageLoadingContextType {
   isLoading: boolean;
@@ -15,7 +15,13 @@ const PageLoadingContext = createContext<PageLoadingContextType>({
 });
 
 export function PageLoadingProvider({ children }: { children: ReactNode }) {
-  const [isLoading, setIsLoading] = useState(true);
+  // Initialize as false to avoid SSR hydration issues, then set to true on client mount
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Start loading on client side only to ensure preloader shows on initial visit
+  useEffect(() => {
+    setIsLoading(true);
+  }, []);
 
   const startLoading = useCallback(() => {
     setIsLoading(true);
