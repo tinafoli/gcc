@@ -9,19 +9,14 @@ interface PageLoadingContextType {
 }
 
 const PageLoadingContext = createContext<PageLoadingContextType>({
-  isLoading: false,
+  isLoading: true, // Start as true to show preloader immediately
   startLoading: () => {},
   stopLoading: () => {},
 });
 
 export function PageLoadingProvider({ children }: { children: ReactNode }) {
-  // Initialize as false to avoid SSR hydration issues, then set to true on client mount
-  const [isLoading, setIsLoading] = useState(false);
-
-  // Start loading on client side only to ensure preloader shows on initial visit
-  useEffect(() => {
-    setIsLoading(true);
-  }, []);
+  // Start with true on initial load to show preloader immediately, then check if we need to hide it
+  const [isLoading, setIsLoading] = useState(true);
 
   const startLoading = useCallback(() => {
     setIsLoading(true);

@@ -1,6 +1,6 @@
 'use client';
 
-import { PageLoadingProvider } from '@/context/PageLoadingContext';
+import { PageLoadingProvider, usePageLoading } from '@/context/PageLoadingContext';
 import PageLoaderWrapper from '@/components/PageLoaderWrapper';
 import PageTransitionHandler from '@/components/PageTransitionHandler';
 import ScrollRestoration from '@/components/ScrollRestoration';
@@ -12,17 +12,33 @@ const Footer = dynamic(() => import('@/components/Footer'), {
   ssr: true,
 });
 
-export default function ClientLayoutWrapper({ children }: { children: React.ReactNode }) {
+function LayoutContent({ children }: { children: React.ReactNode }) {
+  const { isLoading } = usePageLoading();
+  
   return (
-    <PageLoadingProvider>
+    <>
       <PageLoaderWrapper />
       <PageTransitionHandler />
       <ScrollRestoration />
       <Navigation />
-      <main className="flex-grow overflow-x-hidden w-full max-w-full">
+      {/* Hide main content until preloader is done - prevents FOUC */}
+      <main 
+        className={`flex-grow overflow-x-hidden w-full max-w-full transition-opacity duration-300 ${
+          isLoading ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        }`}
+        style={{ visibility: isLoading ? 'hidden' : 'visible' }}
+      >
         {children}
       </main>
       <Footer />
+    </>
+  );
+}
+
+export default function ClientLayoutWrapper({ children }: { children: React.ReactNode }) {
+  return (
+    <PageLoadingProvider>
+      <LayoutContent>{children}</LayoutContent>
     </PageLoadingProvider>
   );
 }

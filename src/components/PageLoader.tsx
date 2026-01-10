@@ -19,11 +19,15 @@ export default function PageLoader({ isLoading }: PageLoaderProps) {
     <AnimatePresence mode="wait">
       {isLoading && (
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: 0.3 }}
           className="fixed inset-0 z-[9999] bg-gradient-to-br from-red-50 via-white to-red-50 flex items-center justify-center"
+          style={{ 
+            visibility: isLoading ? 'visible' : 'hidden',
+            display: isLoading ? 'flex' : 'none'
+          }}
         >
           {/* Animated Background Elements */}
           <div className="absolute inset-0 overflow-hidden">
