@@ -107,7 +107,7 @@ export default function Navigation() {
                 priority
               />
             </div>
-            <span className={`ml-3 text-xl ${scrolled ? 'text-gray-900' : 'text-gray-800'} font-['Delius']`}>
+            <span className={`ml-3 text-xl ${scrolled ? 'text-gray-900' : 'text-gray-800'} font-['Delius'] cursor-pointer`}>
               Ghana Code Club
             </span>
           </Link>
@@ -162,6 +162,19 @@ export default function Navigation() {
               <span className="relative z-10">Blog</span>
               <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-red-500 transition-all duration-200 ${
                 pathname === '/blog' ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+              }`}></span>
+            </Link>
+            
+            <Link 
+              href="/resources" 
+              onClick={handleLinkClick}
+              className={`${scrolled ? 'text-gray-700 hover:text-gray-900' : 'text-gray-700 hover:text-red-600'} px-4 py-2 rounded-md transition-colors duration-200 relative group ${
+                pathname === '/resources' ? 'text-red-600' : ''
+              }`}
+            >
+              <span className="relative z-10">Resources</span>
+              <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-red-500 transition-all duration-200 ${
+                pathname === '/resources' ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
               }`}></span>
             </Link>
             
@@ -250,6 +263,16 @@ export default function Navigation() {
                     }`}
                   >
                     Blog
+                  </button>
+                  <button 
+                    onClick={() => handleMobileNavigation('/resources')}
+                    className={`w-full text-left px-3 py-2 rounded-md transition-colors ${
+                      pathname === '/resources' 
+                        ? 'text-red-600 bg-red-50' 
+                        : 'text-gray-700 hover:text-red-500 hover:bg-gray-50'
+                    }`}
+                  >
+                    Resources
                   </button>
                   <button 
                     onClick={() => handleMobileNavigation('/contact')}

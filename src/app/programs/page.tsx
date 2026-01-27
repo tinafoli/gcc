@@ -1,9 +1,5 @@
 import { Metadata } from 'next';
 import ClientProgramsPage from './client-programs-page';
-import Image from 'next/image';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { delius } from '@/lib/fonts';
 
 export const metadata: Metadata = {
   title: 'Programs',

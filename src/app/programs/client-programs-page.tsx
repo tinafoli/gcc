@@ -603,6 +603,7 @@ export default function ClientProgramsPage() {
                     src="/images/adults-tech.jpg"
                     alt="Adults in Tech"
                     fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute top-4 left-4">
@@ -676,6 +677,7 @@ export default function ClientProgramsPage() {
                     src="/images/saturday-school.jpg"
                     alt="Saturday Coding School"
                     fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute top-4 left-4">

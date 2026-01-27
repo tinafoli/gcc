@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Delius } from "next/font/google";
 import "./globals.css";
 import dynamic from 'next/dynamic';
 import { CartProvider } from '@/context/CartContext';
@@ -11,6 +11,13 @@ const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
+});
+
+const delius = Delius({
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-delius',
 });
 
 
@@ -114,11 +121,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${delius.variable}`} suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet" />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="16x16" href="/images/gcc-logo.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/images/gcc-logo.png" />
@@ -136,20 +140,97 @@ export default function RootLayout({
           strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
-              window.fbAsyncInit = function() {
-                FB.init({
-                  appId: '${process.env.NEXT_PUBLIC_FACEBOOK_APP_ID}',
-                  xfbml: true,
-                  version: 'v17.0'
-                });
-              };
-              (function(d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) return;
-                js = d.createElement(s); js.id = id;
-                js.src = "https://connect.facebook.net/en_US/sdk.js";
-                fjs.parentNode.insertBefore(js, fjs);
-              }(document, 'script', 'facebook-jssdk'));
+              (function() {
+                // Suppress third-party tracking errors (non-critical)
+                if (typeof window !== 'undefined') {
+                  const originalError = window.onerror;
+                  window.addEventListener('error', function(e) {
+                    const message = e.message || '';
+                    const source = e.filename || '';
+                    // Suppress Facebook tracking endpoint 503 errors
+                    if ((message.includes('track') || source.includes('facebook')) && 
+                        (message.includes('503') || message.includes('Failed to load'))) {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      return true;
+                    }
+                    // Suppress TikTok CORS credential errors (browser-settings endpoint)
+                    if (message.includes('CORS') && 
+                        (message.includes('browser-settings') || message.includes('tiktok') || 
+                         message.includes('Access-Control-Allow-Credentials'))) {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      return true;
+                    }
+                  }, true);
+                  
+                  // Suppress resource loading errors for Facebook tracking
+                  window.addEventListener('unhandledrejection', function(e) {
+                    const reason = e.reason?.message || String(e.reason || '');
+                    if (reason.includes('track') && reason.includes('503')) {
+                      e.preventDefault();
+                    }
+                    // Suppress TikTok CORS errors
+                    if (reason.includes('CORS') && 
+                        (reason.includes('browser-settings') || reason.includes('tiktok'))) {
+                      e.preventDefault();
+                    }
+                  });
+                  
+                  // Suppress console errors for TikTok CORS (if console.error is called)
+                  const originalConsoleError = console.error;
+                  console.error = function(...args) {
+                    const message = args.join(' ');
+                    // Suppress TikTok CORS credential warnings
+                    if (message.includes('CORS') && 
+                        (message.includes('browser-settings') || message.includes('tiktok') || 
+                         message.includes('Access-Control-Allow-Credentials'))) {
+                      return;
+                    }
+                    originalConsoleError.apply(console, args);
+                  };
+                  
+                  // Suppress console warnings for deprecated APIs (Shared Storage, etc.)
+                  const originalConsoleWarn = console.warn;
+                  console.warn = function(...args) {
+                    const message = args.join(' ');
+                    // Suppress Shared Storage API deprecation warnings (from third-party scripts)
+                    if (message.includes('Shared Storage API') || 
+                        message.includes('webmssdk') ||
+                        (message.includes('deprecated') && message.includes('Storage'))) {
+                      return;
+                    }
+                    originalConsoleWarn.apply(console, args);
+                  };
+                }
+                
+                window.fbAsyncInit = function() {
+                  try {
+                    if (typeof FB !== 'undefined') {
+                      FB.init({
+                        appId: '${process.env.NEXT_PUBLIC_FACEBOOK_APP_ID}',
+                        xfbml: true,
+                        version: 'v17.0',
+                        status: false,
+                        cookie: false
+                      });
+                    }
+                  } catch (e) {
+                    // Silently handle initialization errors
+                  }
+                };
+                
+                (function(d, s, id) {
+                  var js, fjs = d.getElementsByTagName(s)[0];
+                  if (d.getElementById(id)) return;
+                  js = d.createElement(s); js.id = id;
+                  js.src = "https://connect.facebook.net/en_US/sdk.js";
+                  js.onerror = function() {
+                    // Silently handle script loading errors
+                  };
+                  fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));
+              })();
             `
           }}
         />

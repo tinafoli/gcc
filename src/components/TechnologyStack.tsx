@@ -110,6 +110,7 @@ export default function TechnologyStack() {
                     src={tech.icon}
                     alt={tech.alt}
                     fill
+                    sizes="(max-width: 640px) 160px, (max-width: 768px) 128px, 112px"
                     className="object-contain p-3 sm:p-2.5 group-hover:scale-110 transition-transform duration-300"
                   />
                   <motion.div 

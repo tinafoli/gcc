@@ -25,6 +25,7 @@ export const SocialMediaFeeds = dynamic(() => import("@/components/SocialMediaFe
 });
 
 export const TechnologyStack = dynamic(() => import('@/components/TechnologyStack'), {
+  ssr: false,
   loading: () => <div className="h-96 bg-gray-100 animate-pulse" />
 });
 

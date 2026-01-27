@@ -6,7 +6,7 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128],
     formats: ['image/webp'],
     minimumCacheTTL: 60,
-    qualities: [60, 75],
+    qualities: [60, 75, 90],
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
@@ -52,4 +52,4 @@ const nextConfig = {
   turbopack: undefined,
 };
 
-export default nextConfig; 
+export default nextConfig;

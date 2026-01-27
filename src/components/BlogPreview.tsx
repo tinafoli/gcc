@@ -108,6 +108,7 @@ export default function BlogPreview({ posts }: BlogPreviewProps) {
                          activeImageIndices[post.id] === 1 ? post.image2 : post.image3}
                     alt={post.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover transition-transform duration-300 hover:scale-105"
                   />
                 </motion.div>

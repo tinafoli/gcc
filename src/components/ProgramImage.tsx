@@ -27,6 +27,7 @@ export default function ProgramImage({ src, alt, className }: ProgramImageProps)
       src={src}
       alt={alt}
       fill
+      sizes="(max-width: 768px) 100vw, 33vw"
       className={className}
       onError={() => setError(true)}
     />

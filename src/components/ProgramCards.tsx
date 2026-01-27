@@ -359,7 +359,8 @@ export default function ProgramCards() {
                   sizes={typeof window !== 'undefined' && window.innerWidth < 640 && mobileCardWidth > 0 
                     ? `${mobileCardWidth}px` 
                     : '(max-width: 640px) calc(100vw - 3rem), 300px'}
-                  priority={index < 3}
+                  priority={true}
+                  loading="eager"
                 />
                 <div className={`absolute top-3 left-3 ${tagColors.bg} ${tagColors.text} px-2.5 py-1 rounded-full text-xs sm:text-sm font-medium`}>
                   {program.tag}

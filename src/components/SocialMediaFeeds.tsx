@@ -39,8 +39,8 @@ const socialMediaFeeds: SocialMediaFeed[] = [
         <circle cx="4" cy="4" r="2" />
       </svg>
     ),
-    embedUrl: "https://www.linkedin.com/embed/feed/update/urn:li:activity:7374370754961846273",
-    profileUrl: "https://www.linkedin.com/posts/ghana-code-club_100girlsinstem-girlsinict-stemeducation-activity-7374370754961846273-vV1r?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE71zwwBAQc_iS6a_42u1pQ3CSOAWPIwniU",
+    embedUrl: "https://www.linkedin.com/embed/feed/update/urn:li:activity:7416748561272528896",
+    profileUrl: "https://www.linkedin.com/posts/ghana-code-club_ghanacodeclub-ailiteracy-ecobank-activity-7416748561272528896-Qnvd?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE71zwwBAQc_iS6a_42u1pQ3CSOAWPIwniU",
     brandColor: "bg-[#0077b5] hover:bg-[#005e8c]"
   }
 ];
@@ -85,6 +85,7 @@ export default function SocialMediaFeeds() {
                       src="/images/gcc-logo.png"
                       alt="Ghana Code Club"
                       fill
+                      sizes="64px"
                       className="object-cover"
                     />
                   </div>
