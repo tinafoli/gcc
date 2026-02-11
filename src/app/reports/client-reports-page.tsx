@@ -4,7 +4,8 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { FiDownload, FiFile, FiArrowLeft } from 'react-icons/fi';
 import { Delius } from 'next/font/google';
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 
 const delius = Delius({ 
   weight: '400',
@@ -54,8 +55,72 @@ const impactReports = [
   }
 ];
 
+function PdfPreview({ pdfUrl, year }: { pdfUrl: string; year: string }) {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [pdfLib, setPdfLib] = useState<{ Document: React.ComponentType<any>; Page: React.ComponentType<any> } | null>(null);
+
+  useEffect(() => {
+    // Dynamically import react-pdf only on client side
+    import('react-pdf').then((mod) => {
+      mod.pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${mod.pdfjs.version}/build/pdf.worker.min.mjs`;
+      setPdfLib({ Document: mod.Document, Page: mod.Page });
+    }).catch(() => {
+      setError(true);
+      setLoading(false);
+    });
+  }, []);
+
+  const onDocumentLoadSuccess = useCallback(() => {
+    setLoading(false);
+  }, []);
+
+  const onDocumentLoadError = useCallback(() => {
+    setLoading(false);
+    setError(true);
+  }, []);
+
+  return (
+    <div className="relative w-full aspect-[3/4] bg-gray-100 rounded-t-xl overflow-hidden">
+      {loading && !error && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 z-10">
+          <div className="text-center">
+            <div className="w-8 h-8 border-3 border-red-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+            <p className="text-sm text-gray-500">Loading preview...</p>
+          </div>
+        </div>
+      )}
+      {error || !pdfLib ? (
+        !pdfLib && !error ? null : (
+          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-red-50 to-red-100">
+            <div className="text-center p-4">
+              <FiFile className="w-12 h-12 text-red-400 mx-auto mb-3" />
+              <p className="text-lg font-bold text-gray-800">{year} Report</p>
+              <p className="text-sm text-gray-500 mt-1">Click to view</p>
+            </div>
+          </div>
+        )
+      ) : (
+        <pdfLib.Document
+          file={pdfUrl}
+          onLoadSuccess={onDocumentLoadSuccess}
+          onLoadError={onDocumentLoadError}
+          loading={null}
+        >
+          <pdfLib.Page
+            pageNumber={1}
+            width={400}
+            renderTextLayer={false}
+            renderAnnotationLayer={false}
+          />
+        </pdfLib.Document>
+      )}
+    </div>
+  );
+}
+
 export default function ClientReportsPage() {
-  const [showPdfViewer, setShowPdfViewer] = useState<'2022' | '2023' | '2025' | null>(null);
+  const [showPdfViewer, setShowPdfViewer] = useState<string | null>(null);
 
   // Structured data for SEO
   const impactReportsJsonLd = {
@@ -124,60 +189,76 @@ export default function ClientReportsPage() {
                 key={report.year}
                 itemScope
                 itemType="https://schema.org/Report"
-                className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow group"
               >
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="p-8"
                 >
-                  <div className="mb-6">
-                    <span className="inline-block bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm font-semibold mb-3">
-                      {report.year}
-                    </span>
-                    <h2 itemProp="name" className={`text-2xl font-bold text-gray-900 mb-3 ${delius.className}`}>
+                  {/* PDF Preview */}
+                  <a
+                    href={report.pdfUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block relative cursor-pointer"
+                  >
+                    <PdfPreview pdfUrl={report.pdfUrl} year={report.year} />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 backdrop-blur-sm rounded-full p-4 shadow-lg">
+                        <FiFile className="w-6 h-6 text-red-600" />
+                      </div>
+                    </div>
+                    <div className="absolute top-3 left-3">
+                      <span className="bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold shadow-md">
+                        {report.year}
+                      </span>
+                    </div>
+                  </a>
+
+                  {/* Content */}
+                  <div className="p-6">
+                    <h2 itemProp="name" className={`text-xl font-bold text-gray-900 mb-2 ${delius.className}`}>
                       {report.title}
                     </h2>
                     <meta itemProp="datePublished" content={report.datePublished} />
-                    <p itemProp="description" className="text-gray-600 mb-4">
+                    <p itemProp="description" className="text-gray-600 text-sm mb-4 line-clamp-2">
                       {report.description}
                     </p>
-                  </div>
 
-                  <div className="mb-6">
-                    <h3 className="text-sm font-semibold text-gray-700 mb-2">Key Highlights:</h3>
-                    <ul className="space-y-2">
-                      {report.highlights.map((highlight, i) => (
-                        <li key={i} className="flex items-start text-sm text-gray-600">
-                          <span className="text-red-600 mr-2">•</span>
-                          {highlight}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                    <div className="mb-4">
+                      <ul className="space-y-1">
+                        {report.highlights.slice(0, 3).map((highlight, i) => (
+                          <li key={i} className="flex items-start text-xs text-gray-600">
+                            <span className="text-red-600 mr-1.5 mt-0.5">&#x2022;</span>
+                            {highlight}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
 
-                  <div className="flex flex-col gap-3">
-                    <a
-                      href={report.pdfUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      itemProp="url"
-                      className="inline-flex items-center justify-center bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors font-semibold"
-                      aria-label={`Download ${report.title} PDF`}
-                    >
-                      <FiDownload className="mr-2" />
-                      Download PDF
-                    </a>
-                    <button 
-                      onClick={() => setShowPdfViewer(report.year as '2022' | '2023' | '2025')} 
-                      className="inline-flex items-center justify-center bg-gray-100 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-200 transition-colors font-semibold"
-                      aria-label={`View ${report.title}`}
-                    >
-                      <FiFile className="mr-2" />
-                      View Online
-                    </button>
+                    <div className="flex gap-2">
+                      <a
+                        href={report.pdfUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        itemProp="url"
+                        className="flex-1 inline-flex items-center justify-center bg-red-600 text-white px-4 py-2.5 rounded-lg hover:bg-red-700 transition-colors font-semibold text-sm"
+                        aria-label={`Download ${report.title} PDF`}
+                      >
+                        <FiDownload className="mr-1.5 w-4 h-4" />
+                        Download
+                      </a>
+                      <button 
+                        onClick={() => setShowPdfViewer(report.year)} 
+                        className="flex-1 inline-flex items-center justify-center bg-gray-100 text-gray-700 px-4 py-2.5 rounded-lg hover:bg-gray-200 transition-colors font-semibold text-sm"
+                        aria-label={`View ${report.title}`}
+                      >
+                        <FiFile className="mr-1.5 w-4 h-4" />
+                        View
+                      </button>
+                    </div>
                   </div>
                 </motion.div>
               </article>
@@ -258,7 +339,3 @@ export default function ClientReportsPage() {
     </div>
   );
 }
-
-
-
-
