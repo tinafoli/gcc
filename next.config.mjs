@@ -43,6 +43,11 @@ const nextConfig = {
   },
   webpack: (config) => {
     config.resolve.fallback = { fs: false, path: false };
+    // Fix for pdfjs-dist canvas dependency in browser
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      canvas: false,
+    };
     return config;
   },
   // Server components configuration
