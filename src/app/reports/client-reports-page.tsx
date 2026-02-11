@@ -14,6 +14,19 @@ const delius = Delius({
 
 const impactReports = [
   {
+    year: '2025',
+    title: '2025 Annual Impact Report',
+    description: 'Ghana Code Club\'s 2025 annual impact report highlighting our continued growth, expanded digital learning centers, and deepened impact across Ghana.',
+    datePublished: '2025-12-31',
+    pdfUrl: '/reports/gcc-annual-impact-report-2025.pdf',
+    highlights: [
+      '131,000+ kids trained in coding and digital skills',
+      '7,000+ teachers trained across Ghana',
+      '22+ digital learning centers established',
+      '30,000+ girls trained through 100 Girls in STEM'
+    ]
+  },
+  {
     year: '2023',
     title: '2023 Annual Impact Report',
     description: 'Ghana Code Club\'s 2023 annual impact report detailing our achievements in training students, teachers, and expanding our reach across Ghana.',
@@ -42,7 +55,7 @@ const impactReports = [
 ];
 
 export default function ClientReportsPage() {
-  const [showPdfViewer, setShowPdfViewer] = useState<'2022' | '2023' | null>(null);
+  const [showPdfViewer, setShowPdfViewer] = useState<'2022' | '2023' | '2025' | null>(null);
 
   // Structured data for SEO
   const impactReportsJsonLd = {
@@ -105,7 +118,7 @@ export default function ClientReportsPage() {
       {/* Reports Section */}
       <section className="py-16" itemScope itemType="https://schema.org/ItemList">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {impactReports.map((report, index) => (
               <article
                 key={report.year}
@@ -158,7 +171,7 @@ export default function ClientReportsPage() {
                       Download PDF
                     </a>
                     <button 
-                      onClick={() => setShowPdfViewer(report.year as '2022' | '2023')} 
+                      onClick={() => setShowPdfViewer(report.year as '2022' | '2023' | '2025')} 
                       className="inline-flex items-center justify-center bg-gray-100 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-200 transition-colors font-semibold"
                       aria-label={`View ${report.title}`}
                     >
