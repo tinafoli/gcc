@@ -55,6 +55,13 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(url, 301);
   }
   
+  // Redirect /report to /reports
+  if (pathname === '/report' || pathname === '/report/') {
+    const url = request.nextUrl.clone();
+    url.pathname = '/reports';
+    return NextResponse.redirect(url, 301);
+  }
+  
   // Redirect girls in STEM/tech related searches to the program page
   if (pathname === '/girls-in-stem' || pathname === '/girls-in-stem/' ||
       pathname === '/girls-in-tech' || pathname === '/girls-in-tech/' ||
