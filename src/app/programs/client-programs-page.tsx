@@ -414,61 +414,99 @@ export default function ClientProgramsPage() {
         <section className="py-16">
           <div className="container mx-auto px-4">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="text-center mb-16"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-['Delius']">Program Categories</h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              <motion.h2 
+                className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-['Delius']"
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                Program Categories
+              </motion.h2>
+              <motion.p 
+                className="text-xl text-gray-600 max-w-3xl mx-auto"
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
                 Our programs are organized into three main categories, each targeting specific age groups and learning objectives.
-              </p>
+              </motion.p>
             </motion.div>
 
             <div className="space-y-16">
               {programCategories.map((category, index) => (
                 <motion.div
                   key={category.id}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.2 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.6, delay: index * 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
                   className="bg-white rounded-xl shadow-md overflow-hidden"
                 >
                   <div className="p-8">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4 font-['Delius']">{category.title}</h3>
-                    <p className="text-gray-600 mb-8">{category.description}</p>
+                    <motion.h3 
+                      className="text-2xl font-bold text-gray-900 mb-4 font-['Delius']"
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true, amount: 0.3 }}
+                      transition={{ duration: 0.5, delay: 0.1 }}
+                    >
+                      {category.title}
+                    </motion.h3>
+                    <motion.p 
+                      className="text-gray-600 mb-8"
+                      initial={{ opacity: 0, y: 15 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.3 }}
+                      transition={{ duration: 0.5, delay: 0.2 }}
+                    >
+                      {category.description}
+                    </motion.p>
                     
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                      {category.programs.map((program) => (
-                        <Link 
+                      {category.programs.map((program, programIndex) => (
+                        <motion.div
                           key={program.id}
-                          href={program.link}
-                          className="group block bg-gray-50 rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300"
+                          initial={{ opacity: 0, y: 25, scale: 0.95 }}
+                          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                          viewport={{ once: true, amount: 0.2 }}
+                          transition={{ duration: 0.5, delay: programIndex * 0.12, ease: [0.25, 0.46, 0.45, 0.94] }}
+                          whileHover={{ y: -5 }}
                         >
-                          <div className="relative h-48">
-                            <ProgramImage
-                              src={program.image}
-                              alt={program.title}
-                              className="object-cover group-hover:scale-105 transition-transform duration-300"
-                            />
-                          </div>
-                          <div className="p-6">
-                            <h4 className={`text-xl font-semibold text-gray-900 mb-2 group-hover:text-red-500 transition-colors ${delius.className}`}>
-                              {program.title}
-                            </h4>
-                            <p className="text-gray-600 mb-4 line-clamp-3">
-                              {program.description}
-                            </p>
-                            <div className="flex items-center text-red-500 font-medium">
-                              <span>Learn More</span>
-                              <svg className="w-5 h-5 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                              </svg>
+                          <Link 
+                            href={program.link}
+                            className="group block bg-gray-50 rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 h-full"
+                          >
+                            <div className="relative h-48">
+                              <ProgramImage
+                                src={program.image}
+                                alt={program.title}
+                                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                              />
                             </div>
-                          </div>
-                        </Link>
+                            <div className="p-6">
+                              <h4 className={`text-xl font-semibold text-gray-900 mb-2 group-hover:text-red-500 transition-colors ${delius.className}`}>
+                                {program.title}
+                              </h4>
+                              <p className="text-gray-600 mb-4 line-clamp-3">
+                                {program.description}
+                              </p>
+                              <div className="flex items-center text-red-500 font-medium">
+                                <span>Learn More</span>
+                                <svg className="w-5 h-5 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                              </div>
+                            </div>
+                          </Link>
+                        </motion.div>
                       ))}
                     </div>
                   </div>
@@ -482,72 +520,83 @@ export default function ClientProgramsPage() {
         <section className="py-16">
           <div className="container mx-auto px-4">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="text-center mb-16"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-['Delius']">Why Choose Our Programs?</h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              <motion.h2 
+                className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-['Delius']"
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                Why Choose Our Programs?
+              </motion.h2>
+              <motion.p 
+                className="text-xl text-gray-600 max-w-3xl mx-auto"
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
                 Our programs are designed with a focus on quality, accessibility, and real-world application.
-              </p>
+              </motion.p>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="bg-gray-50 p-8 rounded-xl"
-              >
-                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-6">
-                  <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                  </svg>
-                </div>
-                <h3 className={`text-xl font-bold text-gray-900 mb-4 ${delius.className}`}>Innovative Curriculum</h3>
-                <p className="text-gray-600">
-                  Our curriculum is constantly evolving to incorporate the latest technologies and teaching methodologies, ensuring students learn relevant skills for the digital age.
-                </p>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                className="bg-gray-50 p-8 rounded-xl"
-              >
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
-                  <svg className="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                </div>
-                <h3 className={`text-xl font-bold text-gray-900 mb-4 ${delius.className}`}>Expert Instructors</h3>
-                <p className="text-gray-600">
-                  Our instructors are experienced professionals with backgrounds in education and technology, providing students with high-quality guidance and mentorship.
-                </p>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.6 }}
-                className="bg-gray-50 p-8 rounded-xl"
-              >
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
-                  <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                </div>
-                <h3 className={`text-xl font-bold text-gray-900 mb-4 ${delius.className}`}>Real-World Projects</h3>
-                <p className="text-gray-600">
-                  Students work on practical projects that solve real problems, helping them develop portfolio-worthy work and gain hands-on experience.
-                </p>
-              </motion.div>
+              {[
+                {
+                  icon: (
+                    <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                  ),
+                  bgColor: "bg-red-100",
+                  title: "Innovative Curriculum",
+                  description: "Our curriculum is constantly evolving to incorporate the latest technologies and teaching methodologies, ensuring students learn relevant skills for the digital age."
+                },
+                {
+                  icon: (
+                    <svg className="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                  ),
+                  bgColor: "bg-blue-100",
+                  title: "Expert Instructors",
+                  description: "Our instructors are experienced professionals with backgrounds in education and technology, providing students with high-quality guidance and mentorship."
+                },
+                {
+                  icon: (
+                    <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  ),
+                  bgColor: "bg-green-100",
+                  title: "Real-World Projects",
+                  description: "Students work on practical projects that solve real problems, helping them develop portfolio-worthy work and gain hands-on experience."
+                }
+              ].map((feature, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.6, delay: index * 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  whileHover={{ y: -5, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" }}
+                  className="bg-gray-50 p-8 rounded-xl transition-all duration-300"
+                >
+                  <div className={`w-16 h-16 ${feature.bgColor} rounded-full flex items-center justify-center mb-6`}>
+                    {feature.icon}
+                  </div>
+                  <h3 className={`text-xl font-bold text-gray-900 mb-4 ${delius.className}`}>{feature.title}</h3>
+                  <p className="text-gray-600">
+                    {feature.description}
+                  </p>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
@@ -569,32 +618,50 @@ export default function ClientProgramsPage() {
 
           <div className="container mx-auto px-4 relative z-10">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="text-center mb-12"
             >
-              <div className="inline-block">
+              <motion.div 
+                className="inline-block"
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5 }}
+              >
                 <span className="inline-flex items-center bg-red-100 text-red-600 text-sm font-bold px-4 py-1 rounded-full mb-4">
                   <span className="mr-2">🔥</span> Currently Running
                 </span>
-              </div>
-              <h2 className={`text-4xl font-bold text-gray-900 mb-4 ${delius.className}`}>
+              </motion.div>
+              <motion.h2 
+                className={`text-4xl font-bold text-gray-900 mb-4 ${delius.className}`}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
                 Currently Running Programs
-              </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              </motion.h2>
+              <motion.p 
+                className="text-xl text-gray-600 max-w-3xl mx-auto"
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
                 Join our active programs and start your tech journey today! These programs are currently in session and accepting new participants.
-              </p>
+              </motion.p>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
               {/* Adults in Tech Card */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.1 }}
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.6, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
                 className="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl transition-shadow duration-300"
               >
                 <div className="relative h-48 overflow-hidden">
@@ -665,10 +732,10 @@ export default function ClientProgramsPage() {
 
               {/* Saturday Coding School Card */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.6, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
                 className="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl transition-shadow duration-300"
               >
                 <div className="relative h-48 overflow-hidden">
@@ -744,15 +811,29 @@ export default function ClientProgramsPage() {
         <section className="py-16 bg-gradient-to-r from-red-500 to-red-600 text-white">
           <div className="container mx-auto px-4 text-center">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
             >
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 font-['Delius']">Ready to Start Your Coding Journey?</h2>
-              <p className="text-xl mb-8 max-w-3xl mx-auto">
+              <motion.h2 
+                className="text-3xl md:text-4xl font-bold mb-6 font-['Delius']"
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                Ready to Start Your Coding Journey?
+              </motion.h2>
+              <motion.p 
+                className="text-xl mb-8 max-w-3xl mx-auto"
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
                 Join one of our programs today and take the first step towards a future in technology. Our team is here to help you find the right program for your needs.
-              </p>
+              </motion.p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Link href="/contact#contact-form" className="bg-white text-red-500 px-8 py-3 rounded-md font-semibold hover:bg-gray-100 transition-colors">
                   Contact Us

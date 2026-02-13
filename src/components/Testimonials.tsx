@@ -132,18 +132,30 @@ export default function Testimonials() {
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold text-gray-900 mb-4 font-['Delius']">
+          <motion.h2 
+            className="text-4xl font-bold text-gray-900 mb-4 font-['Delius']"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
             <span className="text-red-500">Why Our Community</span> Loves Us
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto font-['Delius']">
+          </motion.h2>
+          <motion.p 
+            className="text-xl text-gray-600 max-w-3xl mx-auto font-['Delius']"
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
             Hear the inspiring stories from our students and parents about their journey with Ghana Code Club
-          </p>
+          </motion.p>
         </motion.div>
 
         <div className="relative">
@@ -154,7 +166,7 @@ export default function Testimonials() {
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: true, amount: 0.2 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     className="bg-white rounded-xl shadow-lg p-6 h-full border border-red-100 hover:shadow-xl transition-shadow duration-300"
                   >

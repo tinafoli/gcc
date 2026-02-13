@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { FaLinkedin, FaTwitter, FaYoutube, FaFacebook, FaInstagram, FaTiktok } from 'react-icons/fa';
 import { Delius } from 'next/font/google';
 import Script from 'next/script';
+import { usePageLoading } from '@/context/PageLoadingContext';
 
 const delius = Delius({
   weight: '400',
@@ -75,22 +76,17 @@ export default function ClientContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [isMapLoaded, setIsMapLoaded] = useState(false);
+  const { isLoading } = usePageLoading();
 
-  // Add useEffect for map initialization
+  // Force map iframe to resize properly after preloader finishes
   useEffect(() => {
-    // Reset map loaded state when component mounts or route changes
-    setIsMapLoaded(false);
-    
-    // Small delay to ensure iframe reloads properly
-    const timer = setTimeout(() => {
-      const mapIframe = document.querySelector('iframe');
-      if (mapIframe) {
-        mapIframe.src = mapIframe.src;
-      }
-    }, 100);
-
-    return () => clearTimeout(timer);
-  }, []); // Empty dependency array means this runs once when component mounts
+    if (!isLoading) {
+      const timer = setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -366,33 +362,50 @@ export default function ClientContactPage() {
       <section className="py-16">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-4 font-['Delius']">Find Us</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-['Delius']">
+            <motion.h2 
+              className="text-3xl font-bold text-gray-900 mb-4 font-['Delius']"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              Find Us
+            </motion.h2>
+            <motion.p 
+              className="text-xl text-gray-600 max-w-3xl mx-auto font-['Delius']"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
               Visit us at our office in Accra
-            </p>
+            </motion.p>
           </motion.div>
 
-          <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
-            <div className="h-[600px] relative w-full">
-              <div className={`absolute inset-0 bg-gray-100 flex items-center justify-center z-10 transition-opacity duration-300 ${isMapLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-red-500"></div>
-              </div>
+          <div className="max-w-6xl mx-auto">
+            <div className="h-[600px] relative w-full rounded-2xl shadow-lg bg-white">
+              {!isMapLoaded && (
+                <div className="absolute inset-0 bg-gray-100 flex items-center justify-center z-10 rounded-2xl">
+                  <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-red-500"></div>
+                </div>
+              )}
               <iframe
-                key={`map-iframe-${Date.now()}`}
+                className="absolute inset-0 w-full h-full rounded-2xl"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3970.1234567890123!2d-0.2309593!3d5.7001187!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdf9f4d6708fa5d%3A0xaa9694dae4587a3!2sGhana%20Code%20Club%20Kwabenya!5e0!3m2!1sen!2sgh!4v1700000000000!5m2!1sen!2sgh"
-                width="100%"
-                height="100%"
                 style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                onLoad={() => setIsMapLoaded(true)}
+                onLoad={() => {
+                  setIsMapLoaded(true);
+                  setTimeout(() => window.dispatchEvent(new Event('resize')), 100);
+                }}
               ></iframe>
             </div>
           </div>
@@ -403,19 +416,39 @@ export default function ClientContactPage() {
       <section id="contact-form-section" className="py-16 bg-gradient-to-br from-white to-gray-50">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="text-center mb-12"
           >
-            <h2 className={`text-3xl font-bold text-gray-900 mb-4 ${delius.className}`}>Send Us a Message</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <motion.h2 
+              className={`text-3xl font-bold text-gray-900 mb-4 ${delius.className}`}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              Send Us a Message
+            </motion.h2>
+            <motion.p 
+              className="text-xl text-gray-600 max-w-3xl mx-auto"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
               Have questions or want to get involved? We'd love to hear from you!
-            </p>
+            </motion.p>
           </motion.div>
 
-          <div className="max-w-4xl mx-auto">
+          <motion.div 
+            className="max-w-4xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+          >
             <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
               <div className="grid grid-cols-1 md:grid-cols-2">
                 {/* Left side - Contact Info */}
@@ -672,7 +705,7 @@ export default function ClientContactPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -680,16 +713,30 @@ export default function ClientContactPage() {
       <section className="py-16 bg-gradient-to-b from-red-500 to-red-600">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="text-center"
           >
-            <h2 className="text-3xl font-bold text-white mb-4 font-['Delius']">Connect With Us</h2>
-            <p className="text-xl text-white/90 mb-12">
+            <motion.h2 
+              className="text-3xl font-bold text-white mb-4 font-['Delius']"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              Connect With Us
+            </motion.h2>
+            <motion.p 
+              className="text-xl text-white/90 mb-12"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
               Follow us on social media to stay updated with our latest news and events.
-            </p>
+            </motion.p>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 max-w-4xl mx-auto">
               <motion.a
                 href="https://www.facebook.com/ghanacodeclub"
@@ -784,56 +831,56 @@ export default function ClientContactPage() {
       {/* FAQ Section */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4 font-['Delius']">Frequently Asked Questions</h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <div>
+            <motion.div 
+              className="text-center mb-12"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+            >
+              <motion.h2 
+                className="text-3xl font-bold text-gray-900 mb-4 font-['Delius']"
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                Frequently Asked Questions
+              </motion.h2>
+              <motion.p 
+                className="text-xl text-gray-600 max-w-3xl mx-auto"
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
                 Find quick answers to common questions about our programs and services.
-              </p>
-            </div>
+              </motion.p>
+            </motion.div>
 
             <div className="max-w-3xl mx-auto space-y-4">
-              <div className="border border-gray-200 rounded-lg p-4 transition duration-300 hover:shadow-md">
-                <h4 className="font-semibold text-gray-900 mb-2">What age groups do you work with?</h4>
-                <p className="text-gray-600">
-                  We primarily work with students aged 5-17 years old, offering age-appropriate coding and technology education programs.
-                </p>
-              </div>
-
-              <div className="border border-gray-200 rounded-lg p-4 transition duration-300 hover:shadow-md">
-                <h4 className="font-semibold text-gray-900 mb-2">How can schools partner with Ghana Code Club?</h4>
-                <p className="text-gray-600">
-                  Schools can partner with us by reaching out through our contact form. We offer various partnership models including after-school programs and curriculum integration.
-                </p>
-              </div>
-
-              <div className="border border-gray-200 rounded-lg p-4 transition duration-300 hover:shadow-md">
-                <h4 className="font-semibold text-gray-900 mb-2">Do you offer financial assistance or scholarships?</h4>
-                <p className="text-gray-600">
-                  Yes, we have limited scholarships available for talented students who demonstrate financial need. Please contact us directly to learn about our current scholarship opportunities.
-                </p>
-              </div>
-
-              <div className="border border-gray-200 rounded-lg p-4 transition duration-300 hover:shadow-md">
-                <h4 className="font-semibold text-gray-900 mb-2">Can I volunteer as a mentor or teacher?</h4>
-                <p className="text-gray-600">
-                  Absolutely! We welcome volunteers with technology expertise. Please use our contact form and specify your interest in volunteering, along with your relevant skills and experience.
-                </p>
-              </div>
-
-              <div className="border border-gray-200 rounded-lg p-4 transition duration-300 hover:shadow-md">
-                <h4 className="font-semibold text-gray-900 mb-2">Do you offer virtual programs or only in-person classes?</h4>
-                <p className="text-gray-600">
-                  We offer both in-person and virtual programs. Our virtual programs allow students to participate from anywhere with a reliable internet connection.
-                </p>
-              </div>
+              {[
+                { q: 'What age groups do you work with?', a: 'We primarily work with students aged 5-17 years old, offering age-appropriate coding and technology education programs.' },
+                { q: 'How can schools partner with Ghana Code Club?', a: 'Schools can partner with us by reaching out through our contact form. We offer various partnership models including after-school programs and curriculum integration.' },
+                { q: 'Do you offer financial assistance or scholarships?', a: 'Yes, we have limited scholarships available for talented students who demonstrate financial need. Please contact us directly to learn about our current scholarship opportunities.' },
+                { q: 'Can I volunteer as a mentor or teacher?', a: 'Absolutely! We welcome volunteers with technology expertise. Please use our contact form and specify your interest in volunteering, along with your relevant skills and experience.' },
+                { q: 'Do you offer virtual programs or only in-person classes?', a: 'We offer both in-person and virtual programs. Our virtual programs allow students to participate from anywhere with a reliable internet connection.' },
+              ].map((faq, index) => (
+                <motion.div 
+                  key={index}
+                  className="border border-gray-200 rounded-lg p-4 transition duration-300 hover:shadow-md"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <h4 className="font-semibold text-gray-900 mb-2">{faq.q}</h4>
+                  <p className="text-gray-600">{faq.a}</p>
+                </motion.div>
+              ))}
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
     </div>

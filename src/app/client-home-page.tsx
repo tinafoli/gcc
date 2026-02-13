@@ -244,25 +244,38 @@ export default function ClientHomePage({ blogPosts }: ClientHomePageProps) {
         
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-4 font-['Delius'] relative inline-block">
+            <motion.h2 
+              className="text-4xl font-bold text-gray-900 mb-4 font-['Delius'] relative inline-block"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
               Our Impact in Numbers
               <motion.div
                 className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-red-500 via-blue-500 to-green-500"
+                style={{ transformOrigin: "left" }}
                 initial={{ scaleX: 0 }}
                 whileInView={{ scaleX: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
               />
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            </motion.h2>
+            <motion.p 
+              className="text-xl text-gray-600 max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
               Join us in our mission to empower the next generation of tech innovators in Ghana
-            </p>
+            </motion.p>
           </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -358,15 +371,28 @@ export default function ClientHomePage({ blogPosts }: ClientHomePageProps) {
             ].map((stat, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                initial={{ 
+                  opacity: 0, 
+                  y: 40,
+                  scale: 0.9,
+                  rotateX: index % 2 === 0 ? -10 : 10,
+                }}
+                whileInView={{ 
+                  opacity: 1, 
+                  y: 0,
+                  scale: 1,
+                  rotateX: 0,
+                }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: index * 0.12,
+                  ease: [0.25, 0.46, 0.45, 0.94]
+                }}
                 whileHover={{ 
-                  scale: 1.02,
-                  rotateX: 5,
-                  rotateY: 5,
-                  boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+                  scale: 1.05,
+                  y: -8,
+                  boxShadow: "0 25px 30px -10px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.06)"
                 }}
                 className={`bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-300 border border-gray-100 relative overflow-hidden group perspective-1000`}
               >
@@ -463,10 +489,32 @@ export default function ClientHomePage({ blogPosts }: ClientHomePageProps) {
         </div>
 
         <div className="w-[80%] mx-auto relative z-10">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 font-['Delius'] text-gray-900">Transforming Lives Through Code</h2>
-            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">Discover our comprehensive programs designed to build digital skills and create opportunities for Ghana's youth</p>
-          </div>
+          <motion.div 
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+          >
+            <motion.h2 
+              className="text-3xl md:text-4xl font-bold mb-4 font-['Delius'] text-gray-900"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              Transforming Lives Through Code
+            </motion.h2>
+            <motion.p 
+              className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              Discover our comprehensive programs designed to build digital skills and create opportunities for Ghana's youth
+            </motion.p>
+          </motion.div>
           <ProgramCards />
           <div className="flex justify-center mt-8">
             <Link

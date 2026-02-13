@@ -19,38 +19,6 @@ const nunito = Nunito({
   variable: '--font-nunito',
 });
 
-const impactStats = [
-  {
-    number: '1,500,000',
-    label: 'kids across Ghana trained',
-    icon: '👨‍👩‍👧‍👦'
-  },
-  {
-    number: '25,000',
-    label: 'teachers trained',
-    icon: '👩‍🏫'
-  },
-  {
-    number: '750',
-    label: 'schools and centers',
-    icon: '🏫'
-  },
-  {
-    number: '300',
-    label: 'mentors have volunteered',
-    icon: '🤝'
-  },
-  {
-    number: '15',
-    label: 'regions covered',
-    icon: '🗺️'
-  },
-  {
-    number: '50',
-    label: 'community centers established',
-    icon: '🏛️'
-  }
-];
 
 export default function ClientDonatePage() {
   const [showPdfViewer, setShowPdfViewer] = useState<'2022' | '2023' | null>(null);
@@ -352,46 +320,56 @@ export default function ClientDonatePage() {
         {/* Impact Section */}
         <section id="our-impact" className="py-20 bg-white scroll-mt-16">
           <div className="container mx-auto px-4">
-            <h2 className={`text-3xl font-bold text-gray-900 mb-4 text-center ${delius.className}`}>
-              Our Impact
-            </h2>
-            <p className="text-gray-600 text-center max-w-3xl mx-auto mb-16">
-              Support us to be there for the less fortunate especially the deprived girl child every time. Donate a gift today to ensure that girls and boys continue to have access to our educational experiences and STEM activities.
-            </p>
+            <motion.div
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+            >
+              <motion.h2 
+                className={`text-3xl font-bold text-gray-900 mb-4 ${delius.className}`}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                Our Impact
+              </motion.h2>
+              <motion.p 
+                className="text-gray-600 max-w-3xl mx-auto"
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                Support us to be there for the less fortunate especially the deprived girl child every time. Donate a gift today to ensure that girls and boys continue to have access to our educational experiences and STEM activities.
+              </motion.p>
+            </motion.div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-8">
-              <div className="text-center">
-                <div className="text-4xl font-bold text-red-600 mb-2">131,000+</div>
-                <div className="text-gray-600">Kids Trained</div>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold text-red-600 mb-2">7,000+</div>
-                <div className="text-gray-600">Teachers Trained</div>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold text-red-600 mb-2">324+</div>
-                <div className="text-gray-600">Mentors Volunteered</div>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold text-red-600 mb-2">22+</div>
-                <div className="text-gray-600">Digital Learning Centers</div>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold text-red-600 mb-2">30,000+</div>
-                <div className="text-gray-600">Girls Trained (100 Girls in STEM)</div>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold text-red-600 mb-2">100+</div>
-                <div className="text-gray-600">Women / Adults Trained</div>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold text-red-600 mb-2">8+</div>
-                <div className="text-gray-600">Regions Covered</div>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold text-red-600 mb-2">10+</div>
-                <div className="text-gray-600">Years of Impact</div>
-              </div>
+              {[
+                { number: '131,000+', label: 'Kids Trained' },
+                { number: '7,000+', label: 'Teachers Trained' },
+                { number: '324+', label: 'Mentors Volunteered' },
+                { number: '22+', label: 'Digital Learning Centers' },
+                { number: '30,000+', label: 'Girls Trained (100 Girls in STEM)' },
+                { number: '100+', label: 'Women / Adults Trained' },
+                { number: '8+', label: 'Regions Covered' },
+                { number: '10+', label: 'Years of Impact' },
+              ].map((stat, index) => (
+                <motion.div 
+                  key={index}
+                  className="text-center"
+                  initial={{ opacity: 0, y: 25, scale: 0.95 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.5, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
+                >
+                  <div className="text-4xl font-bold text-red-600 mb-2">{stat.number}</div>
+                  <div className="text-gray-600">{stat.label}</div>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
@@ -400,19 +378,31 @@ export default function ClientDonatePage() {
         <section id="impact-reports" className="py-16" itemScope itemType="https://schema.org/ItemList">
           <div className="container mx-auto px-4">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.5 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="text-center mb-12"
               key="report-heading"
             >
-              <h2 className={`text-3xl font-bold text-gray-900 mb-4 ${delius.className}`}>
+              <motion.h2 
+                className={`text-3xl font-bold text-gray-900 mb-4 ${delius.className}`}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
                 Our Impact Reports
-              </h2>
-              <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-4">
+              </motion.h2>
+              <motion.p 
+                className="text-lg text-gray-600 max-w-3xl mx-auto mb-4"
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
                 Explore our annual impact reports to see how your support has helped us make a difference in the lives of Ghanaian youth.
-              </p>
+              </motion.p>
               <Link 
                 href="/reports"
                 className="inline-flex items-center text-red-600 hover:text-red-700 font-semibold transition-colors"
@@ -432,10 +422,10 @@ export default function ClientDonatePage() {
                 className="bg-red-50 rounded-xl p-8 text-center"
               >
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.5 }}
+                  initial={{ opacity: 0, y: 25, scale: 0.95 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
                 >
                   <h3 itemProp="name" className={`text-2xl font-bold text-gray-900 mb-4 ${delius.className}`}>
                     2022 Impact Report
@@ -473,10 +463,10 @@ export default function ClientDonatePage() {
                 className="bg-red-50 rounded-xl p-8 text-center"
               >
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.5 }}
+                  initial={{ opacity: 0, y: 25, scale: 0.95 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.5, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
                 >
                   <h3 itemProp="name" className={`text-2xl font-bold text-gray-900 mb-4 ${delius.className}`}>
                     2023 Impact Report
@@ -633,31 +623,61 @@ export default function ClientDonatePage() {
         <section className="py-16 bg-gradient-to-r from-red-600 to-red-700">
           <div className="container mx-auto px-4 text-center">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.5 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
               key="cta-content"
             >
-              <h2 className={`text-3xl font-bold text-white mb-6 ${delius.className}`}>
+              <motion.h2 
+                className={`text-3xl font-bold text-white mb-6 ${delius.className}`}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
                 Make a Difference Today
-              </h2>
-              <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
+              </motion.h2>
+              <motion.p 
+                className="text-xl text-white/90 mb-8 max-w-3xl mx-auto"
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
                 Your donation helps us provide quality computer science education to children across Ghana.
-              </p>
+              </motion.p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <Link 
-                  href="mailto:tinaappiah@ghanacodeclub.org" 
-                  className="bg-white text-red-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                <motion.div
+                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  Contact Us
-                </Link>
-                <Link 
-                  href="/about" 
-                  className="bg-gray-900 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
+                  <Link 
+                    href="mailto:tinaappiah@ghanacodeclub.org" 
+                    className="block bg-white text-red-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                  >
+                    Contact Us
+                  </Link>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.5, delay: 0.65 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  Learn More
-                </Link>
+                  <Link 
+                    href="/about" 
+                    className="block bg-gray-900 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
+                  >
+                    Learn More
+                  </Link>
+                </motion.div>
               </div>
             </motion.div>
           </div>

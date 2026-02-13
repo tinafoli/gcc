@@ -71,14 +71,33 @@ export default function BlogPreview({ posts }: BlogPreviewProps) {
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className={`text-4xl font-bold mb-4 text-gray-900 ${delius.className}`} style={{ fontFamily: 'Delius, cursive' }}>
+        <motion.div 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+        >
+          <motion.h2 
+            className={`text-4xl font-bold mb-4 text-gray-900 ${delius.className}`} 
+            style={{ fontFamily: 'Delius, cursive' }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
             Latest from Our Blog
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          </motion.h2>
+          <motion.p 
+            className="text-lg text-gray-600 max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
             Stay updated with our latest stories, tutorials, and community updates
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {posts.slice(0, 3).map((post, index) => (
@@ -86,7 +105,7 @@ export default function BlogPreview({ posts }: BlogPreviewProps) {
               key={post.id}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, amount: 0.2 }}
               transition={{ 
                 duration: 0.5,
                 delay: index * 0.1,

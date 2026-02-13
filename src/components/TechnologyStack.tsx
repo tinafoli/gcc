@@ -62,18 +62,30 @@ export default function TechnologyStack() {
     <section className="py-20 bg-gradient-to-b from-white via-gray-50 to-white">
       <div className="w-[80vw] mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-['Delius'] leading-tight py-1">
+          <motion.h2 
+            className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-['Delius'] leading-tight py-1"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
             Our Technology Stack
-          </h2>
-          <p className="text-gray-600 max-w-3xl mx-auto text-lg leading-relaxed">
+          </motion.h2>
+          <motion.p 
+            className="text-gray-600 max-w-3xl mx-auto text-lg leading-relaxed"
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
             Dive into the world off Scratch, AI, robotics, 3D modeling,  Python, Blockly, and HTML/CSS with our specially designed curricula that combines critical STEM learning with fun and engaging hands-on projects, using:
-          </p>
+          </motion.p>
         </motion.div>
 
         <div className="relative w-full overflow-hidden">

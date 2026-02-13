@@ -56,16 +56,30 @@ export default function SocialMediaFeeds() {
     <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
       <div className="container mx-auto px-4">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl font-bold text-gray-900 mb-4 font-['Delius']">Connect With Us</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <motion.h2 
+            className="text-4xl font-bold text-gray-900 mb-4 font-['Delius']"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
+            Connect With Us
+          </motion.h2>
+          <motion.p 
+            className="text-gray-600 max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
             Stay updated with our latest news, events, and success stories across our social media platforms.
-          </p>
+          </motion.p>
         </motion.div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -74,7 +88,7 @@ export default function SocialMediaFeeds() {
               key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:shadow-md transition-all duration-300"
             >
@@ -140,15 +154,6 @@ export default function SocialMediaFeeds() {
           ))}
         </div>
         
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="text-center mt-12"
-        >
-          
-        </motion.div>
       </div>
     </section>
   );

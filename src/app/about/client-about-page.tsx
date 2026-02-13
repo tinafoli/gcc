@@ -528,53 +528,61 @@ export default function ClientAboutPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-red-50 to-red-100/50"></div>
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="max-w-4xl mx-auto"
           >
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-red-100">
-              <div className="flex items-center gap-4 mb-6">
+              <motion.div 
+                className="flex items-center gap-4 mb-6"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              >
                 <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center">
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
                 </div>
                 <h2 className="text-3xl font-bold text-gray-900 font-['Delius']">Who We Are</h2>
-              </div>
+              </motion.div>
               <div className="space-y-6">
-                <p className="text-xl text-gray-700 leading-relaxed">
+                <motion.p 
+                  className="text-xl text-gray-700 leading-relaxed"
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                >
                   Ghana Code Club is a Ghana-based STEM education organization focused on developing coding, digital literacy, and artificial intelligence competencies among children, young people, and educators. Our programs foster creativity, problem-solving, and innovation through hands-on learning in programming, digital creation, and AI-enabled technologies.
-                </p>
+                </motion.p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                  <div className="bg-red-50/50 rounded-xl p-6 border border-red-100">
-                    <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mb-4">
-                      <svg className="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                      </svg>
-                    </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Education</h3>
-                    <p className="text-sm text-gray-600">Coding, digital, and AI skills taught through fun, hands-on learning.</p>
-                  </div>
-                  <div className="bg-red-50/50 rounded-xl p-6 border border-red-100">
-                    <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mb-4">
-                      <svg className="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
-                    </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Accessibility</h3>
-                    <p className="text-sm text-gray-600">Learning opportunities brought directly to schools and communities.</p>
-                  </div>
-                  <div className="bg-red-50/50 rounded-xl p-6 border border-red-100">
-                    <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mb-4">
-                      <svg className="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                      </svg>
-                    </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Innovation</h3>
-                    <p className="text-sm text-gray-600">Building games, apps, robots, and AI-powered projects that solve real-world problems.</p>
-                  </div>
+                  {[
+                    { icon: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253", title: "Education", desc: "Coding, digital, and AI skills taught through fun, hands-on learning." },
+                    { icon: "M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z", title: "Accessibility", desc: "Learning opportunities brought directly to schools and communities." },
+                    { icon: "M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z", title: "Innovation", desc: "Building games, apps, robots, and AI-powered projects that solve real-world problems." }
+                  ].map((item, idx) => (
+                    <motion.div
+                      key={idx}
+                      className="bg-red-50/50 rounded-xl p-6 border border-red-100"
+                      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                      viewport={{ once: true, amount: 0.2 }}
+                      transition={{ duration: 0.5, delay: 0.3 + idx * 0.12 }}
+                      whileHover={{ y: -3 }}
+                    >
+                      <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                        <svg className="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
+                        </svg>
+                      </div>
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">{item.title}</h3>
+                      <p className="text-sm text-gray-600">{item.desc}</p>
+                    </motion.div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -586,24 +594,38 @@ export default function ClientAboutPage() {
       <section id="our-mission" className="py-16 bg-red-50">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-4 font-['Delius']">Our Mission & Vision</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <motion.h2 
+              className="text-3xl font-bold text-gray-900 mb-4 font-['Delius']"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              Our Mission & Vision
+            </motion.h2>
+            <motion.p 
+              className="text-xl text-gray-600 max-w-3xl mx-auto"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
               Our commitment to empowering the next generation through technology education
-            </p>
+            </motion.p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-[90%] md:max-w-[80%] mx-auto px-4">
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="relative bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-8 shadow-lg"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-red-200/20 rounded-full -translate-y-1/2 translate-x-1/2"></div>
@@ -624,10 +646,10 @@ export default function ClientAboutPage() {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
+              initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="relative bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-8 shadow-lg"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-red-200/20 rounded-full -translate-y-1/2 translate-x-1/2"></div>
@@ -666,14 +688,20 @@ export default function ClientAboutPage() {
         </motion.div>
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="max-w-5xl mx-auto"
           >
             <div className="bg-white/90 backdrop-blur-sm rounded-[2.5rem] p-8 md:p-12 shadow-xl border border-red-100">
-              <div className="flex items-center gap-4 mb-10">
+              <motion.div 
+                className="flex items-center gap-4 mb-10"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              >
                 <motion.div
                   initial={{ scale: 0 }}
                   whileInView={{ scale: 1 }}
@@ -686,7 +714,7 @@ export default function ClientAboutPage() {
                   </svg>
                 </motion.div>
                 <h2 className="text-4xl font-bold text-gray-900 font-['Delius']">How It Started...</h2>
-              </div>
+              </motion.div>
               <div className="space-y-8">
                 <div className="relative">
                   <div className="flex flex-col md:flex-row gap-12 items-center">
@@ -694,7 +722,7 @@ export default function ClientAboutPage() {
                       <motion.div
                         initial={{ opacity: 0, scale: 0.9, rotate: -5 }}
                         whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, amount: 0.2 }}
                         transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
                         className="relative group"
                       >
@@ -712,7 +740,7 @@ export default function ClientAboutPage() {
                           <motion.div 
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
+                            viewport={{ once: true, amount: 0.2 }}
                             transition={{ duration: 0.5, delay: 0.3 }}
                             className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-red-500 text-white px-8 py-3 rounded-2xl text-lg font-semibold whitespace-nowrap shadow-lg"
                           >
@@ -725,7 +753,7 @@ export default function ClientAboutPage() {
                       <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, amount: 0.2 }}
                         transition={{ duration: 0.5, delay: 0.2 }}
                       >
                         <p className="text-xl text-gray-700 leading-relaxed mb-8">
@@ -747,8 +775,8 @@ export default function ClientAboutPage() {
                 <motion.div 
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.4 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
                   className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12"
                 >
                   <div className="bg-gradient-to-br from-red-50 to-white rounded-2xl p-8 border border-red-100 shadow-lg transform hover:-translate-y-1 transition-transform duration-300">
@@ -790,16 +818,30 @@ export default function ClientAboutPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-red-50/50 to-white/80"></div>
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-4 font-['Delius']">Our Team</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <motion.h2 
+              className="text-3xl font-bold text-gray-900 mb-4 font-['Delius']"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              Our Team
+            </motion.h2>
+            <motion.p 
+              className="text-xl text-gray-600 max-w-3xl mx-auto"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
               Dedicated professionals committed to education and technology
-            </p>
+            </motion.p>
           </motion.div>
 
           <div 
@@ -990,16 +1032,30 @@ export default function ClientAboutPage() {
       <section className="py-16 bg-red-50">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-4 font-['Delius']">Board Members</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <motion.h2 
+              className="text-3xl font-bold text-gray-900 mb-4 font-['Delius']"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              Board Members
+            </motion.h2>
+            <motion.p 
+              className="text-xl text-gray-600 max-w-3xl mx-auto"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
               Meet our dedicated board members who provide guidance and oversight
-            </p>
+            </motion.p>
           </motion.div>
 
           <div 
@@ -1237,17 +1293,31 @@ export default function ClientAboutPage() {
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-br from-red-500 to-red-700 text-white">
         <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="max-w-4xl mx-auto text-center"
-          >
-            <h2 className="text-3xl font-bold mb-6 font-['Delius']">Join Our Mission</h2>
-            <p className="text-xl mb-8">
-              Help us make a difference in the lives of Ghanaian youth. Whether you're a mentor, sponsor, or volunteer, we welcome your support.
-            </p>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="max-w-4xl mx-auto text-center"
+            >
+              <motion.h2 
+                className="text-3xl font-bold mb-6 font-['Delius']"
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                Join Our Mission
+              </motion.h2>
+              <motion.p 
+                className="text-xl mb-8"
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                Help us make a difference in the lives of Ghanaian youth. Whether you're a mentor, sponsor, or volunteer, we welcome your support.
+              </motion.p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact" className="bg-white text-red-600 px-8 py-3 rounded-lg font-semibold hover:bg-red-50 transition-colors">
                 Contact Us
