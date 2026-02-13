@@ -102,7 +102,12 @@ export default function ClientBlogPostPage({ post }: ClientBlogPostPageProps) {
           {/* Main Content (Left - 2/3 width) */}
           <div className="lg:col-span-2">
             {/* Image Carousel */}
-            <div className="relative w-full h-[400px] md:h-[500px] rounded-xl overflow-hidden mb-6 bg-gray-100">
+            <motion.div 
+              className="relative w-full h-[400px] md:h-[500px] rounded-xl overflow-hidden mb-6 bg-gray-100"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+            >
               {images.map((img, index) => (
                 <motion.div
                   key={index}
@@ -138,10 +143,16 @@ export default function ClientBlogPostPage({ post }: ClientBlogPostPageProps) {
                   ))}
                 </div>
               )}
-            </div>
+            </motion.div>
 
             {/* Post Content */}
-            <div className="bg-white rounded-xl p-6 md:p-8 shadow-lg">
+            <motion.div 
+              className="bg-white rounded-xl p-6 md:p-8 shadow-lg"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+            >
               {/* Category Badge */}
               <div className="mb-4">
                 <span className="inline-block bg-red-600 text-white px-3 py-1 rounded-full text-sm font-medium">
@@ -257,15 +268,21 @@ export default function ClientBlogPostPage({ post }: ClientBlogPostPageProps) {
                   </div>
                 )}
               </div>
-            </div>
+            </motion.div>
           </div>
 
           {/* Sidebar (Right - 1/3 width) - Other Posts */}
           <div className="lg:col-span-1">
             <div className="sticky top-20">
-              <h2 className={`text-2xl font-bold text-white mb-4 ${delius.className}`}>
+              <motion.h2 
+                className={`text-2xl font-bold text-white mb-4 ${delius.className}`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
                 More Posts
-              </h2>
+              </motion.h2>
               <div className="space-y-4">
                 {otherPosts.map((otherPost, index) => (
                   <Link
@@ -274,11 +291,12 @@ export default function ClientBlogPostPage({ post }: ClientBlogPostPageProps) {
                     className="block"
                   >
                     <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.3, delay: index * 0.05 }}
-                      className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105"
+                      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                      viewport={{ once: true, amount: 0.2 }}
+                      transition={{ duration: 0.5, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
+                      whileHover={{ y: -3 }}
+                      className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300"
                     >
                       <div className="relative w-full h-32">
                         <Image

@@ -324,7 +324,15 @@ export default function PageTransitionHandler() {
                                        (pathname === '/about' ? 1 : 
                                        (pathname === '/partners' ? 1 : 
                                        (pathname === '/blog' ? 2 : 
-                                       (pathname === '/contact' ? 1 : 1)))));
+                                       (pathname === '/contact' ? 1 : 
+                                       (pathname === '/donate' ? 0 : 0))))));
+              
+              // If no images expected (e.g. donate page), resolve immediately
+              if (minExpectedImages === 0 && !imagesFound) {
+                imagesFound = true;
+                resolve();
+                return;
+              }
               
               if (carouselImages.length >= minExpectedImages && !imagesFound) {
                 imagesFound = true;
@@ -712,7 +720,15 @@ export default function PageTransitionHandler() {
                                        (pathname === '/about' ? 1 : 
                                        (pathname === '/partners' ? 1 : 
                                        (pathname === '/blog' ? 2 : 
-                                       (pathname === '/contact' ? 1 : 1)))));
+                                       (pathname === '/contact' ? 1 : 
+                                       (pathname === '/donate' ? 0 : 0))))));
+              
+              // If no images expected (e.g. donate page), resolve immediately
+              if (minExpectedImages === 0 && !imagesFound) {
+                imagesFound = true;
+                resolve();
+                return;
+              }
               
               if (criticalImages.length >= minExpectedImages && !imagesFound) {
                 imagesFound = true;

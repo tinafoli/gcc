@@ -421,10 +421,17 @@ export default function ClientBlogPage() {
       {/* Blog Posts Grid */}
       <section className="py-12">
         <div className="container mx-auto px-4">
-          <h2 className={`text-3xl font-bold mb-8 text-white ${delius.className}`} style={{ fontFamily: 'Delius, cursive' }}>
+          <motion.h2 
+            className={`text-3xl font-bold mb-8 text-white ${delius.className}`} 
+            style={{ fontFamily: 'Delius, cursive' }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
             {activeCategory === 'all' ? 'Latest Posts' : categories.find(c => c.id === activeCategory)?.name}
             {searchQuery && ` - Search results for "${searchQuery}"`}
-          </h2>
+          </motion.h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredPosts.map((post, index) => (
               <div 
@@ -433,21 +440,17 @@ export default function ClientBlogPage() {
                 onClick={() => handleCardClick(post)}
               >
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
+                  initial={{ opacity: 0, y: 25, scale: 0.95 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.2 }}
                   transition={{ 
-                    duration: 0.3,
-                    delay: index * 0.05,
-                    ease: "easeOut"
+                    duration: 0.5,
+                    delay: index * 0.08,
+                    ease: [0.25, 0.46, 0.45, 0.94]
                   }}
+                  whileHover={{ y: -5 }}
                 >
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <article className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                    <article className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
                       <div className="relative h-40">
                         <motion.div
                           key={activeImageIndices[post.id]}
@@ -515,7 +518,6 @@ export default function ClientBlogPage() {
                         </div>
                       </div>
                     </article>
-                  </motion.div>
                 </motion.div>
               </div>
             ))}

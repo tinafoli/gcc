@@ -361,31 +361,50 @@ export default function ClientPartnersPage() {
           <div className="bg-white">
             <div className="container mx-auto px-4 py-16">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
                 className="text-center mb-12"
               >
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-['Delius']">
+                <motion.h2 
+                  className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-['Delius']"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                >
                   Meet some of the incredible partners
-                </h2>
-                <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                </motion.h2>
+                <motion.p 
+                  className="text-lg text-gray-600 max-w-3xl mx-auto"
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                >
                   who share our vision and help drive our work forward.
-                </p>
+                </motion.p>
               </motion.div>
 
               {partners.map((category, index) => (
                 <motion.div
                   key={category.category}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.2 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.6, delay: index * 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
                   className="mb-16"
                 >
-                  <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center font-['Delius']">
+                  <motion.h3 
+                    className="text-2xl font-bold text-gray-900 mb-8 text-center font-['Delius']"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                  >
                     {category.category}
-                  </h3>
+                  </motion.h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {category.partners.map((partner, idx) => (
                       <motion.div
@@ -429,15 +448,40 @@ export default function ClientPartnersPage() {
               <div className="absolute inset-0 bg-gradient-to-r from-blue-100/30 via-white/0 to-red-100/30"></div>
             </div>
             <div className="container mx-auto px-4 relative z-10">
-              <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4 font-['Delius'] text-gray-900 relative inline-block">
+              <motion.div 
+                className="text-center mb-12"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+              >
+                <motion.h2 
+                  className="text-3xl md:text-4xl font-bold mb-4 font-['Delius'] text-gray-900 relative inline-block"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                >
                   Our Past Partners and Collaborators
-                  <span className="block h-1 w-24 mx-auto mt-2 bg-gradient-to-r from-red-400 via-blue-400 to-green-400 rounded-full animate-pulse"></span>
-                </h2>
-                <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                  <motion.span 
+                    className="block h-1 w-24 mx-auto mt-2 bg-gradient-to-r from-red-400 via-blue-400 to-green-400 rounded-full"
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+                    style={{ transformOrigin: "left" }}
+                  />
+                </motion.h2>
+                <motion.p 
+                  className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto"
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                >
                   We are grateful for the support and collaboration of these organizations over the years.
-                </p>
-              </div>
+                </motion.p>
+              </motion.div>
               <PartnersLogoCarousel logos={pastPartners} />
             </div>
           </section>
@@ -447,22 +491,54 @@ export default function ClientPartnersPage() {
       <section className="bg-gradient-to-r from-red-500 to-red-600">
         <div className="container mx-auto px-4 py-16 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white font-['Delius']">Become a Partner</h2>
-            <p className="text-xl mb-8 max-w-3xl mx-auto text-white">
+            <motion.h2 
+              className="text-3xl md:text-4xl font-bold mb-6 text-white font-['Delius']"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              Become a Partner
+            </motion.h2>
+            <motion.p 
+              className="text-xl mb-8 max-w-3xl mx-auto text-white"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
               Join us in our mission to empower Ghana's youth through technology education. Together, we can create lasting impact.
-            </p>
+            </motion.p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link href="/contact" className="bg-white text-red-500 px-8 py-3 rounded-md font-semibold hover:bg-gray-100 transition-colors">
-                Contact Us
-              </Link>
-              <Link href="/about" className="bg-gray-900 text-white px-8 py-3 rounded-md font-semibold hover:bg-gray-800 transition-colors">
-                Learn More
-              </Link>
+              <motion.div
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Link href="/contact" className="block bg-white text-red-500 px-8 py-3 rounded-md font-semibold hover:bg-gray-100 transition-colors">
+                  Contact Us
+                </Link>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.65 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Link href="/about" className="block bg-gray-900 text-white px-8 py-3 rounded-md font-semibold hover:bg-gray-800 transition-colors">
+                  Learn More
+                </Link>
+              </motion.div>
             </div>
           </motion.div>
         </div>
@@ -528,7 +604,8 @@ function PartnersLogoCarousel({ logos }: { logos: { name: string, logo: string }
           <motion.div
             key={partner.name + idx}
             initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.5, delay: idx * 0.08 }}
             className="flex-none w-40 h-28 md:w-44 md:h-32 bg-white rounded-xl shadow-lg flex items-center justify-center p-4 transition-transform duration-300 hover:scale-105 hover:shadow-2xl border border-gray-100 group"
             whileHover={{ scale: 1.12, boxShadow: '0 8px 32px 0 rgba(239,68,68,0.15)' }}
