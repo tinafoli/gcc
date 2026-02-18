@@ -12,6 +12,144 @@ function generateSlug(title: string): string {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: "25",
+    title: "What Happens When Schools Have No ICT Lab?",
+    excerpt: "Walk into many schools across Ghana and ask a simple question: 'Where is your ICT lab?' At Ghana Code Club, we work in communities where access to devices is limited or nonexistent. And what we've learned challenges one of the biggest myths in education: Coding does not begin with a computer. It begins with thinking.",
+    category: 'news',
+    author: {
+      name: "Ghana Code Club Team",
+      role: "Education Team",
+      avatar: "/images/team/mentor1.jpg"
+    },
+    date: "February 2026",
+    readTime: "8 min read",
+    image: "/images/blog/no-ict-lab.jpeg",
+    image2: "/images/blog/no-ict-lab-2.jpeg",
+    image3: "/images/blog/no-ict-lab-3.jpeg",
+    slug: "what-happens-when-schools-have-no-ict-lab",
+    content: `What Happens When Schools Have No ICT Lab?
+
+Walk into many schools across Ghana and ask a simple question:
+
+"Where is your ICT lab?"
+
+Sometimes the answer is a locked room with a few outdated desktops. Sometimes it's a space that hasn't had electricity in weeks. And sometimes, there is no lab at all.
+
+So what happens then?
+
+Do children wait? Do they postpone their digital future until infrastructure arrives? Or do we rethink what technology education really means?
+
+At Ghana Code Club, we work in communities where access to devices is limited or nonexistent. And what we've learned challenges one of the biggest myths in education:
+
+Coding does not begin with a computer. It begins with thinking.
+
+The Myth: No Devices, No Digital Education
+
+There's a common assumption that if a school has no ICT lab, it cannot teach coding, artificial intelligence, or robotics. The tools are seen as the starting point.
+
+But tools do not create understanding — they amplify it.
+
+When learning begins with devices, students may become good at clicking, dragging, and operating software. But when learning begins with logic, sequencing, and reasoning, students build something deeper: an understanding of how systems work.
+
+That foundation can be built anywhere:
+
+• On the classroom floor
+• With paper arrow cards
+• On grid mats
+• Through unplugged challenges
+• Through collaborative problem-solving
+
+Computational thinking does not require electricity. It requires intention.
+
+What We See in Classrooms Without ICT Labs
+
+In schools without computer labs, something powerful happens when we introduce unplugged coding.
+
+Children lean in.
+
+They debate routes on a grid mat. They argue about the shortest algorithm. They simulate flood alerts using simple logic. They explain AI concepts using real-life examples.
+
+There are no screens to hide behind. No distractions.
+
+Just thinking.
+
+And often, their conceptual understanding becomes stronger because they are forced to reason before they execute.
+
+When they eventually use devices, the tools make sense — because the logic was built first.
+
+The Bigger Question: Access and Justice
+
+The absence of ICT labs is not just an infrastructure issue. It is an equity issue.
+
+Communities without access to digital thinking skills risk being left behind in a world shaped by AI, automation, and climate technology.
+
+And as climate change intensifies, underserved communities often experience the greatest vulnerability.
+
+That's why Ghana Code Club connects digital skills with climate justice.
+
+We teach children to:
+
+• Understand environmental data
+• Design flood alert simulations
+• Think critically about sustainability
+• Build solutions for real-world problems
+
+Even without a traditional lab.
+
+Because justice is not only about devices.
+
+It is about opportunity.
+
+Rethinking What "ICT Lab" Means
+
+Perhaps the real question is not:
+
+"Does the school have an ICT lab?"
+
+Perhaps it is:
+
+"Does the school have a thinking lab?"
+
+A classroom where:
+
+• Logic is practiced daily
+• Curiosity is encouraged
+• Problems are solved collaboratively
+• Climate challenges are discussed
+• AI is understood conceptually before it is used
+
+Infrastructure matters. But innovation matters too.
+
+When we reframe how technology education begins, we remove the excuse that some schools must wait.
+
+They do not have to wait. They can start now.
+
+A Movement, Not a Limitation
+
+When schools have no ICT lab, we do not see a dead end.
+
+We see a call to innovate.
+
+We see an opportunity to prove that intelligence is not determined by hardware.
+
+We see children who are capable of deep reasoning, creative problem-solving, and climate-conscious thinking — long before they ever touch a device.
+
+And we refuse to let lack of infrastructure define their potential.
+
+Because every child can think. Anywhere.
+
+Ready to Partner With Ghana Code Club?
+
+If your school has limited ICT resources, we can still deliver coding, AI literacy, and climate justice learning through our unplugged and hands-on approach.
+
+Email: tinaappiah@ghanacodeclub.org
+Website: www.ghanacodeclub.org
+Call/WhatsApp: 0244670660
+
+Follow Ghana Code Club:
+Facebook: @ghanacodeclub | LinkedIn: @ghanacodeclub`
+  },
+  {
     id: "24",
     title: "Call for Schools, Educators & Learning Centres: Unplugged Coding & AI Workbooks",
     excerpt: "Ghana Code Club is inviting schools, educators, and learning centres across Ghana to express interest in our Unplugged Coding & AI Workbooks — hands-on learning resources designed to introduce coding, computational thinking, and basic AI concepts with or without computers or internet access.",

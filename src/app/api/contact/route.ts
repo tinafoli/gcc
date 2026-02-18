@@ -1,73 +1,104 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const limit = rateLimitMap.get(ip);
+
+  if (!limit || now > limit.resetTime) {
+    rateLimitMap.set(ip, { count: 1, resetTime: now + 15 * 60 * 1000 });
+    return true;
+  }
+
+  if (limit.count >= 3) {
+    return false;
+  }
+
+  limit.count++;
+  return true;
+}
+
+function sanitizeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 export async function POST(request: Request) {
   try {
-    console.log('API Route called');
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+    if (!checkRateLimit(ip)) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
-    console.log('Request body:', body);
-    
     const { name, email, subject, message } = body;
 
-    // Validate required fields
     if (!name || !email || !subject || !message) {
-      console.log('Missing required fields:', { name, email, subject, message });
       return NextResponse.json(
         { error: 'All fields are required' },
         { status: 400 }
       );
     }
 
-    // Check for API key
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { error: 'Please provide a valid email address' },
+        { status: 400 }
+      );
+    }
+
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
-      console.error('RESEND_API_KEY is not configured');
       return NextResponse.json(
         { error: 'Email service is not configured. Please contact the administrator.' },
         { status: 500 }
       );
     }
 
-    // Initialize Resend client lazily (only when needed)
     const resend = new Resend(apiKey);
 
-    console.log('Sending email with Resend...');
-    // Send email using Resend
-    const data = await resend.emails.send({
+    const safeName = sanitizeHtml(name);
+    const safeEmail = sanitizeHtml(email);
+    const safeSubject = sanitizeHtml(subject);
+    const safeMessage = sanitizeHtml(message);
+
+    await resend.emails.send({
       from: 'Ghana Code Club <onboarding@resend.dev>',
       to: 'codeclubghana@gmail.com',
       replyTo: email,
-      subject: `New Contact Form Submission: ${subject}`,
-      text: `
-        Name: ${name}
-        Email: ${email}
-        Subject: ${subject}
-        Message: ${message}
-      `,
+      subject: `New Contact Form Submission: ${safeSubject}`,
+      text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\nMessage: ${message}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #e11d48;">New Contact Form Submission</h2>
           <div style="background-color: #f3f4f6; padding: 20px; border-radius: 8px;">
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Subject:</strong> ${subject}</p>
+            <p><strong>Name:</strong> ${safeName}</p>
+            <p><strong>Email:</strong> ${safeEmail}</p>
+            <p><strong>Subject:</strong> ${safeSubject}</p>
             <p><strong>Message:</strong></p>
-            <p style="white-space: pre-wrap;">${message}</p>
+            <p style="white-space: pre-wrap;">${safeMessage}</p>
           </div>
         </div>
       `
     });
-
-    console.log('Email sent successfully:', data);
 
     return NextResponse.json(
       { message: 'Email sent successfully' },
       { status: 200 }
     );
   } catch (error) {
-    console.error('Detailed error sending email:', error);
     return NextResponse.json(
-      { error: 'Failed to send email', details: error instanceof Error ? error.message : 'Unknown error' },
+      { error: 'Failed to send email. Please try again later.' },
       { status: 500 }
     );
   }

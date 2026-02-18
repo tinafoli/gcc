@@ -1,12 +1,35 @@
 import { NextResponse } from 'next/server';
 import * as SibApiV3Sdk from '@sendinblue/client';
 
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const limit = rateLimitMap.get(ip);
+
+  if (!limit || now > limit.resetTime) {
+    rateLimitMap.set(ip, { count: 1, resetTime: now + 15 * 60 * 1000 });
+    return true;
+  }
+
+  if (limit.count >= 5) {
+    return false;
+  }
+
+  limit.count++;
+  return true;
+}
+
 export async function POST(request: Request) {
   try {
-    // Debug: Check if API key is loaded
-    console.log('BREVO_API_KEY loaded:', !!process.env.BREVO_API_KEY);
-    console.log('API Key length:', process.env.BREVO_API_KEY?.length);
-    
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+    if (!checkRateLimit(ip)) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429 }
+      );
+    }
+
     const { email } = await request.json();
 
     if (!email) {
@@ -16,23 +39,28 @@ export async function POST(request: Request) {
       );
     }
 
-    // Check for API key
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { error: 'Please provide a valid email address' },
+        { status: 400 }
+      );
+    }
+
     const apiKey = process.env.BREVO_API_KEY;
     if (!apiKey) {
-      console.error('BREVO_API_KEY is not configured');
       return NextResponse.json(
         { error: 'Newsletter service is not configured. Please contact the administrator.' },
         { status: 500 }
       );
     }
 
-    // Initialize API instance lazily (only when needed)
     const apiInstance = new SibApiV3Sdk.ContactsApi();
     apiInstance.setApiKey(SibApiV3Sdk.ContactsApiApiKeys.apiKey, apiKey);
 
     const createContact = new SibApiV3Sdk.CreateContact();
     createContact.email = email;
-    createContact.listIds = [6]; // Brevo newsletter list ID #6
+    createContact.listIds = [6];
     createContact.updateEnabled = true;
 
     await apiInstance.createContact(createContact);
@@ -42,15 +70,6 @@ export async function POST(request: Request) {
       { status: 200 }
     );
   } catch (error: any) {
-    console.error('Newsletter subscription error:', error);
-    console.error('Error details:', {
-      message: error.message,
-      response: error.response?.text,
-      status: error.response?.status,
-      apiKey: !!process.env.BREVO_API_KEY
-    });
-    
-    // Check if it's a duplicate contact error
     if (error.response?.text?.includes('Contact already exist')) {
       return NextResponse.json(
         { error: 'You are already subscribed to our newsletter!' },
