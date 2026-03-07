@@ -1,6 +1,104 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+function normalizePath(input: string): string {
+  let value = input.trim();
+  if (!value) return '/secure-admin-gcc';
+  if (!value.startsWith('/')) value = `/${value}`;
+  if (value.length > 1 && value.endsWith('/')) value = value.slice(0, -1);
+  return value.toLowerCase();
+}
+
+function getAdminPortalPath(): string {
+  const normalized = normalizePath(process.env.ADMIN_PORTAL_PATH || '/secure-admin-gcc');
+  if (normalized === '/admin' || normalized === '/blog-admin' || normalized.startsWith('/api/')) {
+    return '/secure-admin-gcc';
+  }
+  return normalized;
+}
+
+function getRequestIp(request: NextRequest): string {
+  const fwd = request.headers.get('x-forwarded-for');
+  if (fwd) return fwd.split(',')[0].trim();
+  return request.headers.get('x-real-ip') || '';
+}
+
+function getAllowedIps(): Set<string> {
+  const raw = process.env.ADMIN_ALLOWED_IPS || '';
+  if (!raw.trim()) return new Set();
+  return new Set(
+    raw
+      .split(',')
+      .map((v) => v.trim())
+      .filter(Boolean),
+  );
+}
+
+function isProtectedAdminPath(pathname: string, adminPortalPath: string): boolean {
+  return (
+    pathname === adminPortalPath ||
+    pathname.startsWith(`${adminPortalPath}/`) ||
+    pathname === '/admin' ||
+    pathname.startsWith('/admin/') ||
+    pathname === '/blog-admin' ||
+    pathname.startsWith('/blog-admin/') ||
+    pathname === '/api/admin' ||
+    pathname.startsWith('/api/admin/') ||
+    pathname === '/api/blog-admin' ||
+    pathname.startsWith('/api/blog-admin/')
+  );
+}
+
+function isDashboardEnabled(): boolean {
+  return (process.env.ADMIN_DASHBOARD_ENABLED || 'false').trim().toLowerCase() === 'true';
+}
+
 export function proxy(request: NextRequest) {
+  const pathname = request.nextUrl.pathname.toLowerCase();
+  const adminPortalPath = getAdminPortalPath();
+  const dashboardEnabled = isDashboardEnabled();
+
+  if (!dashboardEnabled && isProtectedAdminPath(pathname, adminPortalPath)) {
+    if (pathname.startsWith('/api/admin/') || pathname.startsWith('/api/blog-admin/')) {
+      return NextResponse.json({ error: 'Admin dashboard is temporarily disabled.' }, { status: 403 });
+    }
+    return new NextResponse('Not Found', { status: 404 });
+  }
+
+  // Optional IP allowlist for admin pages and admin APIs.
+  const allowedIps = getAllowedIps();
+  if (
+    allowedIps.size > 0 &&
+    request.nextUrl.hostname !== 'localhost' &&
+    request.nextUrl.hostname !== '127.0.0.1' &&
+    isProtectedAdminPath(pathname, adminPortalPath)
+  ) {
+    const requestIp = getRequestIp(request);
+    if (!requestIp || !allowedIps.has(requestIp)) {
+      if (pathname.startsWith('/api/admin/')) {
+        return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+      }
+      return new NextResponse('Not Found', { status: 404 });
+    }
+  }
+
+  // Hidden admin portal path rewrites to /admin internally.
+  if (pathname === adminPortalPath || pathname.startsWith(`${adminPortalPath}/`)) {
+    const url = request.nextUrl.clone();
+    const suffix = pathname.slice(adminPortalPath.length);
+    url.pathname = `/admin${suffix}`;
+    return NextResponse.rewrite(url);
+  }
+
+  // Block guessed direct admin routes.
+  if (
+    pathname === '/admin' ||
+    pathname.startsWith('/admin/') ||
+    pathname === '/blog-admin' ||
+    pathname.startsWith('/blog-admin/')
+  ) {
+    return new NextResponse('Not Found', { status: 404 });
+  }
+
   // Check if the request is secure (HTTPS) or localhost
   const isSecure = request.headers.get('x-forwarded-proto') === 'https' || 
                    request.nextUrl.protocol === 'https:' ||
@@ -17,7 +115,6 @@ export function proxy(request: NextRequest) {
   }
 
   // Redirect common URL variations to canonical URLs
-  const pathname = request.nextUrl.pathname.toLowerCase();
   
   // Redirect /contact-us and /contact-us/ to /contact
   if (pathname === '/contact-us' || pathname === '/contact-us/') {

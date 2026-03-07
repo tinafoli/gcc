@@ -3,18 +3,36 @@
 import { useState, useEffect } from 'react';
 import PromoModal from './PromoModal';
 
-export default function ClientPromoModal() {
+interface ClientPromoModalProps {
+  enabled?: boolean;
+  delayMs?: number;
+  announcement?: {
+    eventTitle: string;
+    date: string;
+    time: string;
+    location: string;
+    image: string;
+    description: string;
+    buttonUrl: string;
+    buttonText: string;
+    badge: string;
+    title: string;
+  };
+}
+
+export default function ClientPromoModal({ enabled = false, delayMs = 3000, announcement }: ClientPromoModalProps) {
   const [shouldShow, setShouldShow] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    if (!enabled) return;
     const timer = setTimeout(() => {
       setShouldShow(true);
-    }, 3000);
+    }, delayMs);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [enabled, delayMs]);
 
   const handleClose = () => {
     setShouldShow(false);
@@ -28,5 +46,5 @@ export default function ClientPromoModal() {
     return null;
   }
 
-  return <PromoModal onClose={handleClose} />;
+  return <PromoModal onClose={handleClose} announcement={announcement} />;
 } 

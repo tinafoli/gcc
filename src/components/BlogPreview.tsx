@@ -29,6 +29,9 @@ export interface BlogPost {
   image3: string;
   slug?: string;
   content?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string[];
 }
 
 interface BlogPreviewProps {

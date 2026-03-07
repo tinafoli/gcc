@@ -6,6 +6,7 @@ import PageTransitionHandler from '@/components/PageTransitionHandler';
 import ScrollRestoration from '@/components/ScrollRestoration';
 import Navigation from '@/components/Navigation';
 import dynamic from 'next/dynamic';
+import { usePathname } from 'next/navigation';
 
 // Dynamically import Footer to reduce initial bundle
 const Footer = dynamic(() => import('@/components/Footer'), {
@@ -14,13 +15,15 @@ const Footer = dynamic(() => import('@/components/Footer'), {
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const { isLoading } = usePageLoading();
+  const pathname = usePathname();
+  const isWorkbookPage = pathname.startsWith('/workbook-launch') || pathname.startsWith('/order-workbook');
   
   return (
     <>
       <PageLoaderWrapper />
       <PageTransitionHandler />
       <ScrollRestoration />
-      <Navigation />
+      {!isWorkbookPage && <Navigation />}
       {/* Hide main content until preloader is done - prevents FOUC */}
       {/* translateY(-200vh) moves content off-screen so IntersectionObserver won't fire whileInView animations prematurely */}
       <main 
@@ -34,7 +37,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       >
         {children}
       </main>
-      <Footer />
+      {!isWorkbookPage && <Footer />}
     </>
   );
 }

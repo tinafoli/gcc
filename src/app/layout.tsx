@@ -120,6 +120,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const enableFacebookChat =
+    process.env.NODE_ENV === 'production' &&
+    Boolean(process.env.NEXT_PUBLIC_FACEBOOK_APP_ID) &&
+    Boolean(process.env.NEXT_PUBLIC_FACEBOOK_PAGE_ID);
+
   return (
     <html lang="en" className={`${inter.variable} ${delius.variable}`} suppressHydrationWarning>
       <head>
@@ -133,13 +138,15 @@ export default function RootLayout({
         <meta name="msapplication-TileColor" content="#ff0000" />
       </head>
       <body className="min-h-screen flex flex-col" suppressHydrationWarning>
-        {/* Facebook SDK */}
-        <div id="fb-root"></div>
-        <Script
-          id="facebook-sdk"
-          strategy="lazyOnload"
-          dangerouslySetInnerHTML={{
-            __html: `
+        {enableFacebookChat && (
+          <>
+            {/* Facebook SDK */}
+            <div id="fb-root"></div>
+            <Script
+              id="facebook-sdk"
+              strategy="lazyOnload"
+              dangerouslySetInnerHTML={{
+                __html: `
               (function() {
                 // Suppress third-party tracking errors (non-critical)
                 if (typeof window !== 'undefined') {
@@ -232,14 +239,16 @@ export default function RootLayout({
                 }(document, 'script', 'facebook-jssdk'));
               })();
             `
-          }}
-        />
-        {/* Facebook Customer Chat */}
-        <div
-          className="fb-customerchat"
-          data-attribution="setup_tool"
-          data-page-id={process.env.NEXT_PUBLIC_FACEBOOK_PAGE_ID}
-        ></div>
+              }}
+            />
+            {/* Facebook Customer Chat */}
+            <div
+              className="fb-customerchat"
+              data-attribution="setup_tool"
+              data-page-id={process.env.NEXT_PUBLIC_FACEBOOK_PAGE_ID}
+            ></div>
+          </>
+        )}
         <CartProvider>
           <ClientLayoutWrapper>
             {children}

@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import ClientBlogPage from './client-blog-page';
+import { getPublishedBlogPosts } from '@/lib/blog-cms';
 
 export const metadata: Metadata = {
   title: 'Blog',
@@ -21,6 +22,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BlogPage() {
-  return <ClientBlogPage />;
+export default async function BlogPage() {
+  const posts = await getPublishedBlogPosts();
+  return <ClientBlogPage posts={posts} />;
 }

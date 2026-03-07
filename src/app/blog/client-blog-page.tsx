@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { FiSearch, FiArrowRight } from 'react-icons/fi';
 import { Delius } from 'next/font/google';
 import Script from 'next/script';
-import { blogPosts } from './data';
+import type { BlogPost } from './types';
 
 const delius = Delius({ 
   weight: '400',
@@ -16,7 +16,11 @@ const delius = Delius({
   display: 'swap',
 });
 
-export default function ClientBlogPage() {
+interface ClientBlogPageProps {
+  posts: BlogPost[];
+}
+
+export default function ClientBlogPage({ posts }: ClientBlogPageProps) {
   const router = useRouter();
   const [activeCategory, setActiveCategory] = useState('all');
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -41,7 +45,7 @@ export default function ClientBlogPage() {
     if (!mounted) return;
     
     const initialIndices: Record<string, number> = {};
-    blogPosts.forEach(post => {
+    posts.forEach(post => {
       initialIndices[post.id] = 0;
     });
     setActiveImageIndices(initialIndices);
@@ -52,7 +56,7 @@ export default function ClientBlogPage() {
     if (!mounted) return;
 
     const intervals: NodeJS.Timeout[] = [];
-    const visiblePosts = blogPosts.filter(post => {
+    const visiblePosts = posts.filter(post => {
       const categoryMatch = activeCategory === 'all' || post.category === activeCategory;
       const searchMatch = searchQuery === '' || 
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -94,7 +98,7 @@ export default function ClientBlogPage() {
   ];
 
   // Filter blog posts based on active category and search query
-  const filteredPosts = blogPosts
+  const filteredPosts = posts
     .filter(post => {
       // First check category filter
       const categoryMatch = activeCategory === 'all' || post.category === activeCategory;
@@ -114,7 +118,7 @@ export default function ClientBlogPage() {
       return dateB.getTime() - dateA.getTime();
     });
 
-  const handleCardClick = (post: typeof blogPosts[0]) => {
+  const handleCardClick = (post: BlogPost) => {
     if (post.slug) {
       router.push(`/blog/${post.slug}`);
     }
@@ -173,7 +177,7 @@ export default function ClientBlogPage() {
         url: 'https://ghanacodeclub.org/images/gcc-logo.png'
       }
     },
-    blogPost: blogPosts.map(post => ({
+    blogPost: posts.map(post => ({
       '@type': 'BlogPosting',
       headline: post.title,
       description: post.excerpt,

@@ -234,7 +234,47 @@ const boardMembers = [
   }
 ];
 
-export default function ClientAboutPage() {
+type ManagedMember = {
+  id: string;
+  name: string;
+  title: string;
+  image: string;
+  linkedin?: string;
+  website?: string;
+};
+
+interface ClientAboutPageProps {
+  teamMembersData?: ManagedMember[];
+  boardMembersData?: ManagedMember[];
+}
+
+export default function ClientAboutPage({ teamMembersData = [], boardMembersData = [] }: ClientAboutPageProps) {
+  const resolvedTeamMembers = teamMembersData.length > 0
+    ? teamMembersData.map((m, idx) => ({
+        id: Number(m.id) || idx + 1,
+        name: m.name,
+        title: m.title,
+        image: m.image,
+        social: { instagram: '#', twitter: '#', facebook: '#' },
+      }))
+    : teamMembers;
+
+  const resolvedBoardMembers = boardMembersData.length > 0
+    ? boardMembersData.map((m, idx) => ({
+        id: Number(m.id) || idx + 1,
+        name: m.name,
+        title: m.title,
+        image: m.image,
+        website: m.website || '#',
+        social: {
+          instagram: '#',
+          twitter: '#',
+          facebook: '#',
+          linkedin: m.linkedin || '#',
+        },
+      }))
+    : boardMembers;
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentBoardSlide, setCurrentBoardSlide] = useState(0);
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -264,8 +304,8 @@ export default function ClientAboutPage() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const totalSlides = isMobile ? teamMembers.length : Math.ceil(teamMembers.length / 4);
-  const totalBoardSlides = isMobile ? boardMembers.length : Math.ceil(boardMembers.length / 4);
+  const totalSlides = isMobile ? resolvedTeamMembers.length : Math.ceil(resolvedTeamMembers.length / 4);
+  const totalBoardSlides = isMobile ? resolvedBoardMembers.length : Math.ceil(resolvedBoardMembers.length / 4);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % totalSlides);
@@ -861,7 +901,7 @@ export default function ClientAboutPage() {
               >
                 {isMobile ? (
                   // Mobile view shows one at a time
-                  teamMembers.map((member) => (
+                  resolvedTeamMembers.map((member) => (
                     <div key={member.id} className="w-full flex-shrink-0" style={{ padding: '0 0.25rem' }}>
                       <motion.div 
                         initial={{ opacity: 0, y: 20 }}
@@ -930,9 +970,9 @@ export default function ClientAboutPage() {
                   ))
                 ) : (
                   // Desktop view shows up to 4 at once
-                  Array(Math.ceil(teamMembers.length / 4)).fill(0).map((_, batchIndex) => (
+                  Array(Math.ceil(resolvedTeamMembers.length / 4)).fill(0).map((_, batchIndex) => (
                     <div key={batchIndex} className="w-full flex-shrink-0 flex flex-wrap">
-                      {teamMembers.slice(batchIndex * 4, batchIndex * 4 + 4).map((member) => (
+                      {resolvedTeamMembers.slice(batchIndex * 4, batchIndex * 4 + 4).map((member) => (
                         <div key={member.id} className="w-1/2 md:w-1/4 p-2">
                           <motion.div 
                             initial={{ opacity: 0, y: 20 }}
@@ -1075,7 +1115,7 @@ export default function ClientAboutPage() {
               >
                 {isMobile ? (
                   // Mobile view shows one at a time
-                  boardMembers.map((member) => (
+                  resolvedBoardMembers.map((member) => (
                     <div key={member.id} className="w-full flex-shrink-0" style={{ padding: '0 0.25rem' }}>
                       <motion.div 
                         initial={{ opacity: 0, y: 20 }}
@@ -1168,9 +1208,9 @@ export default function ClientAboutPage() {
                   ))
                 ) : (
                   // Desktop view shows up to 4 at once
-                  Array(Math.ceil(boardMembers.length / 4)).fill(0).map((_, batchIndex) => (
+                  Array(Math.ceil(resolvedBoardMembers.length / 4)).fill(0).map((_, batchIndex) => (
                     <div key={batchIndex} className="w-full flex-shrink-0 flex flex-wrap">
-                      {boardMembers.slice(batchIndex * 4, batchIndex * 4 + 4).map((member) => (
+                      {resolvedBoardMembers.slice(batchIndex * 4, batchIndex * 4 + 4).map((member) => (
                         <div key={member.id} className="w-1/2 md:w-1/4 p-2">
                           <motion.div 
                             initial={{ opacity: 0, y: 20 }}

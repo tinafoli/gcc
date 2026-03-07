@@ -35,6 +35,7 @@ yarn-error.log*
 
 # Google Cloud App Engine config (contains API keys)
 app.yaml
+appengine.env.yaml
 
 # vercel
 .vercel

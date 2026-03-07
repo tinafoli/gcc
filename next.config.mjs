@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  allowedDevOrigins: ['192.168.1.158'],
   images: {
     // Reduced sizes for faster optimization
     deviceSizes: [640, 750, 828, 1080, 1200],

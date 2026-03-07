@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/admin/', '/private/', '/api/'],
+      disallow: ['/admin/', '/private/', '/api/', '/workbook-launch/', '/order-workbook/', '/blog-admin/'],
     },
     sitemap: 'https://ghanacodeclub.org/sitemap.xml',
   };

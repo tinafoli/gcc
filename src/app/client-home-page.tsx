@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { BlogPost } from './blog/types';
 import OptimizedImage from '@/components/ui/OptimizedImage';
 import Script from 'next/script';
@@ -19,9 +20,110 @@ import ClientPromoModal from '@/components/ClientPromoModal';
 
 interface ClientHomePageProps {
   blogPosts: BlogPost[];
+  siteSettings: {
+    linkedinEmbedUrl: string;
+    linkedinProfileUrl: string;
+    linkedinPostUrl?: string;
+  };
+  impactStats: Array<{
+    id: string;
+    label: string;
+    value: number;
+    suffix: string;
+    description: string;
+  }>;
+  homepageAnnouncement: {
+    enabled: boolean;
+    badge: string;
+    title: string;
+    eventTitle: string;
+    date: string;
+    time: string;
+    location: string;
+    image: string;
+    description: string;
+    buttonText: string;
+    buttonUrl: string;
+  };
 }
 
-export default function ClientHomePage({ blogPosts }: ClientHomePageProps) {
+export default function ClientHomePage({ blogPosts, siteSettings, homepageAnnouncement, impactStats }: ClientHomePageProps) {
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
+
+  useEffect(() => {
+    const updateViewport = () => setIsMobileViewport(window.innerWidth < 768);
+    updateViewport();
+    window.addEventListener('resize', updateViewport);
+    return () => window.removeEventListener('resize', updateViewport);
+  }, []);
+
+  const statCardStyles = [
+    {
+      border: 'border-blue-200',
+      corner: 'bg-blue-50',
+      iconBg: 'bg-blue-50',
+      iconColor: 'text-red-500',
+      progress: 'from-red-400 to-red-600',
+      iconPath: 'M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342',
+    },
+    {
+      border: 'border-red-200',
+      corner: 'bg-red-50',
+      iconBg: 'bg-red-50',
+      iconColor: 'text-blue-500',
+      progress: 'from-blue-400 to-blue-600',
+      iconPath: 'M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42A2.176 2.176 0 0 1 3.75 18.4v-4.25m16.5 0a2.18 2.18 0 0 0 .75-1.661V8.706a2.176 2.176 0 0 0-1.838-2.174 48.115 48.115 0 0 0-3.412-.387m4.5 8.006c-.194.165-.42.295-.674.38A23.978 23.978 0 0 1 12 15.75a23.98 23.98 0 0 1-7.577-1.22 2.018 2.018 0 0 1-.674-.38m0 0A2.177 2.177 0 0 1 3 12.489V8.706a2.176 2.176 0 0 1 1.838-2.174 48.11 48.11 0 0 1 3.412-.387m7.5 0V5.25A2.25 2.25 0 0 0 13.5 3h-3a2.25 2.25 0 0 0-2.25 2.25v.894m7.5 0a48.667 48.667 0 0 0-7.5 0',
+    },
+    {
+      border: 'border-green-200',
+      corner: 'bg-green-50',
+      iconBg: 'bg-green-50',
+      iconColor: 'text-green-500',
+      progress: 'from-green-400 to-green-600',
+      iconPath: 'M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.059 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z',
+    },
+    {
+      border: 'border-yellow-200',
+      corner: 'bg-yellow-50',
+      iconBg: 'bg-yellow-50',
+      iconColor: 'text-purple-500',
+      progress: 'from-purple-400 to-purple-600',
+      iconPath: 'M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342',
+    },
+    {
+      border: 'border-pink-200',
+      corner: 'bg-pink-50',
+      iconBg: 'bg-pink-50',
+      iconColor: 'text-pink-500',
+      progress: 'from-pink-400 to-pink-600',
+      iconPath: 'M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm6 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z',
+    },
+    {
+      border: 'border-purple-200',
+      corner: 'bg-purple-50',
+      iconBg: 'bg-purple-50',
+      iconColor: 'text-purple-500',
+      progress: 'from-purple-400 to-purple-600',
+      iconPath: 'M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.059 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0z',
+    },
+    {
+      border: 'border-yellow-200',
+      corner: 'bg-yellow-50',
+      iconBg: 'bg-yellow-50',
+      iconColor: 'text-yellow-500',
+      progress: 'from-yellow-400 to-yellow-600',
+      iconPath: 'M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934a1.125 1.125 0 0 1-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689A1.125 1.125 0 0 0 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934a1.125 1.125 0 0 1 1.006 0l4.994 2.497a1.125 1.125 0 0 0 1.006 0z',
+    },
+    {
+      border: 'border-indigo-200',
+      corner: 'bg-indigo-50',
+      iconBg: 'bg-indigo-50',
+      iconColor: 'text-indigo-500',
+      progress: 'from-indigo-400 to-indigo-600',
+      iconPath: 'M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0z',
+    },
+  ];
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'EducationalOrganization',
@@ -197,7 +299,7 @@ export default function ClientHomePage({ blogPosts }: ClientHomePageProps) {
       <Script id="home-jsonld" type="application/ld+json">
         {JSON.stringify(jsonLd)}
       </Script>
-      {/* <ClientPromoModal /> */}
+      <ClientPromoModal enabled={homepageAnnouncement.enabled} announcement={homepageAnnouncement} />
       
       {/* Hero Carousel */}
       <HeroCarousel />
@@ -279,103 +381,17 @@ export default function ClientHomePage({ blogPosts }: ClientHomePageProps) {
           </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                end: 131000,
-                label: "KIDS TRAINED",
-                description: "Empowering young minds with coding skills",
-                icon: (
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-red-500">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
-                </svg>
-                ),
-                color: "red"
-              },
-              {
-                end: 7000,
-                label: "TEACHERS TRAINED",
-                description: "Equipping educators with digital skills",
-                icon: (
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-blue-500">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 0 0 .75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 0 0-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0 1 12 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 0 1-.673-.38m0 0A2.18 2.18 0 0 1 3 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 0 1 3.413-.387m7.5 0V5.25A2.25 2.25 0 0 0 13.5 3h-3a2.25 2.25 0 0 0-2.25 2.25v.894m7.5 0a48.667 48.667 0 0 0-7.5 0M12 12.75h.008v.008H12v-.008Z" />
-                </svg>
-                ),
-                color: "blue"
-              },
-              {
-                end: 324,
-                label: "MENTORS VOLUNTEERED",
-                description: "Dedicated professionals guiding our students",
-                icon: (
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-green-500">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
-                </svg>
-                ),
-                color: "green"
-              },
-              {
-                end: 22,
-                label: "DIGITAL LEARNING CENTERS",
-                description: "Expanding our reach across Ghana",
-                icon: (
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-purple-500">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" />
-                </svg>
-                ),
-                color: "purple"
-              },
-              {
-                end: 30000,
-                label: "GIRLS TRAINED THROUGH 100 GIRLS IN STEM",
-                description: "Empowering girls in technology",
-                icon: (
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-pink-500">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
-                </svg>
-                ),
-                color: "pink"
-              },
-              {
-                end: 100,
-                label: "WOMEN / ADULTS TRAINED",
-                description: "Building tech skills for adults",
-                icon: (
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-indigo-500">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.059 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
-                </svg>
-                ),
-                color: "indigo"
-              },
-              {
-                end: 8,
-                label: "REGIONS COVERED",
-                description: "Making coding education accessible nationwide",
-                icon: (
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-yellow-500">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z" />
-                </svg>
-                ),
-                color: "yellow"
-              },
-              {
-                end: 10,
-                label: "YEARS OF IMPACT",
-                description: "Building a brighter future through code",
-                icon: (
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-indigo-500">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                ),
-                color: "indigo"
-              }
-            ].map((stat, index) => (
+            {impactStats.map((stat, index) => (
+              (() => {
+                const style = statCardStyles[index % statCardStyles.length];
+                return (
               <motion.div
-                key={index}
+                key={stat.id}
                 initial={{ 
                   opacity: 0, 
-                  y: 40,
-                  scale: 0.9,
-                  rotateX: index % 2 === 0 ? -10 : 10,
+                  y: isMobileViewport ? 14 : 40,
+                  scale: isMobileViewport ? 1 : 0.9,
+                  rotateX: isMobileViewport ? 0 : (index % 2 === 0 ? -10 : 10),
                 }}
                 whileInView={{ 
                   opacity: 1, 
@@ -385,62 +401,52 @@ export default function ClientHomePage({ blogPosts }: ClientHomePageProps) {
                 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ 
-                  duration: 0.6, 
-                  delay: index * 0.12,
+                  duration: isMobileViewport ? 0.38 : 0.6, 
+                  delay: isMobileViewport ? Math.min(index * 0.04, 0.2) : index * 0.12,
                   ease: [0.25, 0.46, 0.45, 0.94]
                 }}
-                whileHover={{ 
+                whileHover={isMobileViewport ? undefined : { 
                   scale: 1.05,
                   y: -8,
                   boxShadow: "0 25px 30px -10px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.06)"
                 }}
-                className={`bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-300 border border-gray-100 relative overflow-hidden group perspective-1000`}
+                className={`bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-300 border border-gray-100 relative overflow-hidden group md:perspective-1000`}
               >
                 {/* Decorative Border */}
                 <motion.div
-                  className={`absolute inset-0 rounded-2xl border-2 border-${stat.color}-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+                  className={`absolute inset-0 rounded-2xl border-2 ${style.border} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
                   initial={{ scale: 0.95 }}
                   whileHover={{ scale: 1 }}
                   transition={{ duration: 0.3 }}
                 />
                 
                 {/* Decorative Corner */}
-                <div className={`absolute top-0 right-0 w-16 h-16 bg-${stat.color}-50 opacity-10 transform rotate-45 translate-x-8 -translate-y-8`} />
+                <div className={`absolute top-0 right-0 w-16 h-16 ${style.corner} opacity-10 transform rotate-45 translate-x-8 -translate-y-8`} />
                 
-                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-white mb-6 mx-auto relative">
-                  <motion.div
-                    className={`absolute inset-0 rounded-full bg-${stat.color}-50`}
-                    initial={{ scale: 0 }}
-                    whileInView={{ scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
-                  />
-                  <motion.div
-                    className="relative z-10"
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <div className={`relative group-hover:shadow-lg group-hover:shadow-${stat.color}-200 transition-shadow duration-300`}>
-                      {stat.icon}
-                    </div>
-                  </motion.div>
+                <div className={`flex items-center justify-center w-16 h-16 rounded-full ${style.iconBg} mb-6 mx-auto relative`}>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-8 h-8 ${style.iconColor}`}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d={style.iconPath} />
+                  </svg>
                 </div>
                 
             <StatisticItem 
-                  end={stat.end} 
+                  end={stat.value}
                   label={stat.label} 
                   description={stat.description}
                 />
-                
-                {/* Progress Bar */}
-                <motion.div
-                  className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-${stat.color}-400 to-${stat.color}-600`}
-                  initial={{ width: 0 }}
-                  whileInView={{ width: "100%" }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1, delay: index * 0.1 + 0.3 }}
-                />
+
+                {index === 0 && (
+                  <motion.div
+                    className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r ${style.progress}`}
+                    initial={{ width: 0 }}
+                    whileInView={{ width: '100%' }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1, delay: index * 0.1 + 0.3 }}
+                  />
+                )}
               </motion.div>
+                );
+              })()
             ))}
           </div>
         </div>
@@ -540,7 +546,10 @@ export default function ClientHomePage({ blogPosts }: ClientHomePageProps) {
       <BlogPreview posts={blogPosts} />
 
       {/* Connect With Us Section */}
-      <SocialMediaFeeds />
+      <SocialMediaFeeds
+        linkedinEmbedUrl={siteSettings.linkedinEmbedUrl}
+        linkedinProfileUrl={siteSettings.linkedinProfileUrl}
+      />
 
       {/* Frequently Asked Questions Section */}
       <FAQ />

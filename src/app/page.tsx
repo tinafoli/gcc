@@ -11,11 +11,11 @@ import BlogPreview from '@/components/BlogPreview';
 import { Metadata } from 'next';
 import Script from 'next/script';
 import ClientHomePage from './client-home-page';
-import { blogPosts } from './blog/data';
+import { getPublishedBlogPosts } from '@/lib/blog-cms';
+import { getHomepageAnnouncement, getImpactStatsFromSheet, getSeoSettingsByPage, getSiteSettings } from '@/lib/site-content';
 import Link from 'next/link';
-import { Suspense } from 'react';
 
-export const metadata: Metadata = {
+const DEFAULT_METADATA: Metadata = {
   metadataBase: new URL('https://ghanacode.club'),
   title: 'Ghana Code Club | Empowering the next generation of Ghanaian leaders through coding education, AI and digital skills training',
   description: 'Ghana Code Club has trained over 131,000 kids, 7,000 teachers, and 324 mentors across 22 digital learning centers. Join our mission to empower children aged 5-17 with coding skills through interactive after-school programs.',
@@ -61,10 +61,77 @@ export const metadata: Metadata = {
   },
 };
 
-export default function HomePage() {
+function splitKeywords(raw: string): string[] {
+  return raw.split(',').map((item) => item.trim()).filter(Boolean);
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSeoSettingsByPage('home');
+  return {
+    ...DEFAULT_METADATA,
+    title: seo.title || DEFAULT_METADATA.title,
+    description: seo.description || DEFAULT_METADATA.description,
+    keywords: seo.keywords ? splitKeywords(seo.keywords) : DEFAULT_METADATA.keywords,
+    alternates: {
+      canonical: seo.canonical || 'https://ghanacode.club',
+    },
+    openGraph: {
+      ...DEFAULT_METADATA.openGraph,
+      title: seo.ogTitle || seo.title,
+      description: seo.ogDescription || seo.description,
+      url: seo.canonical || 'https://ghanacode.club',
+      images: seo.ogImage ? [{ url: seo.ogImage, width: 1200, height: 630, alt: 'Ghana Code Club' }] : DEFAULT_METADATA.openGraph?.images,
+    },
+    twitter: {
+      ...DEFAULT_METADATA.twitter,
+      title: seo.twitterTitle || seo.ogTitle || seo.title,
+      description: seo.twitterDescription || seo.ogDescription || seo.description,
+      images: seo.twitterImage ? [seo.twitterImage] : DEFAULT_METADATA.twitter?.images,
+    },
+  };
+}
+
+export const dynamic = 'force-dynamic';
+
+export default async function HomePage() {
+  const fallbackSiteSettings = {
+    linkedinEmbedUrl: 'https://www.linkedin.com/embed/feed/update/urn:li:activity:7416748561272528896',
+    linkedinProfileUrl: 'https://www.linkedin.com/posts/ghana-code-club_ghanacodeclub-ailiteracy-ecobank-activity-7416748561272528896-Qnvd',
+    linkedinPostUrl: 'https://www.linkedin.com/posts/ghana-code-club_ghanacodeclub-ailiteracy-ecobank-activity-7416748561272528896-Qnvd',
+  };
+  const fallbackAnnouncement = {
+    enabled: false,
+    badge: 'Upcoming Event',
+    title: 'Join Our Exciting Summer Activities',
+    eventTitle: '',
+    date: '22 JULY 2025',
+    time: 'Tuesdays, Wednesdays & Saturdays',
+    location: 'Ashongman Estates, Accra, Ghana',
+    image: '/images/events/summer-camp.jpg',
+    description: 'ACTIVITIES:\n• Coding & Game Design\n• Robotics & AI\n• Circuits & Electronics\n• Digital Arts\n• 3D Model/Print\n• Micro:bits',
+    buttonText: 'Register Your Kids',
+    buttonUrl: 'https://bit.ly/gccsummerschool',
+  };
+
+  const [blogPostsResult, siteSettingsResult, homepageAnnouncementResult, impactStatsResult] = await Promise.allSettled([
+    getPublishedBlogPosts(),
+    getSiteSettings(),
+    getHomepageAnnouncement(),
+    getImpactStatsFromSheet(),
+  ]);
+
+  const blogPosts = blogPostsResult.status === 'fulfilled' ? blogPostsResult.value : [];
+  const siteSettings = siteSettingsResult.status === 'fulfilled' ? siteSettingsResult.value : fallbackSiteSettings;
+  const homepageAnnouncement = homepageAnnouncementResult.status === 'fulfilled'
+    ? homepageAnnouncementResult.value
+    : fallbackAnnouncement;
+  const impactStats = impactStatsResult.status === 'fulfilled' ? impactStatsResult.value : [];
   return (
-    <Suspense fallback={<div className="min-h-screen bg-gray-50" />}>
-      <ClientHomePage blogPosts={blogPosts} />
-    </Suspense>
+    <ClientHomePage
+      blogPosts={blogPosts}
+      siteSettings={siteSettings}
+      homepageAnnouncement={homepageAnnouncement}
+      impactStats={impactStats.filter((item) => item.active)}
+    />
   );
 }

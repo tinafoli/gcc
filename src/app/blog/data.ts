@@ -12,6 +12,82 @@ function generateSlug(title: string): string {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: "26",
+    title: "A Historic Launch Day for Coding & AI Without Computers in Ghana",
+    excerpt: "On 4 March 2026, Ghana Code Club officially launched its Coding & AI Without Computers initiative with Unplugged Coding & AI Learning Kits, making it possible for teachers to begin digital skills instruction immediately, even without computer labs.",
+    category: 'news',
+    author: {
+      name: "Ghana Code Club Team",
+      role: "Programs Team",
+      avatar: "/images/team/mentor1.jpg"
+    },
+    date: "March 2026",
+    readTime: "6 min read",
+    image: "/images/blog/workbook-launch.jfif",
+    image2: "/images/blog/workbook-launch-1.jfif",
+    image3: "/images/blog/workbook-launch-2.jfif",
+    slug: "historic-launch-coding-ai-without-computers-ghana",
+    seoTitle: "Ghana Code Club Launches Coding & AI Without Computers Initiative in Ghana",
+    seoDescription: "Ghana Code Club launched the Coding & AI Without Computers initiative with Unplugged Coding & AI Learning Kits to help teachers deliver coding, computational thinking, and AI literacy in underserved schools without computer labs.",
+    seoKeywords: [
+      "Ghana Code Club",
+      "Coding and AI Without Computers",
+      "Unplugged Coding and AI Learning Kits",
+      "AI literacy Ghana",
+      "coding education Ghana",
+      "computational thinking for children",
+      "teacher training Ghana",
+      "underserved schools Ghana",
+      "digital skills Ghana",
+      "AUCB launch",
+    ],
+    content: `Yesterday, the 4th of March 2026, was a historic day for us at Ghana Code Club. For years, we have received messages from teachers, parents, and schools across Ghana asking a simple question:
+
+"When will Ghana Code Club bring coding education to our community?"
+
+Each message reminded us of the growing demand for digital skills. But it also reminded us of a difficult reality -- our resources were not enough to reach every school that needed us.
+
+And that has always been painful.
+
+Because every child deserves the opportunity to learn how technology works -- not just how to use it.
+
+Yesterday, that story began to change.
+
+We officially launched our Coding & AI Without Computers initiative together with our Unplugged Coding & AI Learning Kits.
+
+This approach removes one of the biggest barriers to digital education: the need for computers before learning can begin.
+
+With these kits and workbooks, teachers can start teaching computational thinking, logic, sequencing, and AI foundations immediately -- anywhere.
+
+No computer lab required.
+
+Our model is simple but powerful:
+
+When a teacher receives one of these kits, they will be trained by Ghana Code Club -- either virtually or in person depending on their location -- and empowered to begin teaching children right away.
+
+In other words:
+
+Children no longer have to wait for infrastructure before they begin learning how to think like innovators.
+
+Our goal now is to scale this model across Ghana, especially to underserved schools and communities. We welcome partnerships with organizations, foundations, and individuals who believe that every child deserves the chance to learn the thinking behind technology.
+
+Because when children understand logic, systems, and problem-solving... they do not just use technology.
+
+They begin to create it.
+
+Much appreciation to the African University of Communication and Business for allowing us to launch this program through their platforms and many thanks to Kwame Nyatuame for moderating this program for us.
+
+Also Covered By
+
+Ghana News Agency:
+https://gna.org.gh/2026/03/underserved-students-to-be-trained-in-coding-ai-through-ghana-code-club-initiative/
+
+Adom Online:
+https://www.adomonline.com/ghana-code-club-targets-underserved-communities-with-coding-and-ai-training/
+
+#unpluggedcoding #AIliteracy`
+  },
+  {
     id: "25",
     title: "What Happens When Schools Have No ICT Lab?",
     excerpt: "Walk into many schools across Ghana and ask a simple question: 'Where is your ICT lab?' At Ghana Code Club, we work in communities where access to devices is limited or nonexistent. And what we've learned challenges one of the biggest myths in education: Coding does not begin with a computer. It begins with thinking.",

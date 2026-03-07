@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import ClientAboutPage from './client-about-page';
+import { getBoardMembersFromSheet, getTeamMembersFromSheet } from '@/lib/site-content';
 
 export const metadata: Metadata = {
   title: 'About Us',
@@ -26,6 +27,18 @@ export const metadata: Metadata = {
   }
 };
 
-export default function AboutPage() {
-  return <ClientAboutPage />;
+export const dynamic = 'force-dynamic';
+
+export default async function AboutPage() {
+  const [teamMembersData, boardMembersData] = await Promise.all([
+    getTeamMembersFromSheet(),
+    getBoardMembersFromSheet(),
+  ]);
+
+  return (
+    <ClientAboutPage
+      teamMembersData={teamMembersData.filter((m) => m.active)}
+      boardMembersData={boardMembersData.filter((m) => m.active)}
+    />
+  );
 } 

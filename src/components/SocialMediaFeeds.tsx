@@ -45,8 +45,24 @@ const socialMediaFeeds: SocialMediaFeed[] = [
   }
 ];
 
-export default function SocialMediaFeeds() {
+interface SocialMediaFeedsProps {
+  linkedinEmbedUrl?: string;
+  linkedinProfileUrl?: string;
+}
+
+export default function SocialMediaFeeds({
+  linkedinEmbedUrl,
+  linkedinProfileUrl,
+}: SocialMediaFeedsProps) {
   const [iframeErrors, setIframeErrors] = useState<Record<string, boolean>>({});
+  const feeds = socialMediaFeeds.map((feed) => {
+    if (feed.platform !== 'LinkedIn') return feed;
+    return {
+      ...feed,
+      embedUrl: linkedinEmbedUrl || feed.embedUrl,
+      profileUrl: linkedinProfileUrl || feed.profileUrl,
+    };
+  });
 
   const handleIframeError = (platform: string) => {
     setIframeErrors(prev => ({ ...prev, [platform]: true }));
@@ -83,7 +99,7 @@ export default function SocialMediaFeeds() {
         </motion.div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {socialMediaFeeds.map((feed, index) => (
+          {feeds.map((feed, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}

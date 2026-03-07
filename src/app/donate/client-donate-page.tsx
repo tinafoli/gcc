@@ -19,10 +19,26 @@ const nunito = Nunito({
   variable: '--font-nunito',
 });
 
+type ImpactStat = {
+  id: string;
+  label: string;
+  value: number;
+  suffix: string;
+};
 
-export default function ClientDonatePage() {
-  const [showPdfViewer, setShowPdfViewer] = useState<'2022' | '2023' | null>(null);
+type ReportItem = {
+  id: string;
+  year: string;
+  title: string;
+  description: string;
+  datePublished: string;
+  pdfUrl: string;
+};
+
+export default function ClientDonatePage({ impactStats, reports }: { impactStats: ImpactStat[]; reports: ReportItem[] }) {
+  const [showPdfViewer, setShowPdfViewer] = useState<string | null>(null);
   const [showRedirectNotification, setShowRedirectNotification] = useState(false);
+  const selectedReport = reports.find((report) => report.year === showPdfViewer) || null;
 
   // Structured data for SEO - Impact Reports
   const impactReportsJsonLd = {
@@ -31,38 +47,21 @@ export default function ClientDonatePage() {
     name: 'Ghana Code Club Impact Reports',
     description: 'Annual impact reports showcasing Ghana Code Club\'s achievements in providing tech education to Ghanaian youth.',
     url: 'https://ghanacodeclub.org/donate#impact-reports',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        item: {
-          '@type': 'Report',
-          name: '2023 Annual Impact Report',
-          description: 'Ghana Code Club\'s 2023 annual impact report detailing our achievements in training students, teachers, and expanding our reach across Ghana.',
-          datePublished: '2023-12-31',
-          url: 'https://ghanacodeclub.org/reports/gcc-annual-impact-report-2023.pdf',
-          publisher: {
-            '@type': 'Organization',
-            name: 'Ghana Code Club'
-          }
-        }
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        item: {
-          '@type': 'Report',
-          name: '2022 Annual Impact Report',
-          description: 'Ghana Code Club\'s 2022 annual impact report showcasing our progress in providing coding education across Ghana.',
-          datePublished: '2022-12-31',
-          url: 'https://ghanacodeclub.org/reports/gcc-annual-impact-report-2022.pdf',
-          publisher: {
-            '@type': 'Organization',
-            name: 'Ghana Code Club'
-          }
+    itemListElement: reports.map((report, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'Report',
+        name: report.title,
+        description: report.description,
+        datePublished: report.datePublished,
+        url: `https://ghanacodeclub.org${report.pdfUrl}`,
+        publisher: {
+          '@type': 'Organization',
+          name: 'Ghana Code Club'
         }
       }
-    ]
+    }))
   };
 
   return (
@@ -348,25 +347,16 @@ export default function ClientDonatePage() {
             </motion.div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-8">
-              {[
-                { number: '131,000+', label: 'Kids Trained' },
-                { number: '7,000+', label: 'Teachers Trained' },
-                { number: '324+', label: 'Mentors Volunteered' },
-                { number: '22+', label: 'Digital Learning Centers' },
-                { number: '30,000+', label: 'Girls Trained (100 Girls in STEM)' },
-                { number: '100+', label: 'Women / Adults Trained' },
-                { number: '8+', label: 'Regions Covered' },
-                { number: '10+', label: 'Years of Impact' },
-              ].map((stat, index) => (
+              {impactStats.map((stat, index) => (
                 <motion.div 
-                  key={index}
+                  key={stat.id}
                   className="text-center"
                   initial={{ opacity: 0, y: 25, scale: 0.95 }}
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.5, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
                 >
-                  <div className="text-4xl font-bold text-red-600 mb-2">{stat.number}</div>
+                  <div className="text-4xl font-bold text-red-600 mb-2">{stat.value.toLocaleString()}{stat.suffix || '+'}</div>
                   <div className="text-gray-600">{stat.label}</div>
                 </motion.div>
               ))}
@@ -415,94 +405,55 @@ export default function ClientDonatePage() {
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* 2022 Report */}
-              <article
-                itemScope
-                itemType="https://schema.org/Report"
-                className="bg-red-50 rounded-xl p-8 text-center"
-              >
-                <motion.div
-                  initial={{ opacity: 0, y: 25, scale: 0.95 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+              {reports.slice(0, 2).map((report, index) => (
+                <article
+                  key={report.id}
+                  itemScope
+                  itemType="https://schema.org/Report"
+                  className="bg-red-50 rounded-xl p-8 text-center"
                 >
-                  <h3 itemProp="name" className={`text-2xl font-bold text-gray-900 mb-4 ${delius.className}`}>
-                    2022 Impact Report
-                  </h3>
-                  <meta itemProp="datePublished" content="2022-12-31" />
-                  <meta itemProp="description" content="Ghana Code Club's 2022 annual impact report showcasing our progress in providing coding education across Ghana." />
-                  <div className="flex flex-col gap-3">
-                    <a
-                      href="/reports/gcc-annual-impact-report-2022.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      itemProp="url"
-                      className="inline-flex items-center justify-center bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors"
-                      aria-label="Download 2022 Annual Impact Report PDF"
-                    >
-                      <FiDownload className="mr-2" />
-                      Download 2022 Report
-                    </a>
-                    <button 
-                      onClick={() => setShowPdfViewer('2022')} 
-                      className="inline-flex items-center justify-center bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition-colors"
-                      aria-label="View 2022 Annual Impact Report"
-                    >
-                      <FiFile className="mr-2" />
-                      View 2022 Report
-                    </button>
-                  </div>
-                </motion.div>
-              </article>
-
-              {/* 2023 Report */}
-              <article
-                itemScope
-                itemType="https://schema.org/Report"
-                className="bg-red-50 rounded-xl p-8 text-center"
-              >
-                <motion.div
-                  initial={{ opacity: 0, y: 25, scale: 0.95 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.5, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
-                >
-                  <h3 itemProp="name" className={`text-2xl font-bold text-gray-900 mb-4 ${delius.className}`}>
-                    2023 Impact Report
-                  </h3>
-                  <meta itemProp="datePublished" content="2023-12-31" />
-                  <meta itemProp="description" content="Ghana Code Club's 2023 annual impact report detailing our achievements in training students, teachers, and expanding our reach across Ghana." />
-                  <div className="flex flex-col gap-3">
-                    <a
-                      href="/reports/gcc-annual-impact-report-2023.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      itemProp="url"
-                      className="inline-flex items-center justify-center bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors"
-                      aria-label="Download 2023 Annual Impact Report PDF"
-                    >
-                      <FiDownload className="mr-2" />
-                      Download 2023 Report
-                    </a>
-                    <button 
-                      onClick={() => setShowPdfViewer('2023')} 
-                      className="inline-flex items-center justify-center bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition-colors"
-                      aria-label="View 2023 Annual Impact Report"
-                    >
-                      <FiFile className="mr-2" />
-                      View 2023 Report
-                    </button>
-                  </div>
-                </motion.div>
-              </article>
+                  <motion.div
+                    initial={{ opacity: 0, y: 25, scale: 0.95 }}
+                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{ duration: 0.5, delay: index * 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  >
+                    <h3 itemProp="name" className={`text-2xl font-bold text-gray-900 mb-4 ${delius.className}`}>
+                      {report.year} Impact Report
+                    </h3>
+                    <meta itemProp="datePublished" content={report.datePublished} />
+                    <meta itemProp="description" content={report.description} />
+                    <div className="flex flex-col gap-3">
+                      <a
+                        href={report.pdfUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        itemProp="url"
+                        className="inline-flex items-center justify-center bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors"
+                        aria-label={`Download ${report.title} PDF`}
+                      >
+                        <FiDownload className="mr-2" />
+                        Download {report.year} Report
+                      </a>
+                      <button
+                        onClick={() => setShowPdfViewer(report.year)}
+                        className="inline-flex items-center justify-center bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition-colors"
+                        aria-label={`View ${report.title}`}
+                      >
+                        <FiFile className="mr-2" />
+                        View {report.year} Report
+                      </button>
+                    </div>
+                  </motion.div>
+                </article>
+              ))}
             </div>
               
-              {showPdfViewer && (
+              {showPdfViewer && selectedReport && (
                 <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4" onClick={() => setShowPdfViewer(null)}>
                   <div className="bg-white rounded-lg w-full max-w-sm p-8 text-center" onClick={(e) => e.stopPropagation()}>
                     <div className="flex justify-between items-center mb-6">
-                      <h3 className="text-xl font-semibold">Annual Report {showPdfViewer}</h3>
+                      <h3 className="text-xl font-semibold">{selectedReport.title}</h3>
                       <button 
                         onClick={() => setShowPdfViewer(null)}
                         className="text-gray-500 hover:text-gray-700"
@@ -514,11 +465,11 @@ export default function ClientDonatePage() {
                     </div>
                     
                     <div className="space-y-6">
-                      <p className="text-lg">Would you like to view our {showPdfViewer} Annual Impact Report?</p>
+                      <p className="text-lg">Would you like to view {selectedReport.title}?</p>
                       
                       <div className="flex flex-col gap-4">
                         <a
-                          href={`/reports/gcc-annual-impact-report-${showPdfViewer}.pdf`}
+                          href={selectedReport.pdfUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="w-full flex items-center justify-center px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"

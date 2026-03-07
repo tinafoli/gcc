@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -49,7 +49,9 @@ const menuVariants = {
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isNavVisible, setIsNavVisible] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const lastScrollY = useRef(0);
   const pathname = usePathname();
   const router = useRouter();
   const { startLoading } = usePageLoading();
@@ -62,11 +64,29 @@ export default function Navigation() {
   useEffect(() => {
     setMounted(true);
     const handleScroll = () => {
-      if (window.scrollY > 10) {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > 10) {
         setScrolled(true);
       } else {
         setScrolled(false);
       }
+
+      // Keep navbar visible near top
+      if (currentScrollY < 80) {
+        setIsNavVisible(true);
+      } else {
+        const delta = currentScrollY - lastScrollY.current;
+
+        // Hide on meaningful downward scroll, show on upward scroll
+        if (delta > 8 && currentScrollY > 120 && !isMenuOpen) {
+          setIsNavVisible(false);
+        } else if (delta < -8) {
+          setIsNavVisible(true);
+        }
+      }
+
+      lastScrollY.current = currentScrollY;
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -74,7 +94,7 @@ export default function Navigation() {
     handleScroll();
     
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isMenuOpen]);
 
   const handleMobileNavigation = (path: string) => {
     setIsMenuOpen(false);
@@ -92,7 +112,7 @@ export default function Navigation() {
   }
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white shadow-md py-2' : 'bg-red-50 py-4'}`}>
+    <nav className={`fixed w-full z-50 transition-all duration-300 transform ${isNavVisible ? 'translate-y-0' : '-translate-y-full'} ${scrolled ? 'bg-white shadow-md py-2' : 'bg-red-50 py-4'}`}>
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           {/* Logo */}

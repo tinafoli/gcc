@@ -4,11 +4,9 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { FiArrowLeft, FiShare2, FiClock, FiCalendar } from 'react-icons/fi';
 import { Delius } from 'next/font/google';
 import { BlogPost } from '@/components/BlogPreview';
-import { blogPosts } from '../data';
 
 const delius = Delius({ 
   weight: '400',
@@ -18,22 +16,12 @@ const delius = Delius({
 
 interface ClientBlogPostPageProps {
   post: BlogPost;
+  otherPosts: BlogPost[];
 }
 
-export default function ClientBlogPostPage({ post }: ClientBlogPostPageProps) {
-  const router = useRouter();
+export default function ClientBlogPostPage({ post, otherPosts }: ClientBlogPostPageProps) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [mounted, setMounted] = useState(false);
-
-  // Get other posts (excluding current post)
-  const otherPosts = blogPosts
-    .filter(p => p.id !== post.id && p.slug)
-    .sort((a, b) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
-      return dateB.getTime() - dateA.getTime();
-    })
-    .slice(0, 10); // Show up to 10 related posts
 
   const images = [post.image, post.image2, post.image3].filter(Boolean);
 
@@ -66,6 +54,60 @@ export default function ClientBlogPostPage({ post }: ClientBlogPostPageProps) {
       navigator.clipboard.writeText(window.location.href);
       alert('Link copied to clipboard!');
     }
+  };
+
+  const renderTextWithLinks = (text: string) => {
+    const pattern = /(https?:\/\/[^\s]+|#[A-Za-z0-9_]+|Kwame Nyatuame)/g;
+    const parts = text.split(pattern);
+    return parts.map((part, index) => {
+      if (!part) return null;
+
+      if (part.startsWith('http://') || part.startsWith('https://')) {
+        return (
+          <a
+            key={`${part}-${index}`}
+            href={part}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-red-600 underline hover:text-red-700"
+          >
+            {part}
+          </a>
+        );
+      }
+
+      if (part.startsWith('#')) {
+        const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(part)}`;
+        return (
+          <a
+            key={`${part}-${index}`}
+            href={searchUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-red-600 underline hover:text-red-700"
+          >
+            {part}
+          </a>
+        );
+      }
+
+      if (part === 'Kwame Nyatuame') {
+        const searchUrl = 'https://www.google.com/search?q=Kwame+Nyatuame';
+        return (
+          <a
+            key={`${part}-${index}`}
+            href={searchUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-red-600 underline hover:text-red-700"
+          >
+            {part}
+          </a>
+        );
+      }
+
+      return <span key={`${part}-${index}`}>{part}</span>;
+    });
   };
 
   if (!mounted) {
@@ -238,7 +280,7 @@ export default function ClientBlogPostPage({ post }: ClientBlogPostPageProps) {
                                 return (
                                   <li key={lineIndex} className="flex items-start">
                                     <span className={`${bulletColor} mr-3 mt-1 text-lg`}>{bulletEmoji}</span>
-                                    <span>{bulletMatch[1]}</span>
+                                    <span>{renderTextWithLinks(bulletMatch[1])}</span>
                                   </li>
                                 );
                               }
@@ -252,7 +294,7 @@ export default function ClientBlogPostPage({ post }: ClientBlogPostPageProps) {
                       if (paragraph.trim()) {
                         return (
                           <p key={index} className="mb-4 text-lg">
-                            {paragraph}
+                            {renderTextWithLinks(paragraph)}
                           </p>
                         );
                       }
@@ -323,6 +365,15 @@ export default function ClientBlogPostPage({ post }: ClientBlogPostPageProps) {
           </div>
         </div>
       </div>
+
+      {/* Mobile Share FAB */}
+      <button
+        onClick={handleShare}
+        aria-label="Share this blog post"
+        className="fixed bottom-6 right-5 z-50 md:hidden flex items-center justify-center w-12 h-12 rounded-full bg-red-600 text-white shadow-lg hover:bg-red-700 active:scale-95 transition-all duration-200"
+      >
+        <FiShare2 className="w-5 h-5" />
+      </button>
     </div>
   );
 }

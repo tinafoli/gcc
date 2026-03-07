@@ -12,50 +12,20 @@ const delius = Delius({
   display: 'swap',
 });
 
-const impactReports = [
-  {
-    year: '2025',
-    title: '2025 Annual Impact Report',
-    description: 'Ghana Code Club\'s 2025 annual impact report highlighting our continued growth, expanded digital learning centers, and deepened impact across Ghana.',
-    datePublished: '2025-12-31',
-    pdfUrl: '/reports/gcc-annual-impact-report-2025.pdf',
-    highlights: [
-      '131,000+ kids trained in coding and digital skills',
-      '7,000+ teachers trained across Ghana',
-      '22+ digital learning centers established',
-      '30,000+ girls trained through 100 Girls in STEM'
-    ]
-  },
-  {
-    year: '2023',
-    title: '2023 Annual Impact Report',
-    description: 'Ghana Code Club\'s 2023 annual impact report detailing our achievements in training students, teachers, and expanding our reach across Ghana.',
-    datePublished: '2023-12-31',
-    pdfUrl: '/reports/gcc-annual-impact-report-2023.pdf',
-    highlights: [
-      'Expanded reach to new regions',
-      'Trained thousands of students and teachers',
-      'Launched new community programs',
-      'Strengthened partnerships'
-    ]
-  },
-  {
-    year: '2022',
-    title: '2022 Annual Impact Report',
-    description: 'Ghana Code Club\'s 2022 annual impact report showcasing our progress in providing coding education across Ghana.',
-    datePublished: '2022-12-31',
-    pdfUrl: '/reports/gcc-annual-impact-report-2022.pdf',
-    highlights: [
-      'Reached milestone in students trained',
-      'Expanded teacher training programs',
-      'Increased community engagement',
-      'Enhanced program offerings'
-    ]
-  }
-];
+type ReportItem = {
+  id: string;
+  year: string;
+  title: string;
+  description: string;
+  datePublished: string;
+  pdfUrl: string;
+  highlights: string[];
+  thumbnail?: string;
+};
 
-export default function ClientReportsPage() {
+export default function ClientReportsPage({ reports }: { reports: ReportItem[] }) {
   const [showPdfViewer, setShowPdfViewer] = useState<string | null>(null);
+  const selectedReport = reports.find((report) => report.year === showPdfViewer) || null;
 
   // Structured data for SEO
   const impactReportsJsonLd = {
@@ -64,7 +34,7 @@ export default function ClientReportsPage() {
     name: 'Ghana Code Club Impact Reports',
     description: 'Annual impact reports showcasing Ghana Code Club\'s achievements in providing tech education to Ghanaian youth.',
     url: 'https://ghanacodeclub.org/reports',
-    itemListElement: impactReports.map((report, index) => ({
+    itemListElement: reports.map((report, index) => ({
       '@type': 'ListItem',
       position: index + 1,
       item: {
@@ -176,7 +146,7 @@ export default function ClientReportsPage() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {impactReports.map((report, index) => (
+            {reports.map((report, index) => (
               <motion.article
                 key={report.year}
                 itemScope
@@ -189,6 +159,11 @@ export default function ClientReportsPage() {
                 className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
               >
                 <div className="p-8">
+                  {report.thumbnail ? (
+                    <div className="mb-5 rounded-lg overflow-hidden border border-gray-100 bg-gray-50">
+                      <img src={report.thumbnail} alt={`${report.title} cover`} className="w-full h-44 object-cover" />
+                    </div>
+                  ) : null}
                   <div className="mb-6">
                     <motion.span 
                       className="inline-block bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm font-semibold mb-3"
@@ -261,7 +236,7 @@ export default function ClientReportsPage() {
 
       {/* PDF Viewer Modal */}
       <AnimatePresence>
-        {showPdfViewer && (
+        {showPdfViewer && selectedReport && (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -283,7 +258,7 @@ export default function ClientReportsPage() {
 
               <div className="relative z-10">
                 <div className="flex justify-between items-center mb-6">
-                  <h3 className={`text-xl font-bold ${delius.className}`}>Annual Report {showPdfViewer}</h3>
+                  <h3 className={`text-xl font-bold ${delius.className}`}>{selectedReport.title}</h3>
                   <button 
                     onClick={() => setShowPdfViewer(null)}
                     className="text-gray-500 hover:text-gray-700 transition-colors"
@@ -296,11 +271,11 @@ export default function ClientReportsPage() {
                 </div>
                 
                 <div className="space-y-6">
-                  <p className="text-lg text-gray-600">Would you like to view our {showPdfViewer} Annual Impact Report?</p>
+                  <p className="text-lg text-gray-600">Would you like to open {selectedReport.title}?</p>
                   
                   <div className="flex flex-col gap-4">
                     <motion.a
-                      href={`/reports/gcc-annual-impact-report-${showPdfViewer}.pdf`}
+                      href={selectedReport.pdfUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-full flex items-center justify-center px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-semibold"
